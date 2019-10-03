@@ -1,0 +1,14 @@
+Purpose:
+
+-automated design guidance for landowner to design a passive house certified home
+-integrated energy modelling capabilities
+-standardized home templates:
+    -low rise single family homes
+    -mid rise row townhomes
+    -generate drawings and project specs
+    -generate 3D models
+-platform to procure architects, engineers, GCs and subs <-big feature
+-built in guidance on construction administration
+-connect to site reporting funtionality during construction
+-automatic commissioning timeline and schedule creation upon design completion <- big feature
+-aim to reduce time and cost of low/mid-rise home construction to enable faster adoption of net-zero sustainable designs

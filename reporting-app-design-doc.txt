@@ -1,0 +1,57 @@
+Site Reporting App
+
+Purpose:
+-efficiently complete site visit reports
+-enable access to project specs
+-enable access to QC checklists
+-schedule testing
+-track deficiencies / actions
+-add team members to a project
+-chat functionality (discord?)
+-generate PDF with project items
+-enable site visit mode to log a set of photos for later integration into reports
+-all in one site reporting tool for engineers, architects and contractors
+
+Work Flow:
+
+1) User auth
+
+1a) Organization auth -> for users to identify with
+
+2) List of Active Projects
+
+2a) filter projects by status / category
+
+3) Project Info Page
+
+4) View project reports
+
+5) View project issues / deficiencies
+
+6) Project meta data -> products / drawings / specs
+
+7) Project team members and roles
+
+8) report approval Flow
+
+9) create new report
+
+9a) create custom report templates
+
+10) site visit mode to log project photos and access product QC checklists
+
+10) a) complete site safety check-in
+
+10) b) option to integrate with GC safety check in form if GC is subscribed to app
+
+10c) Site visit testing option to log data
+
+10d) Schedule and procure equipment for testing
+
+11) project message board -> pin topics of interest like FB
+
+12) invite external collaborators (architects, subs, consultants, owner, GC)
+
+Stack:
+
+PWA using React and Flask RESTful API backend.
