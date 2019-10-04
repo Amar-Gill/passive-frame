@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models.organization import Organization
 from models.user import User
+from models.project import Project
 
 organizations_api_blueprint = Blueprint("organizations_api",
                             __name__,
@@ -9,6 +10,8 @@ organizations_api_blueprint = Blueprint("organizations_api",
 @organizations_api_blueprint.route("/", methods=["POST"])
 def create():
     data = request.get_json()
+    # TODO data validation
+
     org = Organization(name=data["name"])
     if org.save():
         return jsonify(
@@ -20,6 +23,7 @@ def create():
             message = "Something went wrong",
             status = "Fail"
         )
+
 
 @organizations_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
 @organizations_api_blueprint.route("/<id>", methods=["GET"])
@@ -69,6 +73,26 @@ def index_users(id):
                 "email": user.email
                 }
             for user in users
+            ]
+        )
+    else:
+        return jsonify(
+            message = "Organization does not exist",
+            status = "Fail"
+        )
+
+
+@organizations_api_blueprint.route("/<id>/projects", methods=["GET"])
+def index_projects(id):
+    org = Organization.get_or_none(Organization.id == id)
+    if org:
+        projects = Project.select().where(Project.organization_id == id)
+        return jsonify(
+            projects = [
+                {"id": project.id,
+                "project_name": project.name
+                }
+            for project in projects
             ]
         )
     else:

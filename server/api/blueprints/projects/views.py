@@ -14,7 +14,7 @@ def create():
     organization_id = data["organization_id"]
     
     # TODO check if name unique and all parameters given
-    # name to be unique among orgs only
+    # name to be unique within orgs only
     
     project = Project(name=name, organization_id=organization_id)
     
