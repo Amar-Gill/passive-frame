@@ -30,8 +30,24 @@ def create():
         )
 
 
-@projects_api_blueprint.route("/", methods=["GET"])
-def index():
+@projects_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
+@projects_api_blueprint.route("/<id>", methods=["GET"])
+def index(id):
+    # get one instance of project
+    if id:
+        project = Project.get_or_none(Project.id == id)
+        if project:
+            return jsonify(
+                id = project.id,
+                project_name = project.name,
+                organization = project.organization.name
+            )
+        else:
+            return jsonify(
+                message = "Project does not exist",
+                status = "Fail"
+            )
+            
     # get all projects
     projects = Project.select()
 
