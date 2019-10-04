@@ -27,11 +27,19 @@ def create():
 @users_api_blueprint.route("/", methods=["GET"])
 def index():
     users = User.select()
+
+    # get org name of user if exists
+    def get_user_org(user):
+        if user.organization:
+            return user.organization.name
+        else:
+            return None
+
     return jsonify(
         users = [
             {"id": user.id,
             "username": user.username,
-            "organization": user.organization.name
+            "organization": get_user_org(user)
             }
         for user in users]
     )
