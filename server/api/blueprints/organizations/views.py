@@ -3,9 +3,11 @@ from models.organization import Organization
 from models.user import User
 from models.project import Project
 
+
 organizations_api_blueprint = Blueprint("organizations_api",
                             __name__,
                             template_folder= "templates")
+
 
 @organizations_api_blueprint.route("/", methods=["POST"])
 def create():
@@ -60,6 +62,7 @@ def index(id):
             }
         for org in orgs]
     )
+
 
 @organizations_api_blueprint.route("/<id>/employees", methods=["GET"])
 def index_users(id):

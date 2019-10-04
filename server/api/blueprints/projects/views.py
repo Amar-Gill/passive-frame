@@ -28,3 +28,18 @@ def create():
             message = "Something went wrong please try again",
             status = "Fail"
         )
+
+
+@projects_api_blueprint.route("/", methods=["GET"])
+def index():
+    # get all projects
+    projects = Project.select()
+
+    return jsonify(
+        projects = [
+            {"id": project.id,
+            "project_name": project.name,
+            "organization": project.organization.name
+            }
+        for project in projects]
+    )
