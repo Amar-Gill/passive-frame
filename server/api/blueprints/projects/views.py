@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
 from models.organization import Organization
 from models.project import Project
+from models.report import Report
+
 
 projects_api_blueprint = Blueprint("projects_api",
                             __name__,
@@ -59,3 +61,19 @@ def index(id):
             }
         for project in projects]
     )
+
+
+@projects_api_blueprint.route("/<id>/reports", methods=["GET"])
+def index_reports(id):
+    project = Project.get_or_none(Project.id == id)
+    if project:
+        reports = Report.select().where(Report.project_id == id)
+        return jsonify(
+            reports = [
+                {
+                    "report_id": report.id,
+                    "report_type": report.report_type,
+                    "project_id": report.project_id
+                }
+            for report in reports]
+        )

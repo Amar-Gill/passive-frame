@@ -34,7 +34,7 @@ def create():
 def index():
     reports = Report.select()
     return jsonify(
-        [
+        reports = [
             {
                 "report_id": report.id,
                 "report_type": report.report_type,
