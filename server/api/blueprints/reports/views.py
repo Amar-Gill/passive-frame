@@ -30,8 +30,26 @@ def create():
         )
 
 
-@reports_api_blueprint.route("/", methods=["GET"])
-def index():
+@reports_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
+@reports_api_blueprint.route("/<id>", methods=["GET"])
+def index(id):
+    # get one instance of report
+    if id:
+        report = Report.get_or_none(Report.id == id)
+        if report:
+            return jsonify(
+                report_id = report.id,
+                report_type = report.report_type,
+                project_id = report.project_id
+            )
+        else:
+            return jsonify(
+                message = "Report does not exist",
+                status = "Fail"
+            )
+            
+
+    #get all reports
     reports = Report.select()
     return jsonify(
         reports = [
