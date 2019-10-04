@@ -41,6 +41,7 @@ def index(id):
             return jsonify(
                 id = user.id,
                 username = user.username,
+                email = user.email,
                 organization = get_user_org(user)
             )
         else:
@@ -56,6 +57,7 @@ def index(id):
         users = [
             {"id": user.id,
             "username": user.username,
+            "email": user.email,
             "organization": get_user_org(user)
             }
         for user in users]
