@@ -8,10 +8,11 @@ users_api_blueprint = Blueprint("users_api",
 
 
 @users_api_blueprint.route("/", methods=["POST"])
-def create_user():
+def create():
     data = request.get_json()
+    # TODO checks for unique username and if org exists
     hashed_password = generate_password_hash(data["password"])
-    user = User(username=data["username"], email=data["email"], password=hashed_password)
+    user = User(username=data["username"], email=data["email"], organization_id=data["organization_id"], password=hashed_password)
     if user.save():
         return jsonify(
             message = "New user created.",
@@ -24,9 +25,15 @@ def create_user():
         )
 
 @users_api_blueprint.route("/", methods=["GET"])
-def test():
+def index():
+    users = User.select()
     return jsonify(
-        message = "testing"
+        users = [
+            {"id": user.id,
+            "username": user.username,
+            "organization": user.organization.name
+            }
+        for user in users]
     )
 
 
