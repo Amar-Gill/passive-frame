@@ -24,6 +24,7 @@ def create():
 @organizations_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
 @organizations_api_blueprint.route("/<id>", methods=["GET"])
 def index(id):
+
     # return number of users
     def get_user_count(org):
         users = User.select().where(User.organization_id == org.id)
@@ -55,3 +56,23 @@ def index(id):
             }
         for org in orgs]
     )
+
+@organizations_api_blueprint.route("/<id>/employees", methods=["GET"])
+def index_users(id):
+    org = Organization.get_or_none(Organization.id == id)
+    if org:
+        users = User.select().where(User.organization_id == id)
+        return jsonify(
+            employees = [
+                {"id": user.id,
+                "username": user.username,
+                "email": user.email
+                }
+            for user in users
+            ]
+        )
+    else:
+        return jsonify(
+            message = "Organization does not exist",
+            status = "Fail"
+        )
