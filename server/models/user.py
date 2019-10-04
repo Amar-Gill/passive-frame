@@ -5,3 +5,4 @@ class User(BaseModel):
     username = pw.CharField(unique=True)
     email = pw.CharField(unique=True)
     password = pw.CharField()
+    organization = pw.ForeignKeyField(default=None)

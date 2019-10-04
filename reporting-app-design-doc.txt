@@ -11,6 +11,8 @@ Purpose:
 -generate PDF with project items
 -enable site visit mode to log a set of photos for later integration into reports
 -all in one site reporting tool for engineers, architects and contractors
+-image db hosting for orgs -> track and label images for easy retrieval
+-gain insights from photo data via computer vision
 
 Work Flow:
 
