@@ -17,3 +17,8 @@ app.register_blueprint(organizations_api_blueprint, url_prefix='/api/v1/organiza
 from api.blueprints.projects.views import projects_api_blueprint
 csrf.exempt(projects_api_blueprint)
 app.register_blueprint(projects_api_blueprint, url_prefix='/api/v1/projects')
+
+# reports blueprint
+from api.blueprints.reports.views import reports_api_blueprint
+csrf.exempt(reports_api_blueprint)
+app.register_blueprint(reports_api_blueprint, url_prefix='/api/v1/reports')
