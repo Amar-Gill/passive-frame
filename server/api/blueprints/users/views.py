@@ -24,16 +24,33 @@ def create():
             status = "Fail"
         )
 
-@users_api_blueprint.route("/", methods=["GET"])
-def index():
-    users = User.select()
-
+@users_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
+@users_api_blueprint.route("/<id>", methods=["GET"])
+def index(id):
     # get org name of user if exists
     def get_user_org(user):
         if user.organization:
             return user.organization.name
         else:
             return None
+    
+    # return info for one user
+    if id:
+        user = User.get_or_none(User.id == id)
+        if user:
+            return jsonify(
+                id = user.id,
+                username = user.username,
+                organization = get_user_org(user)
+            )
+        else:
+            return jsonify(
+                message = "User does not exist",
+                status = "Fail"
+            )
+
+    # get all users
+    users = User.select()
 
     return jsonify(
         users = [
