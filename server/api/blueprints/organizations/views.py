@@ -21,14 +21,31 @@ def create():
             status = "Fail"
         )
 
-@organizations_api_blueprint.route("/", methods=["GET"])
-def index():
-    orgs = Organization.select()
-
+@organizations_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
+@organizations_api_blueprint.route("/<id>", methods=["GET"])
+def index(id):
     # return number of users
     def get_user_count(org):
         users = User.select().where(User.organization_id == org.id)
         return len(users)
+
+    # return info for one org
+    if id:
+        org = Organization.get_or_none(Organization.id == id)
+        if org:
+            return jsonify(
+                {"id": org.id,
+                "name": org.name,
+                "user_count": get_user_count(org)}
+            )
+        else:
+            return jsonify(
+                message = "Organization does not exist",
+                status = "Fail"
+            )
+    
+    # return all orgs
+    orgs = Organization.select()
 
     return jsonify(
         organizations = [
