@@ -3,5 +3,5 @@ from models.organization import Organization
 import peewee as pw
 
 class Project(BaseModel):
-    name = pw.CharField(unique=True, null=False)
+    name = pw.CharField(null=False)
     organization = pw.ForeignKeyField(Organization, null=False)
