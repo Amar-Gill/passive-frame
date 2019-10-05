@@ -17,9 +17,9 @@ def create():
     organization_id=request.json.get("organization_id", None)
 
     # check if all data is received
-    if (not username) or (not email) or (not organization_id) or (not password):
+    if (not username) or (not email) or (not password):
         return jsonify(
-            message = "Missing data fields. Try again.",
+            message = "Missing data fields. Try again. Organization is optional.",
             status = "Fail"
         )
 
