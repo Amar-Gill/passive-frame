@@ -11,14 +11,37 @@ projects_api_blueprint = Blueprint("projects_api",
 @projects_api_blueprint.route("/", methods=["POST"])
 def create():
     # get data
-    data = request.get_json()
-    name = data["name"]
-    organization_id = data["organization_id"]
+    project_name = request.json.get("project_name", None)
+    organization_id = request.json.get("organization_id", None)
+
+    # check if all data is received
+    if (not project_name) or (not organization_id):
+        return jsonify(
+            message = "Missing data fields. Try again.",
+            status = "Fail"
+        )
     
-    # TODO check if name unique and all parameters given
+    # check if name unique
     # name to be unique within orgs only
+    projects_of_org = Project.select().where(Project.organization_id == organization_id)
+    project_names = [project.name for project in projects_of_org]
+    if project_name in project_names:
+        return jsonify(
+            message = "Project name not unique.",
+            status = "Fail"
+        )
+
+    # check if organization exists
+    organizations = Organization.select()
+    organization_ids = [organization.id for organization in organizations]
+    if organization_id not in organization_ids:
+        return jsonify(
+            message = "Organization does not exist.",
+            status = "Fail"
+        )
     
-    project = Project(name=name, organization_id=organization_id)
+    # create project and save to db
+    project = Project(name=project_name, organization_id=organization_id)
     
     if project.save():
         return jsonify(

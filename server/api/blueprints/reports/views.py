@@ -9,11 +9,24 @@ reports_api_blueprint = Blueprint("reports_api",
 @reports_api_blueprint.route("/", methods=["POST"])
 def create():
     # get data
-    data = request.get_json()
-    report_type = data["report_type"]
-    project_id = data["project_id"]
+    report_type = request.json.get("report_type", None)
+    project_id = request.json.get("project_id", None)
 
-    # perform data validations
+    # check if all data is received
+    if (not report_type) or (not project_id):
+        return jsonify(
+            message = "Missing data fields. Try again.",
+            status = "Fail"
+        )
+
+    # check if project exists
+    projects = Project.select()
+    project_ids = [project.id for project in projects]
+    if project_id not in project_ids:
+        return jsonify(
+            message = "Project does not exist.",
+            status = "Fail"
+        )
 
     # create report and save to db
     report = Report(report_type=report_type, project_id=project_id)

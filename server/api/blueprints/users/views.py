@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from werkzeug.security import generate_password_hash
 from models.user import User
+from models.organization import Organization
 
 users_api_blueprint = Blueprint("users_api",
                             __name__,
@@ -9,10 +10,47 @@ users_api_blueprint = Blueprint("users_api",
 
 @users_api_blueprint.route("/", methods=["POST"])
 def create():
-    data = request.get_json()
-    # TODO checks for unique username and if org exists
-    hashed_password = generate_password_hash(data["password"])
-    user = User(username=data["username"], email=data["email"], organization_id=data["organization_id"], password=hashed_password)
+    # get data
+    username = request.json.get("username", None)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    organization_id=request.json.get("organization_id", None)
+
+    # check if all data is received
+    if (not username) or (not email) or (not organization_id) or (not password):
+        return jsonify(
+            message = "Missing data fields. Try again.",
+            status = "Fail"
+        )
+
+    # check if username and email unique
+    users = User.select()
+    usernames = [user.username for user in users]
+    if username in usernames:
+        return jsonify(
+            message = "Username not unique.",
+            status = "Fail"
+        )
+
+    emails = [user.email for user in users]
+    if email in emails:
+        return jsonify(
+            message = "Email not unique.",
+            status = "Fail"
+        )
+
+    # check if submitted org_id exists
+    orgs = Organization.select()
+    org_ids = [org.id for org in orgs]
+    if organization_id not in org_ids:
+        return jsonify(
+            message = "Organization does not exist.",
+            status = "Fail"
+        )
+
+    # create new user and save to db
+    hashed_password = generate_password_hash(password)
+    user = User(username=username, email=email, organization_id=organization_id, password=hashed_password)
     if user.save():
         return jsonify(
             message = "New user created.",

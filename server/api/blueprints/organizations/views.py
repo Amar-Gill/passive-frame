@@ -11,10 +11,27 @@ organizations_api_blueprint = Blueprint("organizations_api",
 
 @organizations_api_blueprint.route("/", methods=["POST"])
 def create():
-    data = request.get_json()
-    # TODO data validation
+    # get data
+    organization_name = request.json.get("organization_name", None)
 
-    org = Organization(name=data["name"])
+    # check if name received
+    if not organization_name:
+        return jsonify(
+            message = "Missing data fields. Try again.",
+            status = "Fail"
+        )
+
+    # check if name unique
+    orgs = Organization.select()
+    org_names = [org.name for org in orgs]
+    if organization_name in org_names:
+        return jsonify(
+            message = "Organization name not unique",
+            status = "Fail"
+        )
+    
+    # create organization and save to db
+    org = Organization(name=organization_name)
     if org.save():
         return jsonify(
             message = "New organization created",
