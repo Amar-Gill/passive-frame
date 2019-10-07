@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 
-const SignInPage = () => {
+const SignInPage = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(
+        () => {
+            if (localStorage.getItem('JWT')) {
+                props.setUserLoggedIn(true)
+            }
+            else {
+                props.setUserLoggedIn(false)
+            }
+        }
+    )
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -13,7 +24,8 @@ const SignInPage = () => {
             password: password
         };
 
-        console.log(user)
+        // open chrome without web protection to allow cross origin request:
+        // open -a Google\ Chrome --args --disable-web-security --user-data-dir
 
         // fetch auth token from api
         fetch('http://127.0.0.1:5000/api/v1/login/', {
@@ -24,7 +36,12 @@ const SignInPage = () => {
             body: JSON.stringify(user)
         })
             .then(response => response.json())
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result.auth_token)
+                localStorage.setItem('JWT', result.auth_token)
+                setUsername('')
+                setPassword('')
+            })
     }
 
 
