@@ -18,6 +18,12 @@ function NavMenu() {
                     active={activeItem === 'messages'}
                     onClick={() => setActiveItem('messages')}
                 />
+                <Menu.Menu position = 'right'>
+                    <Menu.Item
+                    name = 'Log In'
+                    active={false}
+                    />
+                </Menu.Menu>
             </Menu>
         </div>
     )
