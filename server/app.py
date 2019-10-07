@@ -4,12 +4,14 @@ from flask_wtf.csrf import CSRFProtect
 from flask_jwt_extended import JWTManager
 import peewee as pw
 
+
+app.config["SECRET_KEY"] = 'megasecretkey'
+app.config["JWT_SECRET_KEY"] = 'ultrasecretkey'
+# app.config["DATABASE_URL"] = "postgres://localhost:5432/passive-frame"
+
 app = Flask("passive-frame")
 csrf = CSRFProtect(app)
 jwt = JWTManager(app)
-
-app.config["SECRET_KEY"] = 'megasecretkey'
-# app.config["DATABASE_URL"] = "postgres://localhost:5432/passive-frame"
 
 db = PostgresqlExtDatabase("passive-frame")
 

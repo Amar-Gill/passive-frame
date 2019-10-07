@@ -7,7 +7,7 @@ sessions_api_blueprint = Blueprint('sessions_api',
                                     __name__,
                                     template_folder='templates')
 
-@sessions_api_blueprint.route('/', methods = ['POST'])
+@sessions_api_blueprint.route('/login', methods = ['POST'])
 def create():
     username = request.json.get('username', None)
     password = request.json.get('password', None)
@@ -35,3 +35,8 @@ def create():
             message = "Some error occurred. Please try again.",
             status = "failed"
         )
+
+
+@sessions_api_blueprint.route("/", methods=["GET"])
+def destroy():
+    pass
