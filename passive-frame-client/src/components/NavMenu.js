@@ -12,6 +12,7 @@ function NavMenu() {
     return (
         <div>
             <LoginModal setShowModal={setShowModal} showModal={showModal}/>
+            
             <Menu pointing secondary>
                 <Menu.Item
                     name='home'

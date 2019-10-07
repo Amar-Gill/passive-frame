@@ -22,3 +22,8 @@ app.register_blueprint(projects_api_blueprint, url_prefix='/api/v1/projects')
 from api.blueprints.reports.views import reports_api_blueprint
 csrf.exempt(reports_api_blueprint)
 app.register_blueprint(reports_api_blueprint, url_prefix='/api/v1/reports')
+
+# sessions blueprint
+from api.blueprints.sessions.views import sessions_api_blueprint
+csrf.exempt(sessions_api_blueprint)
+app.register_blueprint(sessions_api_blueprint, url_prefix='/api/v1/login')
