@@ -2,31 +2,31 @@ import React, { useState } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { LogInLogOutBtn } from './LogInLogOutBtn'
-import LoginModal from './LoginModal';
+import LogoutModal from './LogoutModal';
 
-function NavMenu() {
-    const [activeItem, setActiveItem] = useState('home')
+function NavMenu(props) {
+    const [activeItem, setActiveItem] = useState('Profile')
     const [userLoggedIn, setUserLoggedIn] = useState(false)
     const [showModal, setShowModal] = useState(false)
 
     return (
         <div>
-            <LoginModal setShowModal={setShowModal} showModal={showModal}/>
+            <LogoutModal setShowModal={setShowModal} showModal={showModal} setUserLoggedIn={props.setUserLoggedIn}/>
             
             <Menu pointing secondary>
                 <Menu.Item
-                    name='home'
-                    active={activeItem === 'home'}
-                    onClick={() => setActiveItem('home')}
+                    name='Profile'
+                    active={activeItem === 'Profile'}
+                    onClick={() => setActiveItem('Profile')}
                 />
                 <Menu.Item
-                    name='messages'
-                    active={activeItem === 'messages'}
-                    onClick={() => setActiveItem('messages')}
+                    name='Projects'
+                    active={activeItem === 'Projects'}
+                    onClick={() => setActiveItem('Projects')}
                 />
                 <Menu.Menu position = 'right'>
                     <Menu.Item
-                        name = "Log In"
+                        name = "Sign Out"
                         onClick={() => setShowModal(true)}
                     />
                     {/* <LogInLogOutBtn/> */}

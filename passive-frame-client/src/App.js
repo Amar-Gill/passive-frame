@@ -22,7 +22,7 @@ function App() {
   if (userLoggedIn) {
     return (
       <div>
-        <NavMenu />
+        <NavMenu setUserLoggedIn={setUserLoggedIn} />
         <h1>
           Construct additional pylons
         </h1>
