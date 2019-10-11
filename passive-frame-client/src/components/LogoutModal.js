@@ -11,18 +11,17 @@ const LogoutModal = (props) => {
 
     return (
         <Modal basic size='mini' open={props.showModal} onClose={() => props.setShowModal(false)}>
-            <Header>Confirm Action: Sign Out</Header>
+            <Header>Do you want to sign out?</Header>
             <Modal.Actions>
                 <Button basic color='red' inverted onClick={() => props.setShowModal(false)}>
-                    <Icon name='remove' /> Cancel
+                    <Icon name='remove' /> No
           </Button>
                 <Button color='green' inverted onClick={logOut}>
-                    <Icon name='checkmark' /> Confirm
+                    <Icon name='checkmark' /> Yes
           </Button>
             </Modal.Actions>
         </Modal>
     )
-
 }
 
 

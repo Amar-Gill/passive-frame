@@ -32,7 +32,11 @@ function App() {
   }
   else {
     return (
-      <Route exact path="/" render={(props) => <SignInPage {...props} setUserLoggedIn={setUserLoggedIn}/>} />
+      <div>
+  
+        <Route exact path="/" render={(props) => <SignInPage {...props} setUserLoggedIn={setUserLoggedIn}/>} />
+
+      </div>
     )
   }
 }
