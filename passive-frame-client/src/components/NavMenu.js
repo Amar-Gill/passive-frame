@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import LogoutModal from './LogoutModal';
 
 function NavMenu(props) {
-    const [activeItem, setActiveItem] = useState('Profile')
+    const [activeItem, setActiveItem] = useState('')
     const [showModal, setShowModal] = useState(false)
 
 
@@ -16,12 +16,20 @@ function NavMenu(props) {
                 <Responsive as={Menu.Item} minWidth={790}
                     name='Profile'
                     active={activeItem === 'Profile'}
-                    onClick={() => setActiveItem('Profile')}
+                    onClick={() => {
+                        setActiveItem('Profile')
+                        props.history.push("/profile")
+                    }
+                }
                 />
                 <Responsive as={Menu.Item} minWidth={790}
                     name='Projects'
                     active={activeItem === 'Projects'}
-                    onClick={() => setActiveItem('Projects')}
+                    onClick={() => {
+                        setActiveItem('Projects')
+                        props.history.push("/projects")
+                    }
+                }
                 />
                 <Menu.Menu position = 'right'>
                     <Responsive as ={Menu.Item} minWidth={790}

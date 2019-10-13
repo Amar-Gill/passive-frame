@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Header, Image, Icon, Modal } from 'semantic-ui-react';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom'
 
 const LogoutModal = (props) => {
 
@@ -7,6 +8,7 @@ const LogoutModal = (props) => {
         e.preventDefault()
         localStorage.removeItem('JWT')
         props.setUserLoggedIn(false)
+        props.history.push("/")
     }
 
     return (
@@ -25,4 +27,4 @@ const LogoutModal = (props) => {
 }
 
 
-export default LogoutModal;
+export default withRouter(LogoutModal);
