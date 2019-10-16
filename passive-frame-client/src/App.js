@@ -5,6 +5,7 @@ import SignInPage from './pages/SignInPage'
 import ProfilePage from './pages/ProfilePage';
 import ProjectsPage from './pages/ProjectsPage';
 import HomePage from './pages/HomePage';
+import NewProjectPage from './pages/NewProjectPage'
 
 
 
@@ -30,6 +31,7 @@ function App() {
         <Route exact path ="/" component={HomePage}/>
         <Route exact path ="/profile" component={ProfilePage}/>
         <Route exact path ="/projects" component={ProjectsPage}/>
+        <Route exact path ="/new_project" component={NewProjectPage}/>
 
       </div>
     )
