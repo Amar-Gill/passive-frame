@@ -1,23 +1,23 @@
-import React from 'react';
-import { Button, Icon } from 'semantic-ui-react';
+import React from 'react'
+import { Button, Icon } from 'semantic-ui-react'
 
 const ProjectsPage = (props) => {
-    // set states
+  // set states
 
-    return (
-        <div>
-            <h1>Not enough minerals</h1>
-            <Button
-            size="small"
-            color="green"
-            onClick={() => {
-                props.history.push('/new_project')
-            }}>
-                <Icon name="plus" />
+  return (
+    <div>
+      <h1>Not enough minerals</h1>
+      <Button
+        size="small"
+        color="green"
+        onClick={() => {
+          props.history.push('/new_project')
+        }}>
+        <Icon name="plus" />
                 New Project
-            </Button>
-        </div>
-    )
+      </Button>
+    </div>
+  )
 }
 
-export default ProjectsPage;
+export default ProjectsPage
