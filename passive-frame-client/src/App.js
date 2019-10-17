@@ -1,28 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import { Route } from 'react-router-dom'
 import NavMenu from './components/NavMenu'
 import SignInPage from './pages/SignInPage'
-import ProfilePage from './pages/ProfilePage';
-import ProjectsPage from './pages/ProjectsPage';
-import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage'
+import ProjectsPage from './pages/ProjectsPage'
+import HomePage from './pages/HomePage'
 import NewProjectPage from './pages/NewProjectPage'
 
-
-
-function App() {
+function App () {
   const [userLoggedIn, setUserLoggedIn] = useState(null)
 
   useEffect(
     () => {
       if (localStorage.getItem('JWT')) {
         setUserLoggedIn(true)
-      }
-      else {
+      } else {
         setUserLoggedIn(false)
       }
     },
     [])
-
 
   if (userLoggedIn) {
     return (
@@ -35,16 +31,13 @@ function App() {
 
       </div>
     )
-  }
-  else {
+  } else {
     return (
       <div>
-  
         <Route exact path="/" render={(props) => <SignInPage {...props} setUserLoggedIn={setUserLoggedIn}/>} />
-
       </div>
     )
   }
 }
 
-export default App;
+export default App
