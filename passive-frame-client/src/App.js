@@ -20,8 +20,8 @@ function App() {
       else {
         setUserLoggedIn(false)
       }
-    }
-  )
+    },
+    [])
 
 
   if (userLoggedIn) {
