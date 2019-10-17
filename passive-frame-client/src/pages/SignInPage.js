@@ -17,7 +17,7 @@ const SignInPage = (props) => {
     }
   )
 
-  const handleSubmit = (e, props) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
 
     let userCredentials = {
@@ -38,10 +38,8 @@ const SignInPage = (props) => {
     })
       .then(response => response.json())
       .then(result => {
-        console.log('Auth token is: ' + result.auth_token)
-        console.log(result.user)
-        setUser(result.user) // set user context to user object returned from API
         localStorage.setItem('JWT', result.auth_token)
+        setUser(result.user) // set user context to user object returned from API
         setUsername('')
         setPassword('')
       })

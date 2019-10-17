@@ -29,6 +29,7 @@ def create():
             user = {
                 "id": user.id,
                 "username": user.username,
+                "email": user.email,
                 "organization_name": user.organization.name,
                 "organization_id": user.organization.id
             }), 200

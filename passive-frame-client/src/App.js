@@ -10,7 +10,7 @@ import { UserProvider } from './UserContext'
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(null)
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(null)
 
   useEffect(
     () => {
@@ -21,6 +21,22 @@ function App() {
       }
     },
     [])
+
+    useEffect(() => {
+      if (userLoggedIn) {
+        fetch(`http://127.0.0.1:5000/api/v1/users/me`, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('JWT')
+        }
+      })
+        .then(response => response.json())
+        .then(result => {
+          setUser(result) // get info for currently logged in user upon re-render
+        })
+      }
+      })
+
 
   if (userLoggedIn) {
     return (

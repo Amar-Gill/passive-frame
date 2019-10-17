@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from werkzeug.security import generate_password_hash
 from models.user import User
 from models.organization import Organization
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 users_api_blueprint = Blueprint("users_api",
                             __name__,
@@ -68,7 +69,7 @@ def index(id):
     # get org name of user if exists
     def get_user_org(user):
         if user.organization:
-            return user.organization.name
+            return user.organization
         else:
             return None
     
@@ -80,7 +81,8 @@ def index(id):
                 id = user.id,
                 username = user.username,
                 email = user.email,
-                organization = get_user_org(user)
+                organization_name = get_user_org(user).name,
+                organization_id = get_user_org(user).id
             )
         else:
             return jsonify(
@@ -96,9 +98,21 @@ def index(id):
             {"id": user.id,
             "username": user.username,
             "email": user.email,
-            "organization": get_user_org(user)
+            "organization_name": get_user_org(user).name,
+            "organization_id": get_user_org(user).id
             }
         for user in users]
     )
 
-
+@users_api_blueprint.route("/me", methods = ["GET"])
+@jwt_required
+def show_me():
+    username = get_jwt_identity()
+    current_user = User.get_or_none(User.username == username)
+    return jsonify(
+        id = current_user.id,
+        username = username,
+        email=current_user.email,
+        organization_id=current_user.organization.id,
+        organization_name=current_user.organization.name
+        ), 200
