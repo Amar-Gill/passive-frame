@@ -6,9 +6,11 @@ import ProfilePage from './pages/ProfilePage'
 import ProjectsPage from './pages/ProjectsPage'
 import HomePage from './pages/HomePage'
 import NewProjectPage from './pages/NewProjectPage'
+import { UserProvider } from './UserContext'
 
-function App () {
+function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(null)
+  const [user, setUser] = useState({})
 
   useEffect(
     () => {
@@ -23,18 +25,23 @@ function App () {
   if (userLoggedIn) {
     return (
       <div>
-        <NavMenu setUserLoggedIn={setUserLoggedIn} />
-        <Route exact path ="/" component={HomePage}/>
-        <Route exact path ="/profile" component={ProfilePage}/>
-        <Route exact path ="/projects" component={ProjectsPage}/>
-        <Route exact path ="/new_project" component={NewProjectPage}/>
+        <UserProvider value={{user, setUser}}>
+          <NavMenu setUserLoggedIn={setUserLoggedIn} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/profile" component={ProfilePage} />
+          <Route exact path="/projects" component={ProjectsPage} />
+          <Route exact path="/new_project" component={NewProjectPage} />
 
+        </UserProvider>
       </div>
     )
   } else {
     return (
       <div>
-        <Route exact path="/" render={(props) => <SignInPage {...props} setUserLoggedIn={setUserLoggedIn}/>} />
+        <UserProvider value={{user, setUser}}>
+          <Route exact path="/" render={(props) => <SignInPage {...props} setUserLoggedIn={setUserLoggedIn} />} />
+
+        </UserProvider>
       </div>
     )
   }
