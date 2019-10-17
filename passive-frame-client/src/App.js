@@ -35,7 +35,7 @@ function App() {
           setUser(result) // get info for currently logged in user upon re-render
         })
       }
-      })
+      },[userLoggedIn])
 
 
   if (userLoggedIn) {
