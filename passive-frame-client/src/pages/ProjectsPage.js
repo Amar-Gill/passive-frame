@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Button, Icon, Segment, Grid } from 'semantic-ui-react'
+import UserContext from '../UserContext'
 
 const ProjectsPage = (props) => {
-  // set states
   const [projects, setProjects] = useState([])
+  const {user, setUser} = useContext(UserContext)
 
   useEffect(() => {
     fetch(`http://127.0.0.1:5000/api/v1/projects/`, {
@@ -37,17 +38,19 @@ const ProjectsPage = (props) => {
 
         {
           projects.map(project => {
-            return (
-              <Grid.Row key={project.id}>
-                <Grid.Column>
-                  <Segment>
-                    <h1> {project.project_name}</h1>
-                  </Segment>
-                </Grid.Column>
-              </Grid.Row>
-            )
+            if (project.organization == user.organization_name) {
+              return (
+                <Grid.Row key={project.id}>
+                  <Grid.Column>
+                    <Segment>
+                      <h1> {project.project_name}</h1>
+                      <h1> {project.organization}</h1>
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              )
+            }
           })
-
         }
       </Grid>
     </div>
