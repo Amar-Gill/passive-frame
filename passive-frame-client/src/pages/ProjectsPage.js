@@ -68,6 +68,7 @@ const ProjectsPage = (props) => {
                   <Grid.Column>
                     <Segment>
                       <h1> {project.project_name}</h1>
+                      <h1> {project.project_number}</h1>
                       <h1> {project.organization}</h1>
                     </Segment>
                   </Grid.Column>
