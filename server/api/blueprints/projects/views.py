@@ -11,11 +11,12 @@ projects_api_blueprint = Blueprint("projects_api",
 @projects_api_blueprint.route("/", methods=["POST"])
 def create():
     # get data
-    project_name = request.json.get("project_name", None)
-    organization_id = request.json.get("organization_id", None)
+    project_name = request.json.get("projectName", None)
+    project_number = request.json.get("projectNumber", None)
+    organization_id = request.json.get("organizationId", None)
 
     # check if all data is received
-    if (not project_name) or (not organization_id):
+    if (not project_name) or (not organization_id) or (not project_number):
         return jsonify(
             message = "Missing data fields. Try again.",
             status = "Fail"
@@ -31,6 +32,15 @@ def create():
             status = "Fail"
         )
 
+    # check if project number unique
+    # project number to be unique within orgs only
+    project_numbers = [project.number for project in projects_of_org]
+    if project_number in project_numbers:
+        return jsonify(
+            message = "Project number not unique.",
+            status = "Fail"
+        )
+
     # check if organization exists
     organizations = Organization.select()
     organization_ids = [organization.id for organization in organizations]
@@ -41,7 +51,7 @@ def create():
         )
     
     # create project and save to db
-    project = Project(name=project_name, organization_id=organization_id)
+    project = Project(name=project_name, number=project_number, organization_id=organization_id)
     
     if project.save():
         return jsonify(
@@ -65,6 +75,7 @@ def index(id):
             return jsonify(
                 id = project.id,
                 project_name = project.name,
+                projet_number = project.number,
                 organization = project.organization.name
             )
         else:
@@ -80,6 +91,7 @@ def index(id):
         projects = [
             {"id": project.id,
             "project_name": project.name,
+            "project_number": project.number,
             "organization": project.organization.name
             }
         for project in projects]
