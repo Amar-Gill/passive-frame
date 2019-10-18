@@ -11,7 +11,7 @@ function NavMenu (props) {
     <div>
       <LogoutModal setShowModal={setShowModal} showModal={showModal} setUserLoggedIn={props.setUserLoggedIn} />
 
-      <Menu pointing secondary>
+      <Menu style={{backgroundColor: 'white'}} fixed="top" pointing secondary>
         <Responsive as={Menu.Item} minWidth={790}
           name='Profile'
           active={activeItem === 'Profile'}

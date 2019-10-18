@@ -17,7 +17,7 @@ const ProjectsPage = (props) => {
   }, [])
 
   return (
-    <div>
+    <div style={{marginTop: 42}}>
       <Menu secondary stackable>
         <Menu.Item>
           <Input
