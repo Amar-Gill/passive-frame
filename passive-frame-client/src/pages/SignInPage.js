@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
-import UserContext, { UserConsumer } from '../UserContext'
+import UserContext from '../UserContext'
 
 const SignInPage = (props) => {
   const [username, setUsername] = useState('')
@@ -38,10 +38,10 @@ const SignInPage = (props) => {
     })
       .then(response => response.json())
       .then(result => {
-        localStorage.setItem('JWT', result.auth_token)
-        setUser(result.user) // set user context to user object returned from API
         setUsername('')
         setPassword('')
+        setUser(result.user) // set user context to user object returned from API
+        localStorage.setItem('JWT', result.auth_token)
       })
   }
 
