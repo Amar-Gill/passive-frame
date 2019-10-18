@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Button, Icon, Segment, Grid } from 'semantic-ui-react'
+import { Button, Icon, Segment, Grid, Container, Menu, Input } from 'semantic-ui-react'
 import UserContext from '../UserContext'
 
 const ProjectsPage = (props) => {
   const [projects, setProjects] = useState([])
-  const {user, setUser} = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
   useEffect(() => {
     fetch(`http://127.0.0.1:5000/api/v1/projects/`, {
@@ -18,23 +18,47 @@ const ProjectsPage = (props) => {
 
   return (
     <div>
-      <Grid padded="vertically" columns='1'>
-        <Grid.Row>
-          <Grid.Column>
-            <Segment>
-              <h1>Not enough minerals</h1>
-              <Button
-                size="small"
-                color="green"
-                onClick={() => {
-                  props.history.push('/new_project')
-                }}>
-                <Icon name="plus" />
-                New Project
-              </Button>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
+      <Menu secondary stackable>
+        <Menu.Item>
+          <Input
+            className='icon'
+            icon='search'
+            action={{ type: 'submit' }}
+            placeholder='Filter Project Name' />
+        </Menu.Item>
+        <Menu.Item >
+          <Input
+            className='icon'
+            icon='search'
+            action={{ type: 'submit' }}
+            placeholder='Filter Project Number'
+          />
+        </Menu.Item>
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Button
+              size="small"
+              color="blue"
+            >
+              <Icon name="favorite" />
+              Show Favourites
+          </Button>
+          </Menu.Item>
+          <Menu.Item>
+            <Button
+              size="small"
+              color="green"
+              onClick={() => {
+                props.history.push('/new_project')
+              }}>
+              <Icon name="plus" />
+              New Project
+          </Button>
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
+
+      <Grid padded="horizontally" columns='1'>
 
         {
           projects.map(project => {
