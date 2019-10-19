@@ -3,6 +3,7 @@ import { Menu, Responsive, Dropdown } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import LogoutModal from './LogoutModal'
 
+
 function NavMenu (props) {
   const [activeItem, setActiveItem] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -11,7 +12,7 @@ function NavMenu (props) {
     <div>
       <LogoutModal setShowModal={setShowModal} showModal={showModal} setUserLoggedIn={props.setUserLoggedIn} />
 
-      <Menu style={{backgroundColor: 'white'}} fixed="top" pointing secondary>
+      <Menu className="bg-white" fixed="top" pointing secondary>
         <Responsive as={Menu.Item} minWidth={790}
           name='Profile'
           active={activeItem === 'Profile'}

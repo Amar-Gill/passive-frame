@@ -7,6 +7,7 @@ import ProjectsPage from './pages/ProjectsPage'
 import HomePage from './pages/HomePage'
 import NewProjectPage from './pages/NewProjectPage'
 import { UserProvider } from './UserContext'
+import './App.css'
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(null)

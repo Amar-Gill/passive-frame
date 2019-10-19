@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Button, Icon, Segment, Grid, Container, Menu, Input } from 'semantic-ui-react'
 import UserContext from '../UserContext'
 
+
 const ProjectsPage = (props) => {
   const [projects, setProjects] = useState([])
   const { user, setUser } = useContext(UserContext)
@@ -17,7 +18,7 @@ const ProjectsPage = (props) => {
   }, [])
 
   return (
-    <div style={{marginTop: 42}}>
+    <div className='mt-42'>
       <Menu secondary stackable>
         <Menu.Item>
           <Input
