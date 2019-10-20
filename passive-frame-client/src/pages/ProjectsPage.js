@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Button, Icon, Segment, Grid, Container, Menu, Input, Form } from 'semantic-ui-react'
+import { Button, Icon, Segment, Grid, Menu, Input } from 'semantic-ui-react'
 import UserContext from '../UserContext'
+import ProjectInfoSegment from '../components/ProjectInfoSegment'
 
 
 const ProjectsPage = (props) => {
@@ -69,11 +70,11 @@ const ProjectsPage = (props) => {
               return (
                 <Grid.Row key={project.id}>
                   <Grid.Column>
-                    <Segment>
-                      <h1> {project.project_name}</h1>
-                      <h1> {project.project_number}</h1>
-                      <h1> {project.organization}</h1>
-                    </Segment>
+                    <ProjectInfoSegment
+                      project_name={project.project_name}
+                      project_number={project.project_number}
+                      organization={project.organization}
+                      />
                   </Grid.Column>
                 </Grid.Row>
               )
