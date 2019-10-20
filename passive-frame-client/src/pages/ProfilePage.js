@@ -1,11 +1,20 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import UserContext from '../UserContext'
 
 const ProfilePage = () => {
-    // set states
+  const {user, setUser} = useContext(UserContext)
 
-    return (
-        <h1>You require more vespene gas</h1>
-    )
+  
+
+  return (
+    <div className="mt-42">
+      <h2>username: {user? user.username : null}</h2>
+      <h2>email: {user? user.email : null}</h2>
+      <h2>id: {user? user.id : null}</h2>
+      <h2>organization: {user? user.organization_name : null}</h2>
+      <h2>organization_id: {user? user.organization_id : null}</h2>
+    </div>
+  )
 }
 
 export default ProfilePage
