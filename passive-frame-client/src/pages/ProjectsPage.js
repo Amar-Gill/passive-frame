@@ -19,7 +19,8 @@ const ProjectsPage = (props) => {
 
   return (
     <div className='mt-42'>
-      <Menu secondary stackable>
+
+      <Menu className="fixed-submenu bg-white" secondary stackable>
         <Menu.Item>
           <Input
             className='icon'
@@ -35,23 +36,22 @@ const ProjectsPage = (props) => {
             placeholder='Filter Project Number'
           />
         </Menu.Item>
-        <Menu.Menu position="right">
-          <Menu.Item>
+        {/* <Menu.Menu position="right"> */}
+          <Menu.Item  className="menu-multi-item-responsive" >
               <Button
                 basic
                 className="remove-border-radius"
                 size="small"
-                color="blue"
+                secondary
               >
                 <Icon name="favorite" />
                 Show Favourites
             </Button>
-            </Menu.Item>
-            <Menu.Item>
+            
               <Button
                 className="remove-border-radius"
                 size="small"
-                color="green"
+                secondary
                 onClick={() => {
                   props.history.push('/new_project/')
                 }}>
@@ -59,9 +59,8 @@ const ProjectsPage = (props) => {
                 New Project
           </Button>
           </Menu.Item>
-        </Menu.Menu>
+        {/* </Menu.Menu> */}
       </Menu>
-
       <Grid padded="horizontally" columns='1'>
 
         {

@@ -10,3 +10,16 @@
 .remove-border-radius {
     border-radius: 0 !important;
 }
+
+.fixed-submenu {
+    position: sticky;
+    top: 40px;
+    padding-bottom: 4px;
+    z-index: 20;
+}
+
+/* for stackable menu item that contains more than one child element - renders same row */
+.menu-multi-item-responsive {
+    justify-content: space-around;
+    flex-grow: 1 !important;
+}
