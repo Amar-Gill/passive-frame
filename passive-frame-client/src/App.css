@@ -6,3 +6,7 @@
 .mt-42 {
     margin-top: 42px;
 }
+
+.remove-border-radius {
+    border-radius: 0 !important;
+}

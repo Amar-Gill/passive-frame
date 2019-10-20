@@ -18,7 +18,7 @@ function NavMenu (props) {
           active={activeItem === 'Profile'}
           onClick={() => {
             setActiveItem('Profile')
-            props.history.push('/profile')
+            props.history.push('/profile/')
           }
           }
         />
@@ -27,7 +27,7 @@ function NavMenu (props) {
           active={activeItem === 'Projects'}
           onClick={() => {
             setActiveItem('Projects')
-            props.history.push('/projects')
+            props.history.push('/projects/')
           }
           }
         />

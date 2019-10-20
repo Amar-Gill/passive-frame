@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Button, Icon, Segment, Grid, Container, Menu, Input } from 'semantic-ui-react'
+import { Button, Icon, Segment, Grid, Container, Menu, Input, Form } from 'semantic-ui-react'
 import UserContext from '../UserContext'
 
 
@@ -37,23 +37,26 @@ const ProjectsPage = (props) => {
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>
-            <Button
-              size="small"
-              color="blue"
-            >
-              <Icon name="favorite" />
-              Show Favourites
-          </Button>
-          </Menu.Item>
-          <Menu.Item>
-            <Button
-              size="small"
-              color="green"
-              onClick={() => {
-                props.history.push('/new_project')
-              }}>
-              <Icon name="plus" />
-              New Project
+              <Button
+                basic
+                className="remove-border-radius"
+                size="small"
+                color="blue"
+              >
+                <Icon name="favorite" />
+                Show Favourites
+            </Button>
+            </Menu.Item>
+            <Menu.Item>
+              <Button
+                className="remove-border-radius"
+                size="small"
+                color="green"
+                onClick={() => {
+                  props.history.push('/new_project/')
+                }}>
+                <Icon name="plus" />
+                New Project
           </Button>
           </Menu.Item>
         </Menu.Menu>

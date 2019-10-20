@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react'
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Grid, Container } from 'semantic-ui-react'
 import UserContext from '../UserContext'
+import ProjectsPage from './ProjectsPage'
 
-const FormExampleForm = () => {
+const FormExampleForm = (props) => {
   // use states
   const [projectName, setProjectName] = useState('')
   const [projectNumber, setProjectNumber] = useState('')
@@ -39,21 +40,39 @@ const FormExampleForm = () => {
 
   return (
     <div className="mt-42">
-      <Form onSubmit={handleSubmit}>
-        <Form.Field>
-          <label>Project Name</label>
-          <input
-            placeholder='Project Name'
-            onChange={(e) => setProjectName(e.target.value)}
-          />
-          <input
-            placeholder='Project Number'
-            onChange={(e) => setProjectNumber(e.target.value)}
-          />
-        </Form.Field>
-        <Button color="green" type='Submit'>Submit</Button>
-      </Form>
-      <Button color="red">Back</Button>
+      <Container text>
+        <Grid columns={1} >
+          <Grid.Column>
+            <h2>New Project</h2>
+            <Form onSubmit={handleSubmit}>
+              <Form.Field>
+                <label>Project Name</label>
+                <input
+                  placeholder='Project Name'
+                  onChange={(e) => setProjectName(e.target.value)}
+                />
+                <label>Project Number</label>
+                <input
+                  placeholder='Project Number'
+                  onChange={(e) => setProjectNumber(e.target.value)}
+                />
+              </Form.Field>
+              <Container textAlign="right">
+                <Button className="remove-border-radius" color="green" type='Submit'>Submit</Button>
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    props.history.push('/projects/')
+                  }}
+                  className="remove-border-radius"
+                  color="red">Back</Button>
+
+              </Container>
+            </Form>
+          </Grid.Column>
+        </Grid>
+
+      </Container>
 
     </div>
 

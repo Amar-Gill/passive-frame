@@ -45,9 +45,9 @@ function App() {
         <UserProvider value={{user, setUser}}>
           <NavMenu setUserLoggedIn={setUserLoggedIn} />
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/profile" component={ProfilePage} />
-          <Route exact path="/projects" component={ProjectsPage} />
-          <Route exact path="/new_project" component={NewProjectPage} />
+          <Route exact path="/profile/" component={ProfilePage} />
+          <Route exact path="/projects/" component={ProjectsPage} />
+          <Route exact path="/new_project/" component={NewProjectPage} />
 
         </UserProvider>
       </div>
