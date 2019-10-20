@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Button, Icon, Segment, Grid, Menu, Input } from 'semantic-ui-react'
+import { Button, Icon, Segment, Grid, Menu, Input, Sticky } from 'semantic-ui-react'
 import UserContext from '../UserContext'
 import ProjectInfoSegment from '../components/ProjectInfoSegment'
 
@@ -20,7 +20,7 @@ const ProjectsPage = (props) => {
 
   return (
     <div className='mt-42'>
-
+      
       <Menu className="fixed-submenu bg-white" secondary stackable>
         <Menu.Item>
           <Input
@@ -62,11 +62,15 @@ const ProjectsPage = (props) => {
           </Menu.Item>
         {/* </Menu.Menu> */}
       </Menu>
+
+      {/* <hr style={{position: "sticky", top: 87, marginTop: 0, zIndex: 45, width: "97.5vw", borderBottomWidth: 1, borderTop: "none", borderColor: "black"}}></hr> */}
+      <div style={{borderTop: 2, borderColor: "black"}}>
+
       <Grid padded="horizontally" columns='1'>
 
         {
           projects.map(project => {
-            if (project.organization == user.organization_name) {
+            // if (project.organization == user.organization_name) {
               return (
                 <Grid.Row key={project.id}>
                   <Grid.Column>
@@ -78,10 +82,11 @@ const ProjectsPage = (props) => {
                   </Grid.Column>
                 </Grid.Row>
               )
-            }
+            // }
           })
         }
       </Grid>
+      </div>
     </div>
   )
 }

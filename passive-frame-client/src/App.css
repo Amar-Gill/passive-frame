@@ -16,10 +16,15 @@
     top: 40px;
     padding-bottom: 4px;
     z-index: 20;
+    margin-bottom: 0px !important;
 }
 
 /* for stackable menu item that contains more than one child element - renders same row */
 .menu-multi-item-responsive {
     justify-content: space-around;
     flex-grow: 1 !important;
+}
+
+.underline {
+    border-bottom: gray 4px !important;
 }
