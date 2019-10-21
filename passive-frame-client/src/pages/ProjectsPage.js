@@ -83,6 +83,7 @@ const ProjectsPage = (props) => {
                 <Grid.Row key={project.id}>
                   <Grid.Column>
                     <ProjectInfoSegment
+                      project_id = {project.id}
                       project_name={project.project_name}
                       project_number={project.project_number}
                       organization={project.organization}

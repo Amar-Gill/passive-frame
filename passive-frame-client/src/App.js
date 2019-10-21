@@ -6,6 +6,7 @@ import ProfilePage from './pages/ProfilePage'
 import ProjectsPage from './pages/ProjectsPage'
 import HomePage from './pages/HomePage'
 import NewProjectPage from './pages/NewProjectPage'
+import ProjectPage from './pages/ProjectPage'
 import { UserProvider } from './UserContext'
 import './App.css'
 
@@ -47,6 +48,7 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/profile/" component={ProfilePage} />
           <Route exact path="/projects/" component={ProjectsPage} />
+          <Route exact path="/projects/:id" component={ProjectPage} />
           <Route exact path="/new_project/" component={NewProjectPage} />
 
         </UserProvider>

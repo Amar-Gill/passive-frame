@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Segment, Grid, Container, Button, Icon, Menu, Label } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import UserContext from '../UserContext'
 
 const ProjectInfoSegment = (props) => {
@@ -8,7 +9,9 @@ const ProjectInfoSegment = (props) => {
             <Segment className="remove-border-radius">
                 <Grid stackable columns={3}>
                     <Grid.Column textAlign="center" width={4}>
-                        <h2>{props.project_name}</h2>
+                        <Link to={"/projects/" + props.project_id}>
+                            <h2>{props.project_name}</h2>
+                        </Link>
                         <Menu compact secondary>
                             <Menu.Item>
                                 <h4>{props.project_number}</h4>
