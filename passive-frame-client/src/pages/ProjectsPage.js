@@ -20,7 +20,13 @@ const ProjectsPage = (props) => {
       })
   }, [])
 
-  return (
+  
+   if (!user)
+    return (
+      <h1 className="mt-42"> LOADING...</h1>
+    )
+
+   return (
     <div className='mt-42'>
       
       <Menu className="fixed-submenu bg-white" secondary stackable>
@@ -69,9 +75,10 @@ const ProjectsPage = (props) => {
                 
       <Grid  padded="horizontally" columns='1'>
 
+
         {
           projects.map(project => {
-            // if (project.organization == user.organization_name) {
+            if (project.organization === user.organization_name) {
               return (
                 <Grid.Row key={project.id}>
                   <Grid.Column>
@@ -83,7 +90,7 @@ const ProjectsPage = (props) => {
                   </Grid.Column>
                 </Grid.Row>
               )
-            // }
+            }
           })
         }
       </Grid>
