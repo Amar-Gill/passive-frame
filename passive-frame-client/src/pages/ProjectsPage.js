@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Button, Icon, Segment, Grid, Container, Menu, Input, Form } from 'semantic-ui-react'
+import { Button, Icon, Segment, Grid, Menu, Input } from 'semantic-ui-react'
 import UserContext from '../UserContext'
+import ProjectInfoSegment from '../components/ProjectInfoSegment'
+import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+
 
 
 const ProjectsPage = (props) => {
@@ -19,7 +22,8 @@ const ProjectsPage = (props) => {
 
   return (
     <div className='mt-42'>
-      <Menu secondary stackable>
+      
+      <Menu className="fixed-submenu bg-white" secondary stackable>
         <Menu.Item>
           <Input
             className='icon'
@@ -35,23 +39,22 @@ const ProjectsPage = (props) => {
             placeholder='Filter Project Number'
           />
         </Menu.Item>
-        <Menu.Menu position="right">
-          <Menu.Item>
+        {/* <Menu.Menu position="right"> */}
+          <Menu.Item  className="menu-multi-item-responsive" >
               <Button
                 basic
                 className="remove-border-radius"
                 size="small"
-                color="blue"
+                secondary
               >
                 <Icon name="favorite" />
                 Show Favourites
             </Button>
-            </Menu.Item>
-            <Menu.Item>
+            
               <Button
                 className="remove-border-radius"
                 size="small"
-                color="green"
+                secondary
                 onClick={() => {
                   props.history.push('/new_project/')
                 }}>
@@ -59,26 +62,28 @@ const ProjectsPage = (props) => {
                 New Project
           </Button>
           </Menu.Item>
-        </Menu.Menu>
+        {/* </Menu.Menu> */}
       </Menu>
-
-      <Grid padded="horizontally" columns='1'>
+      
+      <StickyHorizontalDivider/>
+                
+      <Grid  padded="horizontally" columns='1'>
 
         {
           projects.map(project => {
-            if (project.organization == user.organization_name) {
+            // if (project.organization == user.organization_name) {
               return (
                 <Grid.Row key={project.id}>
                   <Grid.Column>
-                    <Segment>
-                      <h1> {project.project_name}</h1>
-                      <h1> {project.project_number}</h1>
-                      <h1> {project.organization}</h1>
-                    </Segment>
+                    <ProjectInfoSegment
+                      project_name={project.project_name}
+                      project_number={project.project_number}
+                      organization={project.organization}
+                      />
                   </Grid.Column>
                 </Grid.Row>
               )
-            }
+            // }
           })
         }
       </Grid>

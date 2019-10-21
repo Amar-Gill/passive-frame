@@ -58,14 +58,15 @@ const FormExampleForm = (props) => {
                 />
               </Form.Field>
               <Container textAlign="right">
-                <Button className="remove-border-radius" color="green" type='Submit'>Submit</Button>
+                <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
                 <Button
                   onClick={(e) => {
                     e.preventDefault()
                     props.history.push('/projects/')
                   }}
                   className="remove-border-radius"
-                  color="red">Back</Button>
+                  secondary
+                  basic>Back</Button>
 
               </Container>
             </Form>
