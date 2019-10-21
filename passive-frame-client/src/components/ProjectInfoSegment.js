@@ -9,7 +9,17 @@ const ProjectInfoSegment = (props) => {
             <Segment className="remove-border-radius">
                 <Grid stackable columns={3}>
                     <Grid.Column textAlign="center" width={4}>
-                        <Link to={"/projects/" + props.project_id}>
+                        <Link
+                        style={{color: "black"}}
+                        to={{
+                            pathname: '/projects/' + props.project_id,
+                            state: {
+                                project_id: props.project_id,
+                                project_name: props.project_name,
+                                project_number: props.project_number,
+                                organization: props.organization
+                            }
+                        }}>
                             <h2>{props.project_name}</h2>
                         </Link>
                         <Menu compact secondary>
