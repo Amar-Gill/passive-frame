@@ -1,20 +1,23 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Form, Grid, Container } from 'semantic-ui-react'
-import UserContext from '../UserContext'
 
-const NewProjectPage = (props) => {
+
+const NewReportPage = (props) => {
   // use states
-  const [projectName, setProjectName] = useState('')
-  const [projectNumber, setProjectNumber] = useState('')
-  const { user, setUser } = useContext(UserContext)
+  const [reportType, setReportType] = useState('')
+  const currentProject = props.location.state
+
+  useEffect(() => {
+      console.log("hello world")
+      console.log(props.location.state)
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let newProject = {
-      projectName: projectName,
-      projectNumber: projectNumber,
-      organizationId: user.organization_id
+    let newReport = {
+      reportType: reportType,
+      projectId: props.project_id
     }
 
     // open chrome without web protection to allow cross origin request:
@@ -26,14 +29,11 @@ const NewProjectPage = (props) => {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: JSON.stringify(newProject)
+      body: JSON.stringify(newReport)
     })
       .then(response => response.json())
       .then(result => {
-        setProjectName('')
-        setProjectNumber('')
-        // TODO - set the form values to ''
-        alert(result.message)
+        console.log(result)
       })
   }
 
@@ -42,18 +42,13 @@ const NewProjectPage = (props) => {
       <Container text>
         <Grid columns={1} >
           <Grid.Column>
-            <h2>New Project</h2>
+            <h2>New Report</h2>
             <Form onSubmit={handleSubmit}>
               <Form.Field>
-                <label>Project Name</label>
+                <label>Report Type</label>
                 <input
-                  placeholder='Project Name'
-                  onChange={(e) => setProjectName(e.target.value)}
-                />
-                <label>Project Number</label>
-                <input
-                  placeholder='Project Number'
-                  onChange={(e) => setProjectNumber(e.target.value)}
+                  placeholder='Report Type'
+                  onChange={(e) => setReportType(e.target.value)}
                 />
               </Form.Field>
               <Container textAlign="right">
@@ -61,7 +56,7 @@ const NewProjectPage = (props) => {
                 <Button
                   onClick={(e) => {
                     e.preventDefault()
-                    props.history.push('/projects/')
+                    props.history.push('/projects/' + currentProject.project_id)
                   }}
                   className="remove-border-radius"
                   secondary
@@ -79,4 +74,4 @@ const NewProjectPage = (props) => {
   )
 }
 
-export default NewProjectPage
+export default NewReportPage

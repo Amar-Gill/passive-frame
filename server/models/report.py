@@ -6,3 +6,4 @@ import peewee as pw
 class Report(BaseModel):
     report_type = pw.CharField(null=False)
     project = pw.ForeignKeyField(Project, null=False)
+    project_report_index = pw.IntegerField(null = False)

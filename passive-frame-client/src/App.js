@@ -7,6 +7,7 @@ import ProjectsPage from './pages/ProjectsPage'
 import HomePage from './pages/HomePage'
 import NewProjectPage from './pages/NewProjectPage'
 import ProjectPage from './pages/ProjectPage'
+import NewReportPage from './pages/NewReportPage'
 import { UserProvider } from './UserContext'
 import './App.css'
 
@@ -47,9 +48,10 @@ function App() {
           <NavMenu setUserLoggedIn={setUserLoggedIn} />
           <Route exact path="/" component={HomePage} />
           <Route exact path="/profile/" component={ProfilePage} />
+          <Route exact path="/new_project/" component={NewProjectPage} />
           <Route exact path="/projects/" component={ProjectsPage} />
           <Route exact path="/projects/:id" component={ProjectPage} />
-          <Route exact path="/new_project/" component={NewProjectPage} />
+          <Route exact path="/projects/:id/new_report/" component={NewReportPage} />
 
         </UserProvider>
       </div>

@@ -1,26 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Menu, Button, Icon, Input, Header, Grid } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 
 const ProjectPage = (props) => {
-    // set states
+    // ALTERNATIVE - use url params to use API call to get current project object.
+    // set currentProject object from props
+    const [currentProject, setCurrentProject] = useState(props.location.state)
+
+    useEffect(() => {
+        console.log(currentProject)
+    })
 
 
     return (
         <div className="mt-42">
             <Menu className="fixed-submenu bg-white" secondary stackable>
                 <Menu.Item fitted="vertically">
-                    <Button compact className="remove-border-radius" icon secondary>
+                    <Button
+                        onClick={() => {
+                            props.history.push("/projects/")
+                        }}
+                        compact
+                        className="remove-border-radius"
+                        icon
+                        secondary>
                         <Icon name="chevron left" />
                     </Button>
-                {/* </Menu.Item>
-                <Menu.Item> */}
                     <Header
                     as="h3"
                     style={{paddingLeft: 6, marginTop: "auto", marginBottom: "auto"}}
-                    content={props.location.state.project_name}
-                    subheader={props.location.state.project_number}/>
-                    
+                    content={currentProject.project_name}
+                    subheader={currentProject.project_number}/>
                 </Menu.Item>
                 <Menu.Menu position="right">
                     <Menu.Item >
@@ -33,7 +44,12 @@ const ProjectPage = (props) => {
                     </Menu.Item>
 
                     <Menu.Item>
-                        <Button className="remove-border-radius" secondary icon>
+                        <Button as={Link}
+                        to={{
+                            pathname: "/projects/" + currentProject.project_id +"/new_report/",
+                            state: currentProject
+                        }}
+                        className="remove-border-radius" secondary icon>
                             <Icon name="plus" />
                             New Report
                     </Button>
