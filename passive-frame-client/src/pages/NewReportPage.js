@@ -56,7 +56,7 @@ const NewReportPage = (props) => {
                 <Button
                   onClick={(e) => {
                     e.preventDefault()
-                    props.history.push('/projects/' + currentProject.project_id)
+                    props.history.push('/projects/' + currentProject.id)
                   }}
                   className="remove-border-radius"
                   secondary

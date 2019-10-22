@@ -64,7 +64,7 @@ const ProjectPage = (props) => {
                     <Menu.Item>
                         <Button as={Link}
                             to={{
-                                pathname: "/projects/" + currentProject.project_id + "/new_report/",
+                                pathname: "/projects/" + currentProject.id + "/new_report/",
                                 state: currentProject
                             }}
                             className="remove-border-radius" secondary icon>
