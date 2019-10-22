@@ -62,7 +62,7 @@ const ProjectsPage = (props) => {
                 size="small"
                 secondary
                 onClick={() => {
-                  props.history.push('/new_project/')
+                  props.history.push('/projects/new_project/')
                 }}>
                 <Icon name="plus" />
                 New Project
@@ -83,6 +83,7 @@ const ProjectsPage = (props) => {
                 <Grid.Row key={project.id}>
                   <Grid.Column>
                     <ProjectInfoSegment
+                      id = {project.id}
                       project_name={project.project_name}
                       project_number={project.project_number}
                       organization={project.organization}
