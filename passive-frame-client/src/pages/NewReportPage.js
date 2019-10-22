@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Grid, Container } from 'semantic-ui-react'
-
+import { useParams } from "react-router"
 
 const NewReportPage = (props) => {
   // use states
   const [reportType, setReportType] = useState('')
-  const currentProject = props.location.state
+  const [currentProject, setCurrentProject] = useState(null)
+  const { id } = useParams()
 
   useEffect(() => {
-      console.log("hello world")
-      console.log(props.location.state)
+    if (props.location.state) {
+      setCurrentProject(props.location.state)
+    } else {
+      // use API call
+      fetch(`http://127.0.0.1:5000/api/v1/projects/${id}`, {
+        method: 'GET',
+      })
+        .then(response => response.json())
+        .then(result => {
+          setCurrentProject(result)
+        })
+    }
   })
 
   const handleSubmit = (e) => {
@@ -17,14 +28,14 @@ const NewReportPage = (props) => {
 
     let newReport = {
       reportType: reportType,
-      projectId: props.project_id
+      projectId: currentProject.id
     }
 
     // open chrome without web protection to allow cross origin request:
     // open -a Google\ Chrome --args --disable-web-security --user-data-dir
 
     // send info to API to create new project
-    fetch('http://127.0.0.1:5000/api/v1/projects/', {
+    fetch('http://127.0.0.1:5000/api/v1/reports/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
