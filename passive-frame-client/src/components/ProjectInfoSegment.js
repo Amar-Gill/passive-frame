@@ -10,17 +10,32 @@ const ProjectInfoSegment = (props) => {
                 <Grid stackable columns={3}>
                     <Grid.Column textAlign="center" width={4}>
                         <Link
-                        style={{color: "black"}}
-                        to={{
-                            pathname: '/projects/' + props.id + "/",
-                            state: {
-                                id: props.id,
-                                project_name: props.project_name,
-                                project_number: props.project_number,
-                                organization: props.organization
-                            }
-                        }}>
-                            <h2>{props.project_name}</h2>
+                            // as={Link}
+                            // secondary
+                            // animated
+                            // size="large"
+                            // content={props.project_name}
+                            // icon="chevron right"
+                            // labelPosition="right"
+                            // basic
+                            // className="remove-border-radius"
+                            style={{ color: "black" }}
+                            to={{
+                                pathname: '/projects/' + props.id + "/",
+                                state: {
+                                    id: props.id,
+                                    project_name: props.project_name,
+                                    project_number: props.project_number,
+                                    organization: props.organization
+                                }
+                            }}>
+                            {/* <Button.Content visible> */}
+                                <h2>{props.project_name}</h2>
+                            {/* </Button.Content>
+                            <Button.Content hidden>
+                                <h2>View Project</h2>
+                            </Button.Content> */}
+                            {/* <Icon name="chevron right"/> */}
                         </Link>
                         <Menu compact secondary>
                             <Menu.Item>
@@ -38,7 +53,7 @@ const ProjectInfoSegment = (props) => {
                         <h3 as="a">Field Reports</h3>
                         <Menu secondary>
                             <Menu.Item>
-                                <Label color="black" >
+                                <Label color="black">
                                     Issued
                                     <Label.Detail>0</Label.Detail>
                                 </Label>

@@ -9,8 +9,8 @@ reports_api_blueprint = Blueprint("reports_api",
 @reports_api_blueprint.route("/", methods=["POST"])
 def create():
     # get data
-    report_type = request.json.get("report_type", None)
-    project_id = request.json.get("project_id", None)
+    report_type = request.json.get("reportType", None)
+    project_id = request.json.get("projectId", None)
 
     # check if all data is received
     if (not report_type) or (not project_id):
@@ -27,6 +27,8 @@ def create():
             message = "Project does not exist.",
             status = "Fail"
         )
+
+    # calculate project_report_index
 
     # create report and save to db
     report = Report(report_type=report_type, project_id=project_id)
