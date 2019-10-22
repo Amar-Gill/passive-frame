@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import NavMenu from './components/NavMenu'
 import SignInPage from './pages/SignInPage'
 import ProfilePage from './pages/ProfilePage'
@@ -25,9 +25,9 @@ function App() {
     },
     [])
 
-    useEffect(() => {
-      if (userLoggedIn) {
-        fetch(`http://127.0.0.1:5000/api/v1/users/me`, {
+  useEffect(() => {
+    if (userLoggedIn) {
+      fetch(`http://127.0.0.1:5000/api/v1/users/me`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('JWT')
@@ -37,29 +37,30 @@ function App() {
         .then(result => {
           setUser(result) // get info for currently logged in user upon re-render
         })
-      }
-      },[userLoggedIn])
+    }
+  }, [userLoggedIn])
 
 
   if (userLoggedIn) {
     return (
       <div>
-        <UserProvider value={{user, setUser}}>
+        <UserProvider value={{ user, setUser }}>
           <NavMenu setUserLoggedIn={setUserLoggedIn} />
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/profile/" component={ProfilePage} />
-          <Route exact path="/new_project/" component={NewProjectPage} />
-          <Route exact path="/projects/" component={ProjectsPage} />
-          <Route exact path="/projects/:id" component={ProjectPage} />
-          <Route exact path="/projects/:id/new_report/" component={NewReportPage} />
-
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/profile/" component={ProfilePage} />
+            <Route exact path="/projects/" component={ProjectsPage} />
+            <Route path="/projects/new_project/" component={NewProjectPage} />
+            <Route exact path="/projects/:id/" component={ProjectPage} />
+            <Route path="/projects/:id/new_report/" component={NewReportPage} />
+          </Switch>
         </UserProvider>
       </div>
     )
   } else {
     return (
       <div>
-        <UserProvider value={{user, setUser}}>
+        <UserProvider value={{ user, setUser }}>
           <Route exact path="/" render={(props) => <SignInPage {...props} setUserLoggedIn={setUserLoggedIn} />} />
 
         </UserProvider>

@@ -62,7 +62,7 @@ const ProjectsPage = (props) => {
                 size="small"
                 secondary
                 onClick={() => {
-                  props.history.push('/new_project/')
+                  props.history.push('/projects/new_project/')
                 }}>
                 <Icon name="plus" />
                 New Project

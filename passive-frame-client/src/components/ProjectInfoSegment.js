@@ -12,7 +12,7 @@ const ProjectInfoSegment = (props) => {
                         <Link
                         style={{color: "black"}}
                         to={{
-                            pathname: '/projects/' + props.id,
+                            pathname: '/projects/' + props.id + "/",
                             state: {
                                 id: props.id,
                                 project_name: props.project_name,

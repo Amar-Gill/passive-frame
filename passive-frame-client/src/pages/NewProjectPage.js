@@ -33,7 +33,6 @@ const NewProjectPage = (props) => {
         setProjectName('')
         setProjectNumber('')
         // TODO - set the form values to ''
-        alert(result.message)
       })
   }
 
