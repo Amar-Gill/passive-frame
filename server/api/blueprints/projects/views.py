@@ -75,7 +75,7 @@ def index(id):
             return jsonify(
                 id = project.id,
                 project_name = project.name,
-                projet_number = project.number,
+                project_number = project.number,
                 organization = project.organization.name
             )
         else:
