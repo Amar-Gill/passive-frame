@@ -9,8 +9,8 @@ reports_api_blueprint = Blueprint("reports_api",
 @reports_api_blueprint.route("/", methods=["POST"])
 def create():
     # get data
-    report_type = request.json.get("report_type", None)
-    project_id = request.json.get("project_id", None)
+    report_type = request.json.get("reportType", None)
+    project_id = request.json.get("projectId", None)
 
     # check if all data is received
     if (not report_type) or (not project_id):
@@ -28,8 +28,12 @@ def create():
             status = "Fail"
         )
 
+    # calculate project_report_index
+    list_of_reports = Report.select().where((Report.project_id == project_id ) & (Report.report_type == report_type))
+    project_report_index = len(list_of_reports) + 1
+
     # create report and save to db
-    report = Report(report_type=report_type, project_id=project_id)
+    report = Report(report_type=report_type, project_id=project_id, project_report_index=project_report_index)
 
     if report.save():
         return jsonify(
@@ -51,8 +55,9 @@ def index(id):
         report = Report.get_or_none(Report.id == id)
         if report:
             return jsonify(
-                report_id = report.id,
+                id = report.id,
                 report_type = report.report_type,
+                project_report_index = report.project_report_index,
                 project_id = report.project_id
             )
         else:
@@ -67,8 +72,9 @@ def index(id):
     return jsonify(
         reports = [
             {
-                "report_id": report.id,
+                "id": report.id,
                 "report_type": report.report_type,
+                "project_report_index": report.project_report_index,
                 "project_id": report.project_id
             }
         for report in reports]

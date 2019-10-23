@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Form, Grid, Container } from 'semantic-ui-react'
+import { Button, Form, Grid, Container, Select, Dropdown, Label } from 'semantic-ui-react'
 import { useParams } from "react-router"
+
+const selectOptions = [
+  { key: "Field", value: "field", text: "Field Report" },
+  { key: "Test", value: "test", text: "Test Report" }
+]
 
 const NewReportPage = (props) => {
   // use states
@@ -21,7 +26,7 @@ const NewReportPage = (props) => {
           setCurrentProject(result)
         })
     }
-  })
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -48,6 +53,8 @@ const NewReportPage = (props) => {
       })
   }
 
+
+
   return (
     <div className="mt-42">
       <Container text>
@@ -55,19 +62,13 @@ const NewReportPage = (props) => {
           <Grid.Column>
             <h2>New Report</h2>
             <Form onSubmit={handleSubmit}>
-              <Form.Field>
-                <label>Report Type</label>
-                <input
-                  placeholder='Report Type'
-                  onChange={(e) => setReportType(e.target.value)}
-                />
-              </Form.Field>
+              <Form.Select onChange={(e, {value}) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type"/>
               <Container textAlign="right">
                 <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
                 <Button
                   onClick={(e) => {
                     e.preventDefault()
-                    props.history.push('/projects/' + currentProject.id)
+                    props.history.push(`/projects/${currentProject.id}/`)
                   }}
                   className="remove-border-radius"
                   secondary
