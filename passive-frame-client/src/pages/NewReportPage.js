@@ -62,7 +62,7 @@ const NewReportPage = (props) => {
           <Grid.Column>
             <h2>New Report</h2>
             <Form onSubmit={handleSubmit}>
-              <Form.Select onChange={(e, {value}) => console.log(value)} selection options={selectOptions} placeholder="Choose type"/>
+              <Form.Select onChange={(e, {value}) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type"/>
               <Container textAlign="right">
                 <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
                 <Button
