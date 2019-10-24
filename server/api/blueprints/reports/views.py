@@ -29,8 +29,8 @@ def create():
         )
 
     # calculate project_report_index
-    list_of_reports = Report.select().where((Report.project_id == project_id ) & (Report.report_type == report_type))
-    project_report_index = len(list_of_reports) + 1
+    report_count = Report.select().where((Report.project_id == project_id ) & (Report.report_type == report_type)).count()
+    project_report_index = report_count + 1
 
     # create report and save to db
     report = Report(report_type=report_type, project_id=project_id, project_report_index=project_report_index)
