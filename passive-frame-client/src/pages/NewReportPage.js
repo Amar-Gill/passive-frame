@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Grid, Container, Select, Dropdown, Label } from 'semantic-ui-react'
 import { useParams } from "react-router"
+import DatePicker from 'react-datepicker'
+
+import "react-datepicker/dist/react-datepicker.css"
 
 const selectOptions = [
   { key: "Field", value: "field", text: "Field Report" },
@@ -10,6 +13,7 @@ const selectOptions = [
 const NewReportPage = (props) => {
   // use states
   const [reportType, setReportType] = useState('')
+  const [reportDate, setReportDate] = useState(new Date())
   const [currentProject, setCurrentProject] = useState(null)
   const { id } = useParams()
 
@@ -62,7 +66,26 @@ const NewReportPage = (props) => {
           <Grid.Column>
             <h2>New Report</h2>
             <Form onSubmit={handleSubmit}>
-              <Form.Select onChange={(e, {value}) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type"/>
+              <Form.Group >
+                <Form.Select label="Report Type" onChange={(e, { value }) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type" />
+                <Form.Field>
+                  <label>Time of Visit</label>
+                  <DatePicker
+                    selected={reportDate}
+                    onChange={date => {
+                      setReportDate(date)
+                      console.log(reportDate)
+                      console.log(typeof(reportDate))
+                    }}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    timeCaption="time"
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                  />
+                </Form.Field>
+
+              </Form.Group>
               <Container textAlign="right">
                 <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
                 <Button
