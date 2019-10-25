@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Button, Form, Grid, Container, Select, Dropdown, Label } from 'semantic-ui-react'
 import { useParams } from "react-router"
 import DatePicker from 'react-datepicker'
+import format from "date-fns/format"
 
 import "react-datepicker/dist/react-datepicker.css"
+import { getTime } from 'date-fns'
 
 const selectOptions = [
   { key: "Field", value: "field", text: "Field Report" },
@@ -30,6 +32,13 @@ const NewReportPage = (props) => {
           setCurrentProject(result)
         })
     }
+  }, [])
+
+  // convert reportDate to millisecond time stamp (number)
+  // allows user to choose present time as reportDate default value for backend
+  useEffect(() => {
+    setReportDate(getTime(reportDate))
+    console.log("THIS IS DATE EFFECT")
   }, [])
 
   const handleSubmit = (e) => {
@@ -72,8 +81,11 @@ const NewReportPage = (props) => {
                   <label>Time of Visit</label>
                   <DatePicker
                     selected={reportDate}
-                    onChange={date => {
-                      setReportDate(date)
+                    // set reportDate to millisecond time stamp of selected date
+                    // peewee ORM requires timestamp for DateTimeField.
+                    // http://docs.peewee-orm.com/en/latest/peewee/models.html#field-types-table
+                    onSelect={date => {
+                      setReportDate(getTime(date))
                       console.log(reportDate)
                       console.log(typeof(reportDate))
                     }}
@@ -100,6 +112,8 @@ const NewReportPage = (props) => {
               </Container>
             </Form>
           </Grid.Column>
+          <h1>{getTime(reportDate)}</h1>
+          <h1>{format(reportDate, "MMMM d, yyyy h:mm aa")}</h1>
         </Grid>
 
       </Container>
