@@ -3,9 +3,9 @@ import { Button, Form, Grid, Container, Select, Dropdown, Label } from 'semantic
 import { useParams } from "react-router"
 import DatePicker from 'react-datepicker'
 import format from "date-fns/format"
+import { getTime } from 'date-fns'
 
 import "react-datepicker/dist/react-datepicker.css"
-import { getTime } from 'date-fns'
 
 const selectOptions = [
   { key: "Field", value: "field", text: "Field Report" },
@@ -15,7 +15,7 @@ const selectOptions = [
 const NewReportPage = (props) => {
   // use states
   const [reportType, setReportType] = useState('')
-  const [reportDate, setReportDate] = useState(new Date())
+  const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
   const [currentProject, setCurrentProject] = useState(null)
   const { id } = useParams()
 
@@ -46,7 +46,8 @@ const NewReportPage = (props) => {
 
     let newReport = {
       reportType: reportType,
-      projectId: currentProject.id
+      projectId: currentProject.id,
+      reportDate: reportDate
     }
 
     // open chrome without web protection to allow cross origin request:

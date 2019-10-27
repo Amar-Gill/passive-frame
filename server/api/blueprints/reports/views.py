@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models.project import Project
 from models.report import Report
+import datetime
 
 reports_api_blueprint = Blueprint("reports_api",
                             __name__,
@@ -11,9 +12,10 @@ def create():
     # get data
     report_type = request.json.get("reportType", None)
     project_id = request.json.get("projectId", None)
+    report_date = request.json.get("reportDate", None)
 
     # check if all data is received
-    if (not report_type) or (not project_id):
+    if (not report_type) or (not project_id) or(not report_date):
         return jsonify(
             message = "Missing data fields. Try again.",
             status = "Fail"
@@ -32,8 +34,12 @@ def create():
     report_count = Report.select().where((Report.project_id == project_id ) & (Report.report_type == report_type)).count()
     project_report_index = report_count + 1
 
+    # convert report_type which is bigint to datetimeobject for peewee
+    # 1e3 removes millisecond precision
+    report_date = datetime.datetime.fromtimestamp(report_date / 1e3)
+
     # create report and save to db
-    report = Report(report_type=report_type, project_id=project_id, project_report_index=project_report_index)
+    report = Report(report_type=report_type, project_id=project_id, project_report_index=project_report_index, report_date=report_date)
 
     if report.save():
         return jsonify(
