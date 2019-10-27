@@ -84,7 +84,7 @@ const NewReportPage = (props) => {
                     // set reportDate to millisecond time stamp of selected date
                     // peewee ORM requires timestamp for DateTimeField.
                     // http://docs.peewee-orm.com/en/latest/peewee/models.html#field-types-table
-                    onSelect={date => {
+                    onChange={date => {
                       setReportDate(getTime(date))
                       console.log(reportDate)
                       console.log(typeof(reportDate))
