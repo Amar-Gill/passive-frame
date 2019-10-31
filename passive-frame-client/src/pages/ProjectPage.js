@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 
 const ProjectPage = (props) => {
-    // ALTERNATIVE - use url params to use API call to get current project object.
     const { id } = useParams()
-    // set currentProject object from props
     const [currentProject, setCurrentProject] = useState(null)
+    const [reports, setReports] = useState(null)
 
+
+
+    // set currentProject object from props
+    // ALTERNATIVE - use url params to use API call to get current project object.
     useEffect(() => {
 
         if (props.location.state) {
@@ -26,7 +29,21 @@ const ProjectPage = (props) => {
         }
     }, [])
 
-    if (!currentProject) {
+    useEffect(() => {
+        if (currentProject) {
+            // API call to fetch reports for current project
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${currentProject.id}/reports`, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(result => {
+                    setReports(result.reports)
+                    console.log(reports)
+                })
+        }
+    }, [currentProject])
+
+    if (!currentProject || !reports) {
 
         return (<h1 className="mt-42">LOADING</h1>)
     }
@@ -77,7 +94,23 @@ const ProjectPage = (props) => {
                 </Menu.Menu>
             </Menu>
             <StickyHorizontalDivider />
-            <h1>LEEEERROOOOYYYYY........ JANKINZZZZ</h1>
+            <Grid padded="horizontally" columns="1">
+                {
+                    reports.map(report => {
+                        return (
+                            <Grid.Row key={report.report_id}>
+                                <Grid.Column>
+                                    <div>
+                                        <h3>
+                                            {report.report_id}
+                                        </h3>
+                                    </div>
+                                </Grid.Column>
+                            </Grid.Row>
+                        )
+                    })
+                }
+            </Grid>
         </div>
     )
 }
