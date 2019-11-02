@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Segment, Grid, Container, Button, Icon, Menu, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { format } from 'date-fns'
+
 
 const ReportInfoSegment = (props) => {
     // use effects
@@ -24,7 +26,7 @@ const ReportInfoSegment = (props) => {
                     <Menu secondary compact>
                         <Menu.Item>
                             <h5>
-                                {props.report.report_date}
+                                {format(props.report.report_date, "MMMM d, yyyy h:mm aa")}
                             </h5>
                         </Menu.Item>
                         <Menu.Item>
@@ -54,19 +56,19 @@ const ReportInfoSegment = (props) => {
                     </h3>
                     <Menu secondary compact>
                         <Menu.Item>
-                        <Label color="black" >
+                            <Label color="black" >
                                 Open
                                     <Label.Detail>5</Label.Detail>
                             </Label>
                         </Menu.Item>
                         <Menu.Item>
-                        <Label color="black" >
+                            <Label color="black" >
                                 Closed
                                     <Label.Detail>12</Label.Detail>
                             </Label>
                         </Menu.Item>
                         <Menu.Item>
-                        <Label color="orange" >
+                            <Label color="orange" >
                                 Overdue
                                     <Label.Detail>2</Label.Detail>
                             </Label>

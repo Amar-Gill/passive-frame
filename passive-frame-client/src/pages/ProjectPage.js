@@ -100,7 +100,7 @@ const ProjectPage = (props) => {
                 {
                     reports.map(report => {
                         return (
-                            <Grid.Row key={report.report_id}>
+                            <Grid.Row key={report.id}>
                                 <Grid.Column>
                                     <ReportInfoSegment report={report}/>
                                 </Grid.Column>
