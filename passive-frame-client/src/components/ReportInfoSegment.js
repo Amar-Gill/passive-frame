@@ -7,9 +7,18 @@ const ReportInfoSegment = (props) => {
 
     return (
         <div>
-            <Segment className="remove-border-radius">
-                Hello world
-            </Segment>
+            <h3>
+                {props.report.report_id}
+            </h3>
+            <h3>
+                {props.report.report_index}
+            </h3>
+            <h3>
+                {props.report.report_type}
+            </h3>
+            <h3>
+                {props.report.project_id}
+            </h3>
         </div>
     )
 }

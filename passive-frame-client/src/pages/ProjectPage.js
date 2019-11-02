@@ -3,6 +3,8 @@ import { useParams } from "react-router"
 import { Menu, Button, Icon, Input, Header, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import ReportInfoSegment from '../components/ReportInfoSegment'
+
 
 const ProjectPage = (props) => {
     const { id } = useParams()
@@ -100,11 +102,7 @@ const ProjectPage = (props) => {
                         return (
                             <Grid.Row key={report.report_id}>
                                 <Grid.Column>
-                                    <div>
-                                        <h3>
-                                            {report.report_id}
-                                        </h3>
-                                    </div>
+                                    <ReportInfoSegment report={report}/>
                                 </Grid.Column>
                             </Grid.Row>
                         )
