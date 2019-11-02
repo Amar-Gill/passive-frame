@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Segment, Grid, Container, Button, Icon, Menu, Label } from 'semantic-ui-react'
+import { Segment, Grid, Container, Button, Icon, Menu, Label, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import UserContext from '../UserContext'
 
@@ -50,8 +50,12 @@ const ProjectInfoSegment = (props) => {
                     </Grid.Column>
 
                     <Grid.Column verticalAlign="middle" width={6}>
-                        <h3 as="a">Field Reports</h3>
-                        <Menu secondary>
+                    <Header
+                        as="a"
+                        content="Reports"
+                        subheader="Field: 4 | Test: 2"
+                    />
+                        <Menu compact secondary>
                             <Menu.Item>
                                 <Label color="black">
                                     Issued
@@ -73,7 +77,11 @@ const ProjectInfoSegment = (props) => {
                     </Grid.Column>
 
                     <Grid.Column verticalAlign="middle" width={6}>
-                        <h3 as="a">Actions</h3>
+                    <Header
+                        as="a"
+                        content="Actions"
+                        subheader="Count: 11"
+                    />
                         <Menu compact secondary>
                             <Menu.Item>
                                 <Label color="black" >
@@ -83,7 +91,7 @@ const ProjectInfoSegment = (props) => {
                             </Menu.Item>
                             <Menu.Item>
                                 <Label color="black" >
-                                    Closed
+                                    Overdue
                                     <Label.Detail>0</Label.Detail>
                                 </Label>
                             </Menu.Item>

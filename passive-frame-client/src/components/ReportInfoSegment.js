@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Segment, Grid, Container, Button, Icon, Menu, Label } from 'semantic-ui-react'
+import { Segment, Grid, Container, Progress, Button, Icon, Menu, Label, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 
@@ -10,24 +10,39 @@ const ReportInfoSegment = (props) => {
     return (
 
         <Segment>
-            <Grid stackable columns={3}>
+            <Grid verticalAlign="top" stackable columns={3}>
                 <Grid.Column >
-                    <h3>
+                    <Header
+                        as="h3"
 
-                        {
-                            props.report.report_type == "test" && `Test Report ${props.report.project_report_index}`
-                        }
+                    >
+                        <Header.Content>
+                            {
+                                props.report.report_type == "test" && `Test Report ${props.report.project_report_index}`
 
-                        {
-                            props.report.report_type == "field" && `Field Report ${props.report.project_report_index}`
-                        }
+                            }
+                            {
 
-                    </h3>
+                                props.report.report_type == "field" && `Field Report ${props.report.project_report_index}`
+                            }
+                        </Header.Content>
+                        <Header.Subheader>
+                            {format(props.report.report_date, "MMMM d, yyyy h:mm aa")}
+                        </Header.Subheader>
+
+                    </Header>
                     <Menu secondary compact>
                         <Menu.Item>
-                            <h5>
-                                {format(props.report.report_date, "MMMM d, yyyy h:mm aa")}
-                            </h5>
+                            <Button className="remove-border-radius" basic secondary icon>
+                                <Icon name="file pdf outline" />
+                                PDF
+                            </Button>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Button className="remove-border-radius" basic secondary icon>
+                                <Icon name="envelope outline" />
+                                Issue
+                            </Button>
                         </Menu.Item>
                         <Menu.Item>
                             <Label color="black" >
@@ -38,22 +53,42 @@ const ReportInfoSegment = (props) => {
                     </Menu>
                 </Grid.Column>
                 <Grid.Column>
-                    <h3>
-                        Report Items
-                    </h3>
+                    <Header
+                        as="h3"
+                        content="Report Items"
+                        subheader="Count: 4"
+                    />
+
                     <Menu secondary compact>
                         <Menu.Item>
-                            View Items
+                            <Button
+                                className="remove-border-radius"
+                                icon
+                                secondary
+                                basic
+                                compact>
+                                <Icon name="content" />
+                                View
+                            </Button>
                         </Menu.Item>
                         <Menu.Item>
-                            New Item
+                            <Button
+                                className="remove-border-radius"
+                                icon
+                                secondary
+                                compact>
+                                <Icon name="edit outline" />
+                                New
+                            </Button>
                         </Menu.Item>
                     </Menu>
                 </Grid.Column>
                 <Grid.Column>
-                    <h3>
-                        Actions: 420
-                    </h3>
+                    <Header
+                        as="h3"
+                        content="Actions"
+                        subheader="Count: 11"
+                    />
                     <Menu secondary compact>
                         <Menu.Item>
                             <Label color="black" >
@@ -63,15 +98,14 @@ const ReportInfoSegment = (props) => {
                         </Menu.Item>
                         <Menu.Item>
                             <Label color="black" >
-                                Closed
-                                    <Label.Detail>12</Label.Detail>
-                            </Label>
-                        </Menu.Item>
-                        <Menu.Item>
-                            <Label color="orange" >
                                 Overdue
                                     <Label.Detail>2</Label.Detail>
                             </Label>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Button secondary basic circular icon>
+                                <Icon name='plus' />
+                            </Button>
                         </Menu.Item>
                     </Menu>
                 </Grid.Column>

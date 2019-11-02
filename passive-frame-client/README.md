@@ -1,3 +1,12 @@
+TODOS
+
+1) Edit Report Form (same form in create report form) accessed from report-info-segment title (change report type, date, description)
+2) Actions!
+3) Generalize HR with props (sticky)
+4) Add recipients array to projects as user emails/profiles.
+5) Issue reports to recipients. Auto alert recipients of actions / action lists.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
