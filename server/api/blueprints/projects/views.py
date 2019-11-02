@@ -106,9 +106,10 @@ def index_reports(id):
         return jsonify(
             reports = [
                 {
-                    "report_id": report.id,
+                    "id": report.id,
                     "report_type": report.report_type,
-                    "report_index": report.project_report_index,
+                    "project_report_index": report.project_report_index,
+                    "report_date": report.report_date,
                     "project_id": report.project_id
                 }
             for report in reports]

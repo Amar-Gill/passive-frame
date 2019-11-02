@@ -9,23 +9,23 @@ const ReportInfoSegment = (props) => {
 
         <Segment>
             <Grid stackable columns={3}>
-                <Grid.Column textAlign="center">
+                <Grid.Column >
                     <h3>
 
                         {
-                            props.report.report_type == "test" && `Test Report ${props.report.report_index}`
+                            props.report.report_type == "test" && `Test Report ${props.report.project_report_index}`
                         }
 
                         {
-                            props.report.report_type == "field" && `Field Report ${props.report.report_index}`
+                            props.report.report_type == "field" && `Field Report ${props.report.project_report_index}`
                         }
 
                     </h3>
                     <Menu secondary compact>
                         <Menu.Item>
-                            <h3>
-                                DATE GOES HERE
-                            </h3>
+                            <h5>
+                                {props.report.report_date}
+                            </h5>
                         </Menu.Item>
                         <Menu.Item>
                             <Label color="black" >

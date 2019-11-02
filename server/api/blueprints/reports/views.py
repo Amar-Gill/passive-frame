@@ -63,6 +63,7 @@ def index(id):
             return jsonify(
                 id = report.id,
                 report_type = report.report_type,
+                report_date = report.report_date,
                 project_report_index = report.project_report_index,
                 project_id = report.project_id
             )
@@ -80,6 +81,7 @@ def index(id):
             {
                 "id": report.id,
                 "report_type": report.report_type,
+                "report_date": report.report_date,
                 "project_report_index": report.project_report_index,
                 "project_id": report.project_id
             }
