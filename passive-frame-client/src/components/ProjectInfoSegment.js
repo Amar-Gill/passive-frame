@@ -8,17 +8,10 @@ const ProjectInfoSegment = (props) => {
         <div>
             <Segment className="remove-border-radius">
                 <Grid stackable columns={3}>
-                    <Grid.Column textAlign="center" width={4}>
-                        <Link
-                            // as={Link}
-                            // secondary
-                            // animated
-                            // size="large"
-                            // content={props.project_name}
-                            // icon="chevron right"
-                            // labelPosition="right"
-                            // basic
-                            // className="remove-border-radius"
+                    <Grid.Column width={4}>
+                        <Header
+                            fixed="left"
+                            as={Link}
                             style={{ color: "black" }}
                             to={{
                                 pathname: '/projects/' + props.id + "/",
@@ -29,17 +22,26 @@ const ProjectInfoSegment = (props) => {
                                     organization: props.organization
                                 }
                             }}>
-                            {/* <Button.Content visible> */}
-                                <h2>{props.project_name}</h2>
-                            {/* </Button.Content>
-                            <Button.Content hidden>
-                                <h2>View Project</h2>
-                            </Button.Content> */}
-                            {/* <Icon name="chevron right"/> */}
-                        </Link>
+                            <Header.Content >
+                                {props.project_name}
+                            </Header.Content>
+                            <Header.Subheader>
+                                {props.project_number}
+                            </Header.Subheader>
+                        </Header>
+
                         <Menu compact secondary>
+
                             <Menu.Item>
-                                <h4>{props.project_number}</h4>
+                                <Button
+                                secondary
+                                basic
+                                icon
+                                circular>
+                                    <Icon name="edit outline"/>
+
+                                </Button>
+
                             </Menu.Item>
                             <Menu.Item position="right">
                                 <Button secondary basic circular icon>
@@ -50,11 +52,12 @@ const ProjectInfoSegment = (props) => {
                     </Grid.Column>
 
                     <Grid.Column verticalAlign="middle" width={6}>
-                    <Header
-                        as="a"
-                        content="Reports"
-                        subheader="Field: 4 | Test: 2"
-                    />
+                        <Header
+                            as="a"
+                            content="Reports"
+                            subheader="Field: 4 | Test: 2"
+
+                        />
                         <Menu compact secondary>
                             <Menu.Item>
                                 <Label color="black">
@@ -77,11 +80,11 @@ const ProjectInfoSegment = (props) => {
                     </Grid.Column>
 
                     <Grid.Column verticalAlign="middle" width={6}>
-                    <Header
-                        as="a"
-                        content="Actions"
-                        subheader="Count: 11"
-                    />
+                        <Header
+                            as="a"
+                            content="Actions"
+                            subheader="Count: 11"
+                        />
                         <Menu compact secondary>
                             <Menu.Item>
                                 <Label color="black" >
