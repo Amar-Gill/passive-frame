@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage'
 import NewProjectPage from './pages/NewProjectPage'
 import ProjectPage from './pages/ProjectPage'
 import NewReportPage from './pages/NewReportPage'
+import NewReportItemPage from './pages/NewReportItemPage'
 import { UserProvider } from './UserContext'
 import './App.css'
 
@@ -53,6 +54,7 @@ function App() {
             <Route path="/projects/new_project/" component={NewProjectPage} />
             <Route exact path="/projects/:id/" component={ProjectPage} />
             <Route path="/projects/:id/new_report/" component={NewReportPage} />
+            <Route path="/projects/:projid/reports/:reportid/new_item/" component={NewReportItemPage} />
           </Switch>
         </UserProvider>
       </div>
