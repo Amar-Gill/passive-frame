@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from models.organization import Organization
 from models.project import Project
 from models.report import Report
+import datetime
 
 
 projects_api_blueprint = Blueprint("projects_api",
@@ -106,8 +107,10 @@ def index_reports(id):
         return jsonify(
             reports = [
                 {
-                    "report_id": report.id,
+                    "id": report.id,
                     "report_type": report.report_type,
+                    "project_report_index": report.project_report_index,
+                    "report_date": datetime.datetime.timestamp(report.report_date)*1000,
                     "project_id": report.project_id
                 }
             for report in reports]
