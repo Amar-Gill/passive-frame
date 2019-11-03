@@ -7,6 +7,7 @@ const NewReportItemPage = (props) => {
     const [currentReportId, setCurrentReportId] = useState(null)
     const [subject, setSubject] = useState('')
     const [content, setContent] = useState('')
+    const { projid, reportid } = useParams()
     let history = useHistory()
 
     useEffect(() => {
@@ -14,7 +15,6 @@ const NewReportItemPage = (props) => {
             setCurrentReportId(props.location.state.reportId)
         } else {
             // use url params
-            const { projid, reportid } = useParams()
             setCurrentReportId(reportid)
         }
     }, [])

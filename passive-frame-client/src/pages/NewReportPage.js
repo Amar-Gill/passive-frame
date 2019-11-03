@@ -17,13 +17,13 @@ const NewReportPage = (props) => {
   const [reportType, setReportType] = useState('')
   const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
   const [currentProject, setCurrentProject] = useState(null)
+  const { id } = useParams()
 
   useEffect(() => {
     if (props.location.state) {
       setCurrentProject(props.location.state)
     } else {
       // use API call
-      const { id } = useParams()
       fetch(`http://127.0.0.1:5000/api/v1/projects/${id}`, {
         method: 'GET',
       })
