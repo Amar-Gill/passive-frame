@@ -95,7 +95,7 @@ const ProjectPage = (props) => {
 
                 </Menu.Menu>
             </Menu>
-            <StickyHorizontalDivider />
+            <StickyHorizontalDivider topDesktop={88} topMobile={171} />
             <Grid padded="horizontally" columns="1">
                 {
                     reports.map(report => {

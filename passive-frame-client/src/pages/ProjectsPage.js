@@ -71,7 +71,7 @@ const ProjectsPage = (props) => {
         {/* </Menu.Menu> */}
       </Menu>
       
-      <StickyHorizontalDivider/>
+      <StickyHorizontalDivider topDesktop={88} topMobile={174}/>
                 
       <Grid  padded="horizontally" columns='1'>
 
