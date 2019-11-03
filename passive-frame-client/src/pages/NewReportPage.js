@@ -17,13 +17,13 @@ const NewReportPage = (props) => {
   const [reportType, setReportType] = useState('')
   const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
   const [currentProject, setCurrentProject] = useState(null)
-  const { id } = useParams()
 
   useEffect(() => {
     if (props.location.state) {
       setCurrentProject(props.location.state)
     } else {
       // use API call
+      const { id } = useParams()
       fetch(`http://127.0.0.1:5000/api/v1/projects/${id}`, {
         method: 'GET',
       })
@@ -38,7 +38,6 @@ const NewReportPage = (props) => {
   // allows user to choose present time as reportDate default value for backend
   useEffect(() => {
     setReportDate(getTime(reportDate))
-    console.log("THIS IS DATE EFFECT")
   }, [])
 
   const handleSubmit = (e) => {
@@ -66,8 +65,6 @@ const NewReportPage = (props) => {
         console.log(result)
       })
   }
-
-
 
   return (
     <div className="mt-42">

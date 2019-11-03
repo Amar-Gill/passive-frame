@@ -11,8 +11,6 @@ const ProjectPage = (props) => {
     const [currentProject, setCurrentProject] = useState(null)
     const [reports, setReports] = useState(null)
 
-
-
     // set currentProject object from props
     // ALTERNATIVE - use url params to use API call to get current project object.
     useEffect(() => {
