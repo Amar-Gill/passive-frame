@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+import { Grid } from 'semantic-ui-react'
+import ReportItemInfoSegment from '../components/ReportItemInfoSegment'
 
 const ReportItemsPage = (props) => {
     //use states
@@ -40,18 +42,20 @@ const ReportItemsPage = (props) => {
 
     return (
         <div className="mt-42">
-            {
-                reportItems.map(item => {
-                    return (
-                        <div key={item.id}>
-                            <h3>{item.id}</h3>
-                            <h3>{item.subject}</h3>
-                            <h3>{item.content}</h3>
-                            <h3>{item.reportItemIndex}</h3>
-                        </div>
-                    )
-                })
-            }
+            <Grid padded="horizontally" columns="1">
+
+                {
+                    reportItems.map(item => {
+                        return (
+                            <Grid.Row key={item.id}>
+                                <Grid.Column>
+                                    <ReportItemInfoSegment item={item}/>
+                                </Grid.Column>
+                            </Grid.Row>
+                        )
+                    })
+                }
+            </Grid>
         </div>
     )
 }
