@@ -43,4 +43,29 @@ def create():
             message = "Something went wrong please try again",
             status = "Fail"
         )
-        
+
+@report_items_api_blueprint.route("/", methods=["GET"])
+def index():
+    # get data
+    report_id = request.json.get('reportId', None)
+
+    # data validation
+    if not report_id:
+        return jsonify(
+            message = "Missing reportId",
+            status = "Fail"
+        )
+    
+    # query db for report_items
+    report_items = ReportItem.select().where(ReportItem.report_id == report_id)
+
+    return jsonify(
+        items = [
+            {
+                "id": item.id,
+                "subject": item.subject,
+                "content": item.content,
+                "reportItemIndex": item.report_item_index
+            }
+        for item in report_items]
+    )

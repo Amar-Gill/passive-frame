@@ -62,6 +62,13 @@ const ReportInfoSegment = (props) => {
                     <Menu secondary compact>
                         <Menu.Item>
                             <Button
+                                as={Link}
+                                to={{
+                                    pathname: `/projects/${props.report.project_id}/reports/${props.report.id}/`,
+                                    state: {
+                                        reportId: props.report.id
+                                    }
+                                }}
                                 className="remove-border-radius"
                                 icon
                                 secondary

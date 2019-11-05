@@ -2,9 +2,10 @@ TODOS
 
 1) Edit Report Form (same form in create report form) accessed from report-info-segment title (change report type, date, description)
 2) Actions!
-3) Generalize HR with props (sticky)
+3) Generalize HR with props (sticky) DONE
 4) Add recipients array to projects as user emails/profiles.
 5) Issue reports to recipients. Auto alert recipients of actions / action lists.
+6) Compress report-item content field on client side (using hex??) to save space in db
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -95,7 +95,7 @@ def index_items(id):
     if report:
         report_items = ReportItem.select().where(ReportItem.report_id == id)
         return jsonify(
-            reportItems = [
+            items = [
                 {
                     "id": report_item.id,
                     "subject": report_item.subject,
