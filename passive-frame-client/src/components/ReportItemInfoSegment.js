@@ -17,7 +17,26 @@ const ReportItemInfoSegment = props => {
                             Created at: DATE | Updated at: DATE
                         </Header.Subheader>
                     </Header>
-                    <h3>Subject: {item.subject}</h3>
+
+                    <h3 style={{ display: "inline" }}>Subject: {item.subject}</h3>
+                    <div style={{ display: "flex", justifyContent: "between" }}>
+
+                        <Button secondary basic circular icon>
+                            <Icon name="edit" />
+                        </Button>
+
+
+                        <Button secondary basic circular icon>
+                            <Icon name="camera" />
+                        </Button>
+                        <Button secondary basic circular icon>
+                            <Icon name="clipboard list" />
+                        </Button>
+
+                    </div>
+
+
+
                 </Grid.Column>
                 <Grid.Column>
 
