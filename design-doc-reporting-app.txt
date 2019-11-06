@@ -13,6 +13,7 @@ Purpose:
 -all in one site reporting tool for engineers, architects and contractors
 -image db hosting for orgs -> track and label images for easy retrieval
 -gain insights from photo data via computer vision
+-AI assisted prompts -> real time project management -> based on communication patterns
 
 Work Flow:
 
@@ -53,6 +54,9 @@ Work Flow:
 11) project message board -> pin topics of interest like FB
 
 12) invite external collaborators (architects, subs, consultants, owner, GC)
+
+13) all above actions should be related to a question. goal is to expand array of common phrases.
+    analysis of patterns leads to development of temporal prompts for the different project categories.
 
 Stack:
 

@@ -6,6 +6,15 @@ TODOS
 4) Add recipients array to projects as user emails/profiles.
 5) Issue reports to recipients. Auto alert recipients of actions / action lists.
 6) Compress report-item content field on client side (using hex??) to save space in db
+7) email notification / response retriaval for actions ==> instant // recurring
+8) automate your responses
+9) email tracking of responses
+10) generate portfolio of desired documents
+11) automatic generation of email templates upon new project - will require NLP ML algorithm and data collection -> have to read emails...
+12) Will sign data privacy agreements
+13) Track project time data
+14) Automate billing...LOL eff.......spreadsheet....
+15) Test performance analytics!!!! windows, clips, envelope, leaking, results, potatoes, potatoes =D tomatoes. Requires logging of test results. Automated forms for clips, windows, curtain wall, waterproofing, and the like ya know eh?
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
