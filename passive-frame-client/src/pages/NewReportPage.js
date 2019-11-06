@@ -38,7 +38,6 @@ const NewReportPage = (props) => {
   // allows user to choose present time as reportDate default value for backend
   useEffect(() => {
     setReportDate(getTime(reportDate))
-    console.log("THIS IS DATE EFFECT")
   }, [])
 
   const handleSubmit = (e) => {
@@ -66,8 +65,6 @@ const NewReportPage = (props) => {
         console.log(result)
       })
   }
-
-
 
   return (
     <div className="mt-42">

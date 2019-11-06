@@ -28,3 +28,8 @@
 .underline {
     border-bottom: gray 4px !important;
 }
+
+.binary-padding-capsule{
+    margin-bottom: 3.5px !important;
+    /* padding-right: .4rem; */
+}

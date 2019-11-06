@@ -115,3 +115,8 @@ def index_reports(id):
                 }
             for report in reports]
         )
+    else:
+        return jsonify(
+            message = f"No project with id {id}",
+            status = "Fail"
+        )

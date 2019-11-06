@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from models.project import Project
 from models.report import Report
+from models.report_item import ReportItem
 import datetime
 
 reports_api_blueprint = Blueprint("reports_api",
@@ -87,3 +88,26 @@ def index(id):
             }
         for report in reports]
     )
+
+@reports_api_blueprint.route("/<id>/items", methods=["GET"])
+def index_items(id):
+    report = Report.get_or_none(Report.id == id)
+    if report:
+        report_items = ReportItem.select().where(ReportItem.report_id == id)
+        return jsonify(
+            items = [
+                {
+                    "id": report_item.id,
+                    "subject": report_item.subject,
+                    "content": report_item.content,
+                    "reportItemIndex": report_item.report_item_index,
+                    "report_id": report_item.report_id
+                }
+            for report_item in report_items]
+        )
+    else:
+        return jsonify(
+            message = f"No report with id {id}",
+            status = "Fail"
+        )
+        
