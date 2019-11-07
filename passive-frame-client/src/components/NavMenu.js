@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import LogoutModal from './LogoutModal'
 
 
-function NavMenu (props) {
+function NavMenu(props) {
   const [activeItem, setActiveItem] = useState('')
   const [showModal, setShowModal] = useState(false)
 
@@ -14,23 +14,35 @@ function NavMenu (props) {
 
       <Menu className="bg-white" fixed="top" pointing secondary>
         <Responsive as={Menu.Item} minWidth={790}
-          name='Profile'
-          active={activeItem === 'Profile'}
+          name='ZERO_system'
+          content="[ ZER0_system ]"
+          active={activeItem === 'ZER0_system'}
           onClick={() => {
-            setActiveItem('Profile')
-            props.history.push('/profile/')
+            setActiveItem('ZER0_system')
+            props.history.push('/')
           }
           }
         />
         <Responsive as={Menu.Item} minWidth={790}
-          name='Projects'
-          active={activeItem === 'Projects'}
+          name='Dashboard'
+          active={activeItem === 'Dashboard'}
           onClick={() => {
-            setActiveItem('Projects')
+            setActiveItem('Dashboard')
+            props.history.push('/profile/')
+          }
+          }
+        />
+
+        <Responsive as={Menu.Item} minWidth={790}
+          name='Database'
+          active={activeItem === 'Database'}
+          onClick={() => {
+            setActiveItem('Database')
             props.history.push('/projects/')
           }
           }
         />
+
         <Menu.Menu position='right'>
           <Responsive as={Menu.Item} minWidth={790}
             name="Sign Out"

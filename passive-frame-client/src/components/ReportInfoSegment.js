@@ -66,7 +66,9 @@ const ReportInfoSegment = (props) => {
                                 to={{
                                     pathname: `/projects/${props.report.project_id}/reports/${props.report.id}/`,
                                     state: {
-                                        reportId: props.report.id
+                                        reportId: props.report.id,
+                                        projectId: props.report.project_id,
+                                        currentProject: props.project
                                     }
                                 }}
                                 className="remove-border-radius"

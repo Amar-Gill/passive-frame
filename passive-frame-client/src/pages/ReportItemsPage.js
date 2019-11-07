@@ -7,6 +7,8 @@ import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 const ReportItemsPage = (props) => {
     //use states
     const [currentReportId, setCurrentReportId] = useState(null)
+    const [currentProjectId, setCurrentProjectId] = useState(null)
+    const [currentProject, setCurrentProject] = useState(null)
     const [reportItems, setReportItems] = useState(null)
     const { projid, reportid } = useParams()
     let history = useHistory()
@@ -15,11 +17,23 @@ const ReportItemsPage = (props) => {
     useEffect(() => {
         if (props.location.state) {
             setCurrentReportId(props.location.state.reportId)
+            setCurrentProjectId(props.location.state.projectId)
+            setCurrentProject(props.location.state.currentProject)
         } else {
             // use url params
             setCurrentReportId(reportid)
+            setCurrentProjectId(projid)
+            // API call to fetch current project
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${currentProjectId}`, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(result => {
+                    setCurrentProject(result)
+                })
         }
     }, [])
+
 
     // set reportItems
     useEffect(() => {
@@ -46,8 +60,9 @@ const ReportItemsPage = (props) => {
             <Menu className="fixed-submenu bg-white" secondary stackable>
                 <Menu.Item fitted="vertically">
                     <Button
-                        onClick={() => {
-                            alert("GO BACK")
+                        onClick={(e) => {
+                            e.preventDefault()
+                            history.goBack()
                         }}
                         compact
                         className="remove-border-radius"
@@ -58,16 +73,12 @@ const ReportItemsPage = (props) => {
                     <Header
                         as="h3"
                         style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
-                        content="CURRONT PROJECT NAME"
-                        subheader="PROJECT NUMBER" />
+                        content={currentProject.project_name}
+                        subheader={currentProject.project_number} />
                 </Menu.Item>
                 <Menu.Menu position="right">
                     <Menu.Item>
-                        <Button as={Link}
-                            // to={{
-                            //     pathname: "/projects/" + currentProject.id + "/new_report/",
-                            //     state: currentProject
-                            // }}
+                        <Button
                             className="remove-border-radius" secondary basic icon>
                             <Icon name="file pdf outline" />
                             Download PDF

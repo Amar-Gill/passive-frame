@@ -100,7 +100,7 @@ const ProjectPage = (props) => {
                         return (
                             <Grid.Row key={report.id}>
                                 <Grid.Column>
-                                    <ReportInfoSegment report={report}/>
+                                    <ReportInfoSegment project={currentProject} report={report}/>
                                 </Grid.Column>
                             </Grid.Row>
                         )
