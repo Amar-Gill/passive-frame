@@ -11,6 +11,7 @@ import NewReportPage from './pages/NewReportPage'
 import NewReportItemPage from './pages/NewReportItemPage'
 import ReportItemsPage from './pages/ReportItemsPage'
 import { UserProvider } from './UserContext'
+import EditProjectPage from './pages/EditProjectPage'
 import './App.css'
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
             <Route exact path="/profile/" component={ProfilePage} />
             <Route exact path="/projects/" component={ProjectsPage} />
             <Route path="/projects/new_project/" component={NewProjectPage} />
+            <Route path="/projects/:id/edit/" component={EditProjectPage} />
             <Route exact path="/projects/:id/" component={ProjectPage} />
             <Route path="/projects/:id/new_report/" component={NewReportPage} />
             <Route exact path="/projects/:projid/reports/:reportid/" component={ReportItemsPage} />

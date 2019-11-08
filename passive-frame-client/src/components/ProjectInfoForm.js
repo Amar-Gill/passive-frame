@@ -1,11 +1,15 @@
 import React, { useState, useContext } from 'react'
 import { Button, Form, Grid, Container } from 'semantic-ui-react'
+import UserContext from '../UserContext'
+import {useParams} from 'react-router-dom'
 
-const ProjectInfoForm = props => {
+
+const ProjectInfoForm = (props) => {
 
     const [projectName, setProjectName] = useState('')
     const [projectNumber, setProjectNumber] = useState('')
     const { user, setUser } = useContext(UserContext)
+    const { id } = useParams()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -21,13 +25,46 @@ const ProjectInfoForm = props => {
 
         // send info to API to create new project
         // PERFORM FETCH HERE FROM PROPS!!!
+        if (props.HTTPMethod == "POST") {
+            fetch('http://127.0.0.1:5000/api/v1/projects/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(projectObject)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    setProjectName('')
+                    setProjectNumber('')
+                    // TODO - set the form values to ''
+                    alert(result.message)
+                })
+
+        } else if (props.HTTPMethod == "PUT") {
+            // new API endpoint for edit project info
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(projectObject)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    setProjectName('')
+                    setProjectNumber('')
+                    // TODO - set the form values to ''
+                    alert(result.message)
+                })
+        }
     }
 
     return (
         <Container text>
             <Grid columns={1} >
                 <Grid.Column>
-                    <h2>New Project</h2>
+                    <h2>{props.header}</h2>
                     <Form onSubmit={handleSubmit}>
                         <Form.Field>
                             <label>Project Name</label>

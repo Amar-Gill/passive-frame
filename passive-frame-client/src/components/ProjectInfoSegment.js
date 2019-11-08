@@ -34,6 +34,10 @@ const ProjectInfoSegment = (props) => {
 
                             <Menu.Item>
                                 <Button
+                                as={Link}
+                                to={{
+                                    pathname: `/projects/${props.id}/edit/`
+                                }}
                                 secondary
                                 basic
                                 icon
