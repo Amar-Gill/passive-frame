@@ -5,12 +5,13 @@ const HomePage = () => {
 
     return (
         <div className="mt-42">
-
-            <img src="Epyon-katoki1.jpg" style={{width: "90vw"}} />
-            <img src="009.jpg" style={{width: "90vw"}}/>
-            <img src="Epyon-defense.jpg" style={{width: "90vw"}}/>
-            <img src="Epyon-zwei.jpg" style={{width: "90vw"}}/>
-            <h1>You must construct additional pylons</h1>
+            <div style={{ position: "fixed", top: "55vh", left: "30vw", color: "white", backgroundColor: "black", fontFamily: "Courier New" }}>
+                <h1 >  [  ZER0_system under development  ]  </h1>
+            </div>
+            <img src="Epyon-katoki1.jpg" style={{ width: "100vw" }} />
+            <img src="009.jpg" style={{ width: "100vw" }} />
+            <img src="Epyon-defense.jpg" style={{ width: "100vw" }} />
+            <img src="Epyon-zwei.jpg" style={{ width: "100vw" }} />
         </div>
     )
 }
