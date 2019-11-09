@@ -111,47 +111,46 @@ def update(id):
     project_number = request.json.get("projectNumber", None)
     organization_id = request.json.get("organizationId", None)
 
-    # check if all data is received
-    if (not project_name) or (not organization_id) or (not project_number):
-        return jsonify(
-            message="Missing data fields. Try again.",
-            status="Fail"
-        )
+    
+    # update the project info
+    if project_name:
+        project.name = project_name
+    if project_number:
+        project.number = project_number
+    if organization_id:
+        project.organization_id = organization_id
+        projects_of_org = Project.select().where(Project.organization_id == organization_id)
 
     # check if name unique
     # name to be unique within orgs only
-    projects_of_org = Project.select().where(
-        Project.organization_id == organization_id)
-    project_names = [project.name for project in projects_of_org]
-    if project_name in project_names:
-        return jsonify(
-            message="Project name not unique.",
-            status="Fail"
-        )
+    if project_name:
+        project_names = [project.name for project in projects_of_org]
+        if project_name in project_names:
+            return jsonify(
+                message="Project name not unique.",
+                status="Fail"
+            )
 
     # check if project number unique
     # project number to be unique within orgs only
-    project_numbers = [project.number for project in projects_of_org]
-    if project_number in project_numbers:
-        return jsonify(
-            message="Project number not unique.",
-            status="Fail"
-        )
+    if project_number:
+        project_numbers = [project.number for project in projects_of_org]
+        if project_number in project_numbers:
+            return jsonify(
+                message="Project number not unique.",
+                status="Fail"
+            )
 
     # check if organization exists
-    organizations = Organization.select()
-    organization_ids = [organization.id for organization in organizations]
-    if organization_id not in organization_ids:
-        return jsonify(
-            message="Organization does not exist.",
-            status="Fail"
-        )
+    if organization_id:
+        organizations = Organization.select()
+        organization_ids = [organization.id for organization in organizations]
+        if organization_id not in organization_ids:
+            return jsonify(
+                message="Organization does not exist.",
+                status="Fail"
+            )
 
-    # update the project info
-    project.name = project_name
-    project.number = project_number
-    project.organization_id = organization_id
-    
     # save changes to db
     if project.save():
         return jsonify(
@@ -163,6 +162,7 @@ def update(id):
             message="Something went wrong please try again",
             status="Fail"
         )
+
 
 @projects_api_blueprint.route("/<id>/reports", methods=["GET"])
 def index_reports(id):
