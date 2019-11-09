@@ -59,7 +59,7 @@ const ProjectInfoSegment = (props) => {
                         <Header
                             as="a"
                             content="Reports"
-                            subheader="Field: 4 | Test: 2"
+                            subheader="Field: 4 | Test: 2 | Calculation: 1"
 
                         />
                         <Menu compact secondary>
