@@ -54,6 +54,42 @@ def create():
         )
 
 
+@reports_api_blueprint.route("/<id>", methods=["PUT"])
+def update(id):
+    # get report
+    report = Report.get_or_none(Report.id == id)
+
+    # check if report exists
+    if not report:
+        return jsonify(
+            message = "Project does not exist.",
+            status = "Fail"
+        )   
+
+    # get data
+    report_type = request.json.get("reportType", None)
+    report_date = request.json.get("reportDate", None)
+
+    if report_type:
+        report.report_type = report_type
+    if report_date:
+        report.report_date = report_date
+
+    # do something for project_report_index???
+
+    if report.save():
+        return jsonify(
+            message="Report updated.",
+            status="Success"
+        )
+    else:
+        return jsonify(
+            message="Something went wrong please try again",
+            status="Fail"
+        )
+    
+
+
 @reports_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
 @reports_api_blueprint.route("/<id>", methods=["GET"])
 def index(id):
@@ -88,6 +124,7 @@ def index(id):
             }
         for report in reports]
     )
+
 
 @reports_api_blueprint.route("/<id>/items", methods=["GET"])
 def index_items(id):
