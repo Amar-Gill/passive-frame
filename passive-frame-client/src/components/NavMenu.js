@@ -23,6 +23,16 @@ function NavMenu(props) {
           }
           }
         />
+        <Responsive as={Menu.Item} maxWidth={789}
+          name='ZERO_system'
+          content="[ ZER0_system ]"
+          active={activeItem === 'ZER0_system'}
+          onClick={() => {
+            setActiveItem('ZER0_system')
+            props.history.push('/')
+          }
+          }
+        />
         <Responsive as={Menu.Item} minWidth={790}
           name='Dashboard'
           active={activeItem === 'Dashboard'}
@@ -39,6 +49,16 @@ function NavMenu(props) {
           onClick={() => {
             setActiveItem('Database')
             props.history.push('/projects/')
+          }
+          }
+        />
+
+        <Responsive as={Menu.Item} minWidth={790}
+          name='Assets'
+          active={activeItem === 'Assets'}
+          onClick={() => {
+            setActiveItem('Assets')
+            props.history.push('/')
           }
           }
         />
@@ -72,6 +92,15 @@ function NavMenu(props) {
                 onClick={() => {
                   setActiveItem('Projects')
                   props.history.push('/projects')
+                }
+                }
+              />
+              <Dropdown.Item text='Assets'
+                name='Assets'
+                active={activeItem === 'Assets'}
+                onClick={() => {
+                  setActiveItem('Assets')
+                  props.history.push('/')
                 }
                 }
               />

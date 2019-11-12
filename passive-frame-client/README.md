@@ -15,6 +15,7 @@ TODOS
 13) Track project time data
 14) Automate billing...LOL eff.......spreadsheet....
 15) Test performance analytics!!!! windows, clips, envelope, leaking, results, potatoes, potatoes =D tomatoes. Requires logging of test results. Automated forms for clips, windows, curtain wall, waterproofing, and the like ya know eh?
+16) REMOVE -> the fixed prop from NavMenu and use {position: sticky;}
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
