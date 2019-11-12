@@ -33,23 +33,30 @@ const ReportInfoSegment = (props) => {
                     </Header>
                     <Menu secondary compact>
                         <Menu.Item>
-                            <Button className="remove-border-radius" basic secondary icon>
-                                <Icon name="file pdf outline" />
-                                PDF
-                            </Button>
-                        </Menu.Item>
-                        <Menu.Item>
-                            <Button className="remove-border-radius" basic secondary icon>
-                                <Icon name="envelope outline" />
-                                Issue
-                            </Button>
-                        </Menu.Item>
-                        <Menu.Item>
                             <Label color="black" >
                                 Status
                                     <Label.Detail>Draft</Label.Detail>
                             </Label>
                         </Menu.Item>
+                        <Menu.Item>
+                            <Button basic secondary icon circular>
+                                <Icon name="edit outline" />
+                                {/* Edit */}
+                            </Button>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Button basic secondary icon circular>
+                                <Icon name="file pdf outline" />
+                                {/* PDF */}
+                            </Button>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Button basic secondary icon circular>
+                                <Icon name="envelope outline" />
+                                {/* Issue */}
+                            </Button>
+                        </Menu.Item>
+
                     </Menu>
                 </Grid.Column>
                 <Grid.Column>
