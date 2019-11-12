@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Container} from 'semantic-ui-react'
-import { useParams } from "react-router"
+import { useParams, useHistory } from "react-router"
 import DatePicker from 'react-datepicker'
 import format from "date-fns/format"
 import { getTime } from 'date-fns'
@@ -16,7 +16,8 @@ const ReportInfoForm = (props) => {
   // use hooks
   const [reportType, setReportType] = useState('')
   const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
-  const { id } = useParams()
+  const { projid, reportid } = useParams()
+  let history = useHistory()
 
   // convert reportDate to millisecond time stamp (number)
   // allows user to choose present time as reportDate default value for backend
@@ -29,7 +30,7 @@ const ReportInfoForm = (props) => {
 
     let newReport = {
       reportType: reportType,
-      projectId: id,
+      projectId: projid,
       reportDate: reportDate
     }
 
@@ -82,7 +83,7 @@ const ReportInfoForm = (props) => {
                 <Button
                   onClick={(e) => {
                     e.preventDefault()
-                    props.history.push(`/projects/${id}/`)
+                    history.push(`/projects/${projid}/`)
                   }}
                   className="remove-border-radius"
                   secondary
