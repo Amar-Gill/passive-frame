@@ -8,6 +8,7 @@ class Project(BaseModel):
     organization = pw.ForeignKeyField(Organization, null=False)
     discipline = pw.CharField(null=False)
     internal = pw.BooleanField(default=False)
+    projects = pw.ArrayField(default=[])
     # (ideas: 
     # -checklist 
     # -3d models 

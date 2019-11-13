@@ -57,7 +57,7 @@ function App() {
             <Route path="/projects/new_project/" component={NewProjectPage} />
             <Route path="/projects/:id/edit/" component={EditProjectPage} />
             <Route exact path="/projects/:projid/" component={ProjectPage} />
-            <Route path="/projects/:id/new_report/" component={NewReportPage} />
+            <Route path="/projects/:projid/new_report/" component={NewReportPage} />
             <Route exact path="/projects/:projid/edit_report/:reportid/" component={EditReportPage} />
             <Route exact path="/projects/:projid/reports/:reportid/" component={ReportItemsPage} />
             <Route path="/projects/:projid/reports/:reportid/new_item/" component={NewReportItemPage} />

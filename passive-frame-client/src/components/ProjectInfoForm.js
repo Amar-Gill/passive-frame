@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Button, Form, Grid, Container } from 'semantic-ui-react'
 import UserContext from '../UserContext'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 
 const ProjectInfoForm = (props) => {
@@ -10,6 +10,7 @@ const ProjectInfoForm = (props) => {
     const [projectNumber, setProjectNumber] = useState('')
     const { user, setUser } = useContext(UserContext)
     const { id } = useParams()
+    let history = useHistory()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -75,7 +76,7 @@ const ProjectInfoForm = (props) => {
                             <Button
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    props.history.push('/projects/')
+                                    history.goBack()
                                 }}
                                 className="remove-border-radius"
                                 secondary

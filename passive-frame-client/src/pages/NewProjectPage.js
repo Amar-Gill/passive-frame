@@ -7,7 +7,7 @@ const NewProjectPage = (props) => {
 
   return (
     <div className="mt-42">
-      <ProjectInfoForm header="New Project" history={props.history} HTTPMethod="POST"/>
+      <ProjectInfoForm header="New Project" HTTPMethod="POST"/>
     </div>
 
   )

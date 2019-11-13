@@ -15,6 +15,10 @@ def create():
     project_id = request.json.get("projectId", None)
     report_date = request.json.get("reportDate", None)
 
+    # convert project_id to int
+    if project_id:
+        project_id = int(project_id)
+
     # check if all data is received
     if (not report_type) or (not project_id) or(not report_date):
         return jsonify(

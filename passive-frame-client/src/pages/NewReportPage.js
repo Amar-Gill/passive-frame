@@ -9,7 +9,7 @@ const NewReportPage = (props) => {
       <Container text>
         <Grid columns={1} >
           <Grid.Column>
-            <ReportInfoForm header="New Report" HTTPMethod="POST"/>
+            <ReportInfoForm header="New Report"  HTTPMethod="POST"/>
           </Grid.Column>
           
         </Grid>

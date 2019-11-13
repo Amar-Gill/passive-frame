@@ -7,7 +7,7 @@ const EditProjectPage = (props) => {
 
   return (
     <div className="mt-42">
-      <ProjectInfoForm header="Edit Project" history={props.history} HTTPMethod="PUT"/>
+      <ProjectInfoForm header="Edit Project"  HTTPMethod="PUT"/>
     </div>
 
   )
