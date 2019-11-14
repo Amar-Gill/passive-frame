@@ -33,30 +33,42 @@ const ReportInfoSegment = (props) => {
                     </Header>
                     <Menu secondary compact>
                         <Menu.Item>
-                            <Button className="remove-border-radius" basic secondary icon>
-                                <Icon name="file pdf outline" />
-                                PDF
-                            </Button>
-                        </Menu.Item>
-                        <Menu.Item>
-                            <Button className="remove-border-radius" basic secondary icon>
-                                <Icon name="envelope outline" />
-                                Issue
-                            </Button>
-                        </Menu.Item>
-                        <Menu.Item>
                             <Label color="black" >
                                 Status
                                     <Label.Detail>Draft</Label.Detail>
                             </Label>
                         </Menu.Item>
+                        <Menu.Item>
+                            <Button basic secondary icon circular
+                                as={Link}
+                                to={{
+                                    pathname: `/projects/${props.project.id}/edit_report/${props.report.id}/`
+                                }}
+                                >
+                                <Icon name="edit outline" />
+                                {/* Edit */}
+                            </Button>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Button basic secondary icon circular>
+                                <Icon name="file pdf outline" />
+                                {/* PDF */}
+                            </Button>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Button basic secondary icon circular>
+                                <Icon name="envelope outline" />
+                                {/* Issue */}
+                            </Button>
+                        </Menu.Item>
+
                     </Menu>
                 </Grid.Column>
                 <Grid.Column>
                     <Header
                         as="h3"
                         content="Report Items"
-                        subheader="Count: 4"
+                        subheader="Count: 4 | Pages: 14 | Assets: 2"
                     />
 
                     <Menu secondary compact>
@@ -66,7 +78,9 @@ const ReportInfoSegment = (props) => {
                                 to={{
                                     pathname: `/projects/${props.report.project_id}/reports/${props.report.id}/`,
                                     state: {
-                                        reportId: props.report.id
+                                        reportId: props.report.id,
+                                        projectId: props.report.project_id,
+                                        currentProject: props.project
                                     }
                                 }}
                                 className="remove-border-radius"

@@ -44,6 +44,38 @@ def create():
             status = "Fail"
         )
 
+@report_items_api_blueprint.route("/<id>", methods=["PUT"])
+def update(id):
+    # get report_item
+    report_item = ReportItem.get_or_none(ReportItem.id == id)
+
+    if not report_item:
+        return jsonify(
+            message = "ReportItem does not exist.",
+            status = "Fail"
+        )
+    
+    # get data
+    subject = request.json.get("subject", None)
+    content = request.json.get("content", None)
+
+    if subject:
+        report_item.subject = subject
+    if content:
+        report_item.content = content
+
+    # save to db
+    if report_item.save():
+        return jsonify(
+            message = "Report item updated.",
+            status = "Success"
+        )
+    else:
+        return jsonify(
+            message = "Something went wrong please try again",
+            status = "Fail"
+        )
+
 @report_items_api_blueprint.route("/", methods=["GET"])
 def index():
     # get data

@@ -2,16 +2,15 @@ import React from 'react'
 import { Grid, Container } from 'semantic-ui-react'
 import ReportInfoForm from '../components/ReportInfoForm'
 
-const NewReportPage = (props) => {
+const EditReportPage = (props) => {
 
   return (
     <div className="mt-42">
       <Container text>
         <Grid columns={1} >
           <Grid.Column>
-            <ReportInfoForm header="New Report"  HTTPMethod="POST"/>
+            <ReportInfoForm header="Edit Report" HTTPMethod="PUT"/>
           </Grid.Column>
-          
         </Grid>
 
       </Container>
@@ -21,4 +20,4 @@ const NewReportPage = (props) => {
   )
 }
 
-export default NewReportPage
+export default EditReportPage

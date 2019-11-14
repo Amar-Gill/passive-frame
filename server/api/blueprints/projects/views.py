@@ -6,8 +6,9 @@ import datetime
 
 
 projects_api_blueprint = Blueprint("projects_api",
-                            __name__,
-                            template_folder= "templates")
+                                   __name__,
+                                   template_folder="templates")
+
 
 @projects_api_blueprint.route("/", methods=["POST"])
 def create():
@@ -19,18 +20,19 @@ def create():
     # check if all data is received
     if (not project_name) or (not organization_id) or (not project_number):
         return jsonify(
-            message = "Missing data fields. Try again.",
-            status = "Fail"
+            message="Missing data fields. Try again.",
+            status="Fail"
         )
-    
+
     # check if name unique
     # name to be unique within orgs only
-    projects_of_org = Project.select().where(Project.organization_id == organization_id)
+    projects_of_org = Project.select().where(
+        Project.organization_id == organization_id)
     project_names = [project.name for project in projects_of_org]
     if project_name in project_names:
         return jsonify(
-            message = "Project name not unique.",
-            status = "Fail"
+            message="Project name not unique.",
+            status="Fail"
         )
 
     # check if project number unique
@@ -38,8 +40,8 @@ def create():
     project_numbers = [project.number for project in projects_of_org]
     if project_number in project_numbers:
         return jsonify(
-            message = "Project number not unique.",
-            status = "Fail"
+            message="Project number not unique.",
+            status="Fail"
         )
 
     # check if organization exists
@@ -47,22 +49,23 @@ def create():
     organization_ids = [organization.id for organization in organizations]
     if organization_id not in organization_ids:
         return jsonify(
-            message = "Organization does not exist.",
-            status = "Fail"
+            message="Organization does not exist.",
+            status="Fail"
         )
-    
+
     # create project and save to db
-    project = Project(name=project_name, number=project_number, organization_id=organization_id)
-    
+    project = Project(name=project_name, number=project_number,
+                      organization_id=organization_id)
+
     if project.save():
         return jsonify(
-            message = "New project created.",
-            status = "Success"
+            message="New project created.",
+            status="Success"
         )
     else:
         return jsonify(
-            message = "Something went wrong please try again",
-            status = "Fail"
+            message="Something went wrong please try again",
+            status="Fail"
         )
 
 
@@ -74,29 +77,91 @@ def index(id):
         project = Project.get_or_none(Project.id == id)
         if project:
             return jsonify(
-                id = project.id,
-                project_name = project.name,
-                project_number = project.number,
-                organization = project.organization.name
+                id=project.id,
+                project_name=project.name,
+                project_number=project.number,
+                organization=project.organization.name
             )
         else:
             return jsonify(
-                message = "Project does not exist",
-                status = "Fail"
+                message="Project does not exist",
+                status="Fail"
             )
-            
+
     # get all projects
     projects = Project.select()
 
     return jsonify(
-        projects = [
+        projects=[
             {"id": project.id,
-            "project_name": project.name,
-            "project_number": project.number,
-            "organization": project.organization.name
-            }
-        for project in projects]
+             "project_name": project.name,
+             "project_number": project.number,
+             "organization": project.organization.name
+             }
+            for project in projects]
     )
+
+
+@projects_api_blueprint.route("/<id>", methods=["PUT"])
+def update(id):
+    project = Project.get_or_none(Project.id == id)
+
+    # get data
+    project_name = request.json.get("projectName", None)
+    project_number = request.json.get("projectNumber", None)
+    organization_id = request.json.get("organizationId", None)
+
+    
+    # update the project info
+    if project_name:
+        project.name = project_name
+    if project_number:
+        project.number = project_number
+    if organization_id:
+        project.organization_id = organization_id
+        projects_of_org = Project.select().where(Project.organization_id == organization_id)
+
+    # check if name unique
+    # name to be unique within orgs only
+    if project_name:
+        project_names = [project.name for project in projects_of_org]
+        if project_name in project_names:
+            return jsonify(
+                message="Project name not unique.",
+                status="Fail"
+            )
+
+    # check if project number unique
+    # project number to be unique within orgs only
+    if project_number:
+        project_numbers = [project.number for project in projects_of_org]
+        if project_number in project_numbers:
+            return jsonify(
+                message="Project number not unique.",
+                status="Fail"
+            )
+
+    # check if organization exists
+    if organization_id:
+        organizations = Organization.select()
+        organization_ids = [organization.id for organization in organizations]
+        if organization_id not in organization_ids:
+            return jsonify(
+                message="Organization does not exist.",
+                status="Fail"
+            )
+
+    # save changes to db
+    if project.save():
+        return jsonify(
+            message="Project updated.",
+            status="Success"
+        )
+    else:
+        return jsonify(
+            message="Something went wrong please try again",
+            status="Fail"
+        )
 
 
 @projects_api_blueprint.route("/<id>/reports", methods=["GET"])
@@ -105,7 +170,7 @@ def index_reports(id):
     if project:
         reports = Report.select().where(Report.project_id == id)
         return jsonify(
-            reports = [
+            reports=[
                 {
                     "id": report.id,
                     "report_type": report.report_type,
@@ -113,10 +178,10 @@ def index_reports(id):
                     "report_date": datetime.datetime.timestamp(report.report_date)*1000,
                     "project_id": report.project_id
                 }
-            for report in reports]
+                for report in reports]
         )
     else:
         return jsonify(
-            message = f"No project with id {id}",
-            status = "Fail"
+            message=f"No project with id {id}",
+            status="Fail"
         )

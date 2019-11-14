@@ -34,11 +34,15 @@ const ProjectInfoSegment = (props) => {
 
                             <Menu.Item>
                                 <Button
-                                secondary
-                                basic
-                                icon
-                                circular>
-                                    <Icon name="edit outline"/>
+                                    as={Link}
+                                    to={{
+                                        pathname: `/projects/${props.id}/edit/`
+                                    }}
+                                    secondary
+                                    basic
+                                    icon
+                                    circular>
+                                    <Icon name="edit outline" />
 
                                 </Button>
 
@@ -55,7 +59,7 @@ const ProjectInfoSegment = (props) => {
                         <Header
                             as="a"
                             content="Reports"
-                            subheader="Field: 4 | Test: 2"
+                            subheader="Field: 4 | Test: 2 | Calculation: 1"
 
                         />
                         <Menu compact secondary>
@@ -72,7 +76,10 @@ const ProjectInfoSegment = (props) => {
                                 </Label>
                             </Menu.Item>
                             <Menu.Item>
-                                <Button secondary basic circular icon size="medium">
+                                <Button
+                                    as={Link}
+                                    to={`/projects/${props.id}/new_report/`}
+                                    secondary basic circular icon size="medium">
                                     <Icon name='plus' />
                                 </Button>
                             </Menu.Item>

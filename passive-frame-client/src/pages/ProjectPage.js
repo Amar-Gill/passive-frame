@@ -7,7 +7,7 @@ import ReportInfoSegment from '../components/ReportInfoSegment'
 
 
 const ProjectPage = (props) => {
-    const { id } = useParams()
+    const { projid } = useParams()
     const [currentProject, setCurrentProject] = useState(null)
     const [reports, setReports] = useState(null)
 
@@ -19,7 +19,7 @@ const ProjectPage = (props) => {
             setCurrentProject(props.location.state)
         } else {
             // API call to fetch current project
-            fetch(`http://127.0.0.1:5000/api/v1/projects/${id}`, {
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${projid}`, {
                 method: 'GET',
             })
                 .then(response => response.json())
@@ -100,7 +100,7 @@ const ProjectPage = (props) => {
                         return (
                             <Grid.Row key={report.id}>
                                 <Grid.Column>
-                                    <ReportInfoSegment report={report}/>
+                                    <ReportInfoSegment project={currentProject} report={report}/>
                                 </Grid.Column>
                             </Grid.Row>
                         )
