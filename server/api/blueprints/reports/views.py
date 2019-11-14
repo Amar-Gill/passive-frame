@@ -5,8 +5,9 @@ from models.report_item import ReportItem
 import datetime
 
 reports_api_blueprint = Blueprint("reports_api",
-                            __name__,
-                            template_folder= "templates")
+                                  __name__,
+                                  template_folder="templates")
+
 
 @reports_api_blueprint.route("/", methods=["POST"])
 def create():
@@ -22,8 +23,8 @@ def create():
     # check if all data is received
     if (not report_type) or (not project_id) or(not report_date):
         return jsonify(
-            message = "Missing data fields. Try again.",
-            status = "Fail"
+            message="Missing data fields. Try again.",
+            status="Fail"
         )
 
     # check if project exists
@@ -31,30 +32,32 @@ def create():
     project_ids = [project.id for project in projects]
     if project_id not in project_ids:
         return jsonify(
-            message = "Project does not exist.",
-            status = "Fail"
+            message="Project does not exist.",
+            status="Fail"
         )
 
     # calculate project_report_index
-    report_count = Report.select().where((Report.project_id == project_id ) & (Report.report_type == report_type)).count()
+    report_count = Report.select().where((Report.project_id == project_id) &
+                                         (Report.report_type == report_type)).count()
     project_report_index = report_count + 1
 
-    # convert report_type which is bigint to datetimeobject for peewee
+    # convert report_date which is bigint to datetimeobject for peewee
     # 1e3 removes millisecond precision
     report_date = datetime.datetime.fromtimestamp(report_date / 1e3)
 
     # create report and save to db
-    report = Report(report_type=report_type, project_id=project_id, project_report_index=project_report_index, report_date=report_date)
+    report = Report(report_type=report_type, project_id=project_id,
+                    project_report_index=project_report_index, report_date=report_date)
 
     if report.save():
         return jsonify(
-            message = "New report created.",
-            status = "Success"
+            message="New report created.",
+            status="Success"
         )
     else:
         return jsonify(
-            message = "Something went wrong please try again",
-            status = "Fail"
+            message="Something went wrong please try again",
+            status="Fail"
         )
 
 
@@ -66,9 +69,9 @@ def update(id):
     # check if report exists
     if not report:
         return jsonify(
-            message = "Project does not exist.",
-            status = "Fail"
-        )   
+            message="Report does not exist.",
+            status="Fail"
+        )
 
     # get data
     report_type = request.json.get("reportType", None)
@@ -77,6 +80,9 @@ def update(id):
     if report_type:
         report.report_type = report_type
     if report_date:
+        # convert report_date which is bigint to datetimeobject for peewee
+        # 1e3 removes millisecond precision
+        report_date = datetime.datetime.fromtimestamp(report_date / 1e3)
         report.report_date = report_date
 
     # do something for project_report_index???
@@ -91,7 +97,6 @@ def update(id):
             message="Something went wrong please try again",
             status="Fail"
         )
-    
 
 
 @reports_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
@@ -102,23 +107,23 @@ def index(id):
         report = Report.get_or_none(Report.id == id)
         if report:
             return jsonify(
-                id = report.id,
-                report_type = report.report_type,
-                report_date = datetime.datetime.timestamp(report.report_date)*1000,
-                project_report_index = report.project_report_index,
-                project_id = report.project_id
+                id=report.id,
+                report_type=report.report_type,
+                report_date=datetime.datetime.timestamp(
+                    report.report_date)*1000,
+                project_report_index=report.project_report_index,
+                project_id=report.project_id
             )
         else:
             return jsonify(
-                message = "Report does not exist",
-                status = "Fail"
+                message="Report does not exist",
+                status="Fail"
             )
-            
 
-    #get all reports
+    # get all reports
     reports = Report.select()
     return jsonify(
-        reports = [
+        reports=[
             {
                 "id": report.id,
                 "report_type": report.report_type,
@@ -126,7 +131,7 @@ def index(id):
                 "project_report_index": report.project_report_index,
                 "project_id": report.project_id
             }
-        for report in reports]
+            for report in reports]
     )
 
 
@@ -136,7 +141,7 @@ def index_items(id):
     if report:
         report_items = ReportItem.select().where(ReportItem.report_id == id)
         return jsonify(
-            items = [
+            items=[
                 {
                     "id": report_item.id,
                     "subject": report_item.subject,
@@ -144,11 +149,10 @@ def index_items(id):
                     "reportItemIndex": report_item.report_item_index,
                     "report_id": report_item.report_id
                 }
-            for report_item in report_items]
+                for report_item in report_items]
         )
     else:
         return jsonify(
-            message = f"No report with id {id}",
-            status = "Fail"
+            message=f"No report with id {id}",
+            status="Fail"
         )
-        
