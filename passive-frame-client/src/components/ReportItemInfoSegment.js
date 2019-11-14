@@ -1,5 +1,6 @@
 import React from 'react'
-import { Segment, Grid, Menu, Label, Header, Button, Icon, Container } from 'semantic-ui-react'
+import { Segment, Grid, Menu, Label, Header, Button, Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const ReportItemInfoSegment = props => {
     // set item from props
@@ -21,7 +22,10 @@ const ReportItemInfoSegment = props => {
                     <h3 style={{ display: "inline" }}>Subject: {item.subject}</h3>
                     <div style={{ display: "flex", justifyContent: "between" }}>
 
-                        <Button secondary basic circular icon>
+                        <Button
+                            as={Link}
+                            to={`/projects/${props.projid}/reports/${item.report_id}/items/${item.id}/edit/`}
+                            secondary basic circular icon>
                             <Icon name="edit" />
                         </Button>
 

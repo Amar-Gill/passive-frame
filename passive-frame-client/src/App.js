@@ -12,8 +12,9 @@ import NewReportItemPage from './pages/NewReportItemPage'
 import ReportItemsPage from './pages/ReportItemsPage'
 import { UserProvider } from './UserContext'
 import EditProjectPage from './pages/EditProjectPage'
-import './App.css'
 import EditReportPage from './pages/EditReportPage'
+import EditReportItemPage from './pages/EditReportItemPage'
+import './App.css'
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(null)
@@ -61,6 +62,7 @@ function App() {
             <Route exact path="/projects/:projid/edit_report/:reportid/" component={EditReportPage} />
             <Route exact path="/projects/:projid/reports/:reportid/" component={ReportItemsPage} />
             <Route path="/projects/:projid/reports/:reportid/new_item/" component={NewReportItemPage} />
+            <Route path="/projects/:projid/reports/:reportid/items/:itemid/edit/" component={EditReportItemPage} />
           </Switch>
         </UserProvider>
       </div>

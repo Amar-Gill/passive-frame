@@ -14,6 +14,7 @@ const ReportItemsPage = (props) => {
     let history = useHistory()
 
     // set currentReportId
+    // use state passed from projectpage to prevent extra api call unless necessary
     useEffect(() => {
         if (props.location.state) {
             setCurrentReportId(props.location.state.reportId)
@@ -89,10 +90,10 @@ const ReportItemsPage = (props) => {
 
                     <Menu.Item>
                         <Button as={Link}
-                            // to={{
-                            //     pathname: "/projects/" + currentProject.id + "/new_report/",
-                            //     state: currentProject
-                            // }}
+                            to={{
+                                pathname: `/projects/${projid}/reports/${reportid}/new_item`,
+                                state: currentProject
+                            }}
                             className="remove-border-radius" secondary icon>
                             <Icon name="plus" />
                             New Item
@@ -111,7 +112,7 @@ const ReportItemsPage = (props) => {
                         return (
                             <Grid.Row key={item.id}>
                                 <Grid.Column>
-                                    <ReportItemInfoSegment item={item}/>
+                                    <ReportItemInfoSegment projid={projid} item={item}/>
                                 </Grid.Column>
                             </Grid.Row>
                         )
