@@ -3,6 +3,7 @@ import { useParams, useHistory, Link } from 'react-router-dom'
 import { Grid, Menu, Button, Icon, Input, Header } from 'semantic-ui-react'
 import ReportItemInfoSegment from '../components/ReportItemInfoSegment'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import { format } from 'date-fns'
 
 const ReportItemsPage = (props) => {
     //use states
@@ -84,6 +85,23 @@ const ReportItemsPage = (props) => {
                         style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
                         content={currentProject.project_name}
                         subheader={currentProject.project_number} />
+                    <Header as="h3" style={{ paddingLeft: 12, marginTop: "auto", marginBottom: "auto" }}>
+                        <Icon fitted size="mini" name="triangle left" />
+                        <Header.Content>
+                            {
+                                currentReport.report_type == "test" && `Test Report ${currentReport.project_report_index}`
+
+                            }
+                            {
+
+                                currentReport.report_type == "field" && `Field Report ${currentReport.project_report_index}`
+                            }
+                            <Header.Subheader>
+                                {format(currentReport.report_date, "MMMM d, yyyy h:mm aa")}
+                            </Header.Subheader>
+                        </Header.Content>
+
+                    </Header>
                 </Menu.Item>
                 <Menu.Menu position="right">
                     <Menu.Item>
