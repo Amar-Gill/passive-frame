@@ -6,26 +6,21 @@ import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 
 const ReportItemsPage = (props) => {
     //use states
-    const [currentReportId, setCurrentReportId] = useState(null)
-    const [currentProjectId, setCurrentProjectId] = useState(null)
-    const [currentProject, setCurrentProject] = useState(null)
+    const [currentReport, setCurrentReport] = useState(null)
+    const [currentProject, setCurrentProject] = useState(null) // info needed for submenu
     const [reportItems, setReportItems] = useState(null)
     const { projid, reportid } = useParams()
     let history = useHistory()
 
-    // set currentReportId
+    // set currentProject
     // use state passed from projectpage to prevent extra api call unless necessary
     useEffect(() => {
         if (props.location.state) {
-            setCurrentReportId(props.location.state.reportId)
-            setCurrentProjectId(props.location.state.projectId)
-            setCurrentProject(props.location.state.currentProject)
+            setCurrentProject(props.location.state.project)
         } else {
             // use url params
-            setCurrentReportId(reportid)
-            setCurrentProjectId(projid)
             // API call to fetch current project
-            fetch(`http://127.0.0.1:5000/api/v1/projects/${currentProjectId}`, {
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${projid}`, {
                 method: 'GET',
             })
                 .then(response => response.json())
@@ -35,23 +30,36 @@ const ReportItemsPage = (props) => {
         }
     }, [])
 
-
-    // set reportItems
     useEffect(() => {
-        if (currentReportId) {
-            fetch(`http://127.0.0.1:5000/api/v1/reports/${currentReportId}/items`, {
+        if (props.location.state) {
+            setCurrentReport(props.location.state.report)
+        } else {
+            // use url params
+            // API call to fetch current report
+            fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}`, {
                 method: 'GET',
             })
                 .then(response => response.json())
                 .then(result => {
-                    setReportItems(result.items)
+                    setCurrentReport(result)
                 })
-
         }
-    }, [currentReportId])
+    })
 
 
-    if (!reportItems)
+    // set reportItems
+    useEffect(() => {
+        fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}/items`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(result => {
+                setReportItems(result.items)
+            })
+    })
+
+
+    if (!reportItems || !currentReport || !currentProject)
         return (
             <h1 className="mt-42"> LOADING...</h1>
         )
@@ -86,7 +94,7 @@ const ReportItemsPage = (props) => {
                     </Button>
 
                     </Menu.Item>
-                    
+
 
                     <Menu.Item>
                         <Button as={Link}
@@ -112,7 +120,7 @@ const ReportItemsPage = (props) => {
                         return (
                             <Grid.Row key={item.id}>
                                 <Grid.Column>
-                                    <ReportItemInfoSegment projid={projid} item={item}/>
+                                    <ReportItemInfoSegment projid={projid} item={item} />
                                 </Grid.Column>
                             </Grid.Row>
                         )
