@@ -3,29 +3,25 @@ import { useParams, useHistory, Link } from 'react-router-dom'
 import { Grid, Menu, Button, Icon, Input, Header } from 'semantic-ui-react'
 import ReportItemInfoSegment from '../components/ReportItemInfoSegment'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import { format } from 'date-fns'
 
 const ReportItemsPage = (props) => {
     //use states
-    const [currentReportId, setCurrentReportId] = useState(null)
-    const [currentProjectId, setCurrentProjectId] = useState(null)
-    const [currentProject, setCurrentProject] = useState(null)
+    const [currentReport, setCurrentReport] = useState(null)
+    const [currentProject, setCurrentProject] = useState(null) // info needed for submenu
     const [reportItems, setReportItems] = useState(null)
     const { projid, reportid } = useParams()
     let history = useHistory()
 
-    // set currentReportId
+    // set currentProject
     // use state passed from projectpage to prevent extra api call unless necessary
     useEffect(() => {
         if (props.location.state) {
-            setCurrentReportId(props.location.state.reportId)
-            setCurrentProjectId(props.location.state.projectId)
-            setCurrentProject(props.location.state.currentProject)
+            setCurrentProject(props.location.state.project)
         } else {
             // use url params
-            setCurrentReportId(reportid)
-            setCurrentProjectId(projid)
             // API call to fetch current project
-            fetch(`http://127.0.0.1:5000/api/v1/projects/${currentProjectId}`, {
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${projid}`, {
                 method: 'GET',
             })
                 .then(response => response.json())
@@ -35,23 +31,36 @@ const ReportItemsPage = (props) => {
         }
     }, [])
 
-
-    // set reportItems
     useEffect(() => {
-        if (currentReportId) {
-            fetch(`http://127.0.0.1:5000/api/v1/reports/${currentReportId}/items`, {
+        if (props.location.state) {
+            setCurrentReport(props.location.state.report)
+        } else {
+            // use url params
+            // API call to fetch current report
+            fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}`, {
                 method: 'GET',
             })
                 .then(response => response.json())
                 .then(result => {
-                    setReportItems(result.items)
+                    setCurrentReport(result)
                 })
-
         }
-    }, [currentReportId])
+    })
 
 
-    if (!reportItems)
+    // set reportItems
+    useEffect(() => {
+        fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}/items`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(result => {
+                setReportItems(result.items)
+            })
+    })
+
+
+    if (!reportItems || !currentReport || !currentProject)
         return (
             <h1 className="mt-42"> LOADING...</h1>
         )
@@ -72,10 +81,27 @@ const ReportItemsPage = (props) => {
                         <Icon name="chevron left" />
                     </Button>
                     <Header
-                        as="h3"
+                        as="h4"
                         style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
                         content={currentProject.project_name}
                         subheader={currentProject.project_number} />
+                    <Header as="h4" style={{ paddingLeft: 12, marginTop: "auto", marginBottom: "auto" }}>
+                        <Icon fitted size="mini" name="triangle left" />
+                        <Header.Content>
+                            {
+                                currentReport.report_type == "test" && `Test Report ${currentReport.project_report_index}`
+
+                            }
+                            {
+
+                                currentReport.report_type == "field" && `Field Report ${currentReport.project_report_index}`
+                            }
+                            <Header.Subheader>
+                                {format(currentReport.report_date, "MMMM d, yyyy h:mm aa")}
+                            </Header.Subheader>
+                        </Header.Content>
+
+                    </Header>
                 </Menu.Item>
                 <Menu.Menu position="right">
                     <Menu.Item>
@@ -86,7 +112,7 @@ const ReportItemsPage = (props) => {
                     </Button>
 
                     </Menu.Item>
-                    
+
 
                     <Menu.Item>
                         <Button as={Link}
@@ -112,7 +138,7 @@ const ReportItemsPage = (props) => {
                         return (
                             <Grid.Row key={item.id}>
                                 <Grid.Column>
-                                    <ReportItemInfoSegment projid={projid} item={item}/>
+                                    <ReportItemInfoSegment projid={projid} item={item} />
                                 </Grid.Column>
                             </Grid.Row>
                         )

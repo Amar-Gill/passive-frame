@@ -63,7 +63,7 @@ const ProjectPage = (props) => {
                         <Icon name="chevron left" />
                     </Button>
                     <Header
-                        as="h3"
+                        as="h4"
                         style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
                         content={currentProject.project_name}
                         subheader={currentProject.project_number} />
