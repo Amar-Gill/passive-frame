@@ -5,7 +5,7 @@ import ReportInfoForm from '../components/ReportInfoForm'
 const NewReportPage = (props) => {
 
   return (
-    <div className="mt-42">
+    <div className="mt-40">
       <Container text>
         <Grid columns={1} >
           <Grid.Column>

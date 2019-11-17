@@ -45,11 +45,11 @@ const ProjectPage = (props) => {
 
     if (!currentProject || !reports) {
 
-        return (<h1 className="mt-42">LOADING</h1>)
+        return (<h1 className="mt-40">LOADING</h1>)
     }
 
     return (
-        <div className="mt-42">
+        <div className="mt-40">
             <Menu className="fixed-submenu bg-white" secondary stackable size="small">
                 <Menu.Item fitted="vertically">
                     <Button
@@ -93,7 +93,7 @@ const ProjectPage = (props) => {
 
                 </Menu.Menu>
             </Menu>
-            <StickyHorizontalDivider topDesktop={88} topMobile={171} />
+            <StickyHorizontalDivider topDesktop={86} topMobile={160} />
             <Grid padded="horizontally" columns="1">
                 {
                     reports.map(report => {

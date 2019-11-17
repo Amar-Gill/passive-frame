@@ -6,7 +6,7 @@ const EditReportItem = (props) => {
     // states
 
     return (
-        <div className="mt-42">
+        <div className="mt-40">
             <Container text>
                 <Grid columns={1} >
                     <Grid.Column>

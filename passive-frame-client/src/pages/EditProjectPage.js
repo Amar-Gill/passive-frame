@@ -6,7 +6,7 @@ const EditProjectPage = (props) => {
   // POST for create new Project -> use PUT for edit project
 
   return (
-    <div className="mt-42">
+    <div className="mt-40">
       <ProjectInfoForm header="Edit Project"  HTTPMethod="PUT"/>
     </div>
 
