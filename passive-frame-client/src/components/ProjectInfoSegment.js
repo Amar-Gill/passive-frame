@@ -11,7 +11,9 @@ const ProjectInfoSegment = (props) => {
                     <Grid.Column width={4}>
                         <Header
                             fixed="left"
-                            as={Link}
+                            as="h4"
+                            >
+                            <Header.Content as={Link}
                             style={{ color: "black" }}
                             to={{
                                 pathname: '/projects/' + props.id + "/",
@@ -22,7 +24,6 @@ const ProjectInfoSegment = (props) => {
                                     organization: props.organization
                                 }
                             }}>
-                            <Header.Content >
                                 {props.project_name}
                             </Header.Content>
                             <Header.Subheader>
@@ -30,7 +31,7 @@ const ProjectInfoSegment = (props) => {
                             </Header.Subheader>
                         </Header>
 
-                        <Menu compact secondary>
+                        <Menu compact secondary size="tiny">
 
                             <Menu.Item>
                                 <Button
@@ -57,12 +58,12 @@ const ProjectInfoSegment = (props) => {
 
                     <Grid.Column verticalAlign="middle" width={6}>
                         <Header
-                            as="a"
+                            as="h4"
                             content="Reports"
                             subheader="Field: 4 | Test: 2 | Calculation: 1"
 
                         />
-                        <Menu compact secondary>
+                        <Menu compact secondary size="tiny">
                             <Menu.Item>
                                 <Label color="black">
                                     Issued
@@ -88,11 +89,11 @@ const ProjectInfoSegment = (props) => {
 
                     <Grid.Column verticalAlign="middle" width={6}>
                         <Header
-                            as="a"
+                            as="h4"
                             content="Actions"
                             subheader="Count: 11"
                         />
-                        <Menu compact secondary>
+                        <Menu compact secondary size="tiny">
                             <Menu.Item>
                                 <Label color="black" >
                                     Open

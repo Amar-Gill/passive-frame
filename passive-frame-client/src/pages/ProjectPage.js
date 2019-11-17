@@ -50,7 +50,7 @@ const ProjectPage = (props) => {
 
     return (
         <div className="mt-42">
-            <Menu className="fixed-submenu bg-white" secondary stackable>
+            <Menu className="fixed-submenu bg-white" secondary stackable size="small">
                 <Menu.Item fitted="vertically">
                     <Button
                         onClick={() => {

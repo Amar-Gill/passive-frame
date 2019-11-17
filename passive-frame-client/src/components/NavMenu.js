@@ -12,7 +12,7 @@ function NavMenu(props) {
     <div>
       <LogoutModal setShowModal={setShowModal} showModal={showModal} setUserLoggedIn={props.setUserLoggedIn} />
 
-      <Menu className="bg-white" fixed="top" pointing secondary>
+      <Menu className="bg-white" fixed="top" pointing secondary >
         <Responsive as={Menu.Item} minWidth={790}
           name='ZERO_system'
           content="[ ZER0_system ]"

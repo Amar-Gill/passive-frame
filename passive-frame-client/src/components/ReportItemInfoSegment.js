@@ -10,7 +10,7 @@ const ReportItemInfoSegment = props => {
         <Segment>
             <Grid stackable columns="3">
                 <Grid.Column>
-                    <Header>
+                    <Header as="h4">
                         <Header.Content>
                             Item {item.reportItemIndex}
                         </Header.Content>
@@ -19,27 +19,32 @@ const ReportItemInfoSegment = props => {
                         </Header.Subheader>
                     </Header>
 
-                    <h3 style={{ display: "inline" }}>Subject: {item.subject}</h3>
-                    <div style={{ display: "flex", justifyContent: "between" }}>
+                    <h4 >Subject: {item.subject}</h4>
+                    <Menu secondary compact size="tiny">
+                        <Menu.Item>
+                            <Button
+                                as={Link}
+                                to={`/projects/${props.projid}/reports/${item.report_id}/items/${item.id}/edit/`}
+                                secondary basic circular icon>
+                                <Icon name="edit" />
+                            </Button>
 
-                        <Button
-                            as={Link}
-                            to={`/projects/${props.projid}/reports/${item.report_id}/items/${item.id}/edit/`}
-                            secondary basic circular icon>
-                            <Icon name="edit" />
-                        </Button>
+                        </Menu.Item>
 
+                        <Menu.Item>
+                            <Button secondary basic circular icon>
+                                <Icon name="camera" />
+                            </Button>
 
-                        <Button secondary basic circular icon>
-                            <Icon name="camera" />
-                        </Button>
-                        <Button secondary basic circular icon>
-                            <Icon name="clipboard list" />
-                        </Button>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Button secondary basic circular icon>
+                                <Icon name="clipboard list" />
+                            </Button>
 
-                    </div>
+                        </Menu.Item>
 
-
+                    </Menu>
 
                 </Grid.Column>
                 <Grid.Column>
@@ -49,7 +54,7 @@ const ReportItemInfoSegment = props => {
                     <Grid padded="horizontally">
 
 
-                        <Button size="small" className="binary-padding-capsule" secondary >
+                        <Button size="small" className="binary-padding-capsule" secondary>
                             Wave Runner
                         </Button>
 
@@ -136,11 +141,11 @@ const ReportItemInfoSegment = props => {
                 </Grid.Column>
                 <Grid.Column>
                     <Header
-                        as="h3"
+                        as="h4"
                         content="Actions"
                         subheader="Count: 11"
                     />
-                    <Menu secondary compact>
+                    <Menu secondary compact size="tiny">
                         <Menu.Item>
                             <Label color="black" >
                                 Open
