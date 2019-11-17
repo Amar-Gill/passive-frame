@@ -81,11 +81,11 @@ const ReportItemsPage = (props) => {
                         <Icon name="chevron left" />
                     </Button>
                     <Header
-                        as="h3"
+                        as="h4"
                         style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
                         content={currentProject.project_name}
                         subheader={currentProject.project_number} />
-                    <Header as="h3" style={{ paddingLeft: 12, marginTop: "auto", marginBottom: "auto" }}>
+                    <Header as="h4" style={{ paddingLeft: 12, marginTop: "auto", marginBottom: "auto" }}>
                         <Icon fitted size="mini" name="triangle left" />
                         <Header.Content>
                             {
