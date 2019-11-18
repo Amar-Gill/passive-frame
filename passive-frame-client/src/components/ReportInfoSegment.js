@@ -52,13 +52,13 @@ const ReportInfoSegment = (props) => {
                         </Menu.Item>
                         <Menu.Item >
                             <Button basic secondary icon circular>
-                                <Icon name="file pdf outline" />
+                                <Icon name="print" />
                                 {/* PDF */}
                             </Button>
                         </Menu.Item>
                         <Menu.Item >
                             <Button  secondary icon circular>
-                                <Icon name="code" />
+                                <Icon name="paper plane" />
                                 {/* Issue */}
                             </Button>
                         </Menu.Item>

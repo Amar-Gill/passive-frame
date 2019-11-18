@@ -40,7 +40,7 @@ const ReportItemInfoSegment = props => {
                         </Menu.Item>
                         <Menu.Item>
                             <Button secondary basic circular icon>
-                                <Icon name="clipboard list" />
+                                <Icon name="hdd" />
                             </Button>
 
                         </Menu.Item>
