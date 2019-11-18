@@ -31,6 +31,8 @@ const ReportItemsPage = (props) => {
         }
     }, [])
 
+    // set currentReport
+    // use API call only if necessary
     useEffect(() => {
         if (props.location.state) {
             setCurrentReport(props.location.state.report)
@@ -45,7 +47,7 @@ const ReportItemsPage = (props) => {
                     setCurrentReport(result)
                 })
         }
-    })
+    }, [])
 
 
     // set reportItems
@@ -57,7 +59,7 @@ const ReportItemsPage = (props) => {
             .then(result => {
                 setReportItems(result.items)
             })
-    })
+    }, [])
 
 
     if (!reportItems || !currentReport || !currentProject)

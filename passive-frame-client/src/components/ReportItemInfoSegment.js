@@ -1,5 +1,6 @@
 import React from 'react'
 import { Segment, Grid, Menu, Label, Header, Button, Icon } from 'semantic-ui-react'
+import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 
 const ReportItemInfoSegment = props => {
@@ -15,7 +16,7 @@ const ReportItemInfoSegment = props => {
                             Item {item.reportItemIndex}
                         </Header.Content>
                         <Header.Subheader>
-                            Created at: DATE | Updated at: DATE
+                            Created: {format(item.createdAt, "yyyy-MM-dd")} | Updated: {format(item.updatedAt, "yyyy-MM-dd")}
                         </Header.Subheader>
                     </Header>
 
