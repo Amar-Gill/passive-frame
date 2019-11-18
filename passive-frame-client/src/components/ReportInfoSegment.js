@@ -57,7 +57,7 @@ const ReportInfoSegment = (props) => {
                             </Button>
                         </Menu.Item>
                         <Menu.Item >
-                            <Button basic secondary icon circular>
+                            <Button  secondary icon circular>
                                 <Icon name="code" />
                                 {/* Issue */}
                             </Button>

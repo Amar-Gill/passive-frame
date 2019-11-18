@@ -99,7 +99,7 @@ const ReportItemsPage = (props) => {
                                 currentReport.report_type == "field" && `Field Report ${currentReport.project_report_index}`
                             }
                             <Header.Subheader>
-                                {format(currentReport.report_date, "MMMM d, yyyy h:mm aa")}
+                                {format(currentReport.report_date, "yyyy-MM-dd HH:mm")}
                             </Header.Subheader>
                         </Header.Content>
 
