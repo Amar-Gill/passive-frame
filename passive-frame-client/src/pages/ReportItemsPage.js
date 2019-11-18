@@ -31,6 +31,8 @@ const ReportItemsPage = (props) => {
         }
     }, [])
 
+    // set currentReport
+    // use API call only if necessary
     useEffect(() => {
         if (props.location.state) {
             setCurrentReport(props.location.state.report)
@@ -45,7 +47,7 @@ const ReportItemsPage = (props) => {
                     setCurrentReport(result)
                 })
         }
-    })
+    }, [])
 
 
     // set reportItems
@@ -57,17 +59,17 @@ const ReportItemsPage = (props) => {
             .then(result => {
                 setReportItems(result.items)
             })
-    })
+    }, [])
 
 
     if (!reportItems || !currentReport || !currentProject)
         return (
-            <h1 className="mt-42"> LOADING...</h1>
+            <h1 className="mt-40"> LOADING...</h1>
         )
 
     return (
-        <div className="mt-42">
-            <Menu className="fixed-submenu bg-white" secondary stackable>
+        <div className="mt-40">
+            <Menu className="fixed-submenu bg-white" secondary stackable size="small">
                 <Menu.Item fitted="vertically">
                     <Button
                         onClick={(e) => {
@@ -97,7 +99,7 @@ const ReportItemsPage = (props) => {
                                 currentReport.report_type == "field" && `Field Report ${currentReport.project_report_index}`
                             }
                             <Header.Subheader>
-                                {format(currentReport.report_date, "MMMM d, yyyy h:mm aa")}
+                                {format(currentReport.report_date, "yyyy-MM-dd HH:mm")}
                             </Header.Subheader>
                         </Header.Content>
 
@@ -129,7 +131,7 @@ const ReportItemsPage = (props) => {
 
                 </Menu.Menu>
             </Menu>
-            <StickyHorizontalDivider topDesktop={88} topMobile={171} />
+            <StickyHorizontalDivider topDesktop={86} topMobile={162} />
 
             <Grid padded="horizontally" columns="1">
 

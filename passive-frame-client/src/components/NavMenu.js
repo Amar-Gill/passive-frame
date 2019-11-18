@@ -8,12 +8,16 @@ function NavMenu(props) {
   const [activeItem, setActiveItem] = useState('')
   const [showModal, setShowModal] = useState(false)
 
+  // lowerBreakpoint is maxWidth for mobile rendering
+  // higherBreakpoint is minWidth for desktop rendering
+  const [lowerBreakpoint, higherBreakpoint] = [789,790]
+
   return (
     <div>
       <LogoutModal setShowModal={setShowModal} showModal={showModal} setUserLoggedIn={props.setUserLoggedIn} />
 
-      <Menu className="bg-white" fixed="top" pointing secondary>
-        <Responsive as={Menu.Item} minWidth={790}
+      <Menu className="bg-white" fluid pointing secondary style={{position: "fixed", top: 0, zIndex: 30}}>
+        <Responsive as={Menu.Item} minWidth={higherBreakpoint}
           name='ZERO_system'
           content="[ ZER0_system ]"
           active={activeItem === 'ZER0_system'}
@@ -23,7 +27,7 @@ function NavMenu(props) {
           }
           }
         />
-        <Responsive as={Menu.Item} maxWidth={789}
+        <Responsive as={Menu.Item} maxWidth={lowerBreakpoint}
           name='ZERO_system'
           content="[ ZER0_system ]"
           active={activeItem === 'ZER0_system'}
@@ -33,7 +37,7 @@ function NavMenu(props) {
           }
           }
         />
-        <Responsive as={Menu.Item} minWidth={790}
+        <Responsive as={Menu.Item} minWidth={higherBreakpoint}
           name='Dashboard'
           active={activeItem === 'Dashboard'}
           onClick={() => {
@@ -43,7 +47,7 @@ function NavMenu(props) {
           }
         />
 
-        <Responsive as={Menu.Item} minWidth={790}
+        <Responsive as={Menu.Item} minWidth={higherBreakpoint}
           name='Database'
           active={activeItem === 'Database'}
           onClick={() => {
@@ -53,7 +57,7 @@ function NavMenu(props) {
           }
         />
 
-        <Responsive as={Menu.Item} minWidth={790}
+        <Responsive as={Menu.Item} minWidth={higherBreakpoint}
           name='Assets'
           active={activeItem === 'Assets'}
           onClick={() => {
@@ -64,12 +68,12 @@ function NavMenu(props) {
         />
 
         <Menu.Menu position='right'>
-          <Responsive as={Menu.Item} minWidth={790}
+          <Responsive as={Menu.Item} minWidth={higherBreakpoint}
             name="Sign Out"
             onClick={() => setShowModal(true)}
           />
         </Menu.Menu>
-        <Responsive as={Menu.Menu} maxWidth={789} position='right'>
+        <Responsive as={Menu.Menu} maxWidth={lowerBreakpoint} position='right'>
 
           <Dropdown
             item

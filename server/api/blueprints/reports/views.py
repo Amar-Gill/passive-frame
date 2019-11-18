@@ -145,9 +145,11 @@ def index_items(id):
                 {
                     "id": report_item.id,
                     "subject": report_item.subject,
-                    "content": report_item.content,
+                    "content": report_item.content, # expand content lataz
                     "reportItemIndex": report_item.report_item_index,
-                    "report_id": report_item.report_id
+                    "reportId": report_item.report_id,
+                    "createdAt": datetime.datetime.timestamp(report_item.created_at)*1000,
+                    "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000
                 }
                 for report_item in report_items]
         )

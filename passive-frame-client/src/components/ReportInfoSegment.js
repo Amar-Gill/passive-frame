@@ -13,7 +13,7 @@ const ReportInfoSegment = (props) => {
             <Grid verticalAlign="top" stackable columns={3}>
                 <Grid.Column >
                     <Header
-                        as="h3"
+                        as="h4"
 
                     >
                         <Header.Content>
@@ -31,8 +31,9 @@ const ReportInfoSegment = (props) => {
                         </Header.Subheader>
 
                     </Header>
-                    <Menu secondary compact>
-                        <Menu.Item>
+                    <Menu secondary compact size="tiny">
+
+                        <Menu.Item >
                             <Label color="black" >
                                 Status
                                     <Label.Detail>Draft</Label.Detail>
@@ -44,34 +45,35 @@ const ReportInfoSegment = (props) => {
                                 to={{
                                     pathname: `/projects/${props.project.id}/edit_report/${props.report.id}/`
                                 }}
-                                >
+                            >
                                 <Icon name="edit outline" />
                                 {/* Edit */}
                             </Button>
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item >
                             <Button basic secondary icon circular>
-                                <Icon name="file pdf outline" />
+                                <Icon name="print" />
                                 {/* PDF */}
                             </Button>
                         </Menu.Item>
-                        <Menu.Item>
-                            <Button basic secondary icon circular>
-                                <Icon name="envelope outline" />
+                        <Menu.Item >
+                            <Button  secondary icon circular>
+                                <Icon name="paper plane" />
                                 {/* Issue */}
                             </Button>
                         </Menu.Item>
 
                     </Menu>
+
                 </Grid.Column>
                 <Grid.Column>
                     <Header
-                        as="h3"
+                        as="h4"
                         content="Report Items"
                         subheader="Count: 4 | Pages: 14 | Assets: 2"
                     />
 
-                    <Menu secondary compact>
+                    <Menu secondary compact size="tiny">
                         <Menu.Item>
                             <Button
                                 as={Link}
@@ -112,11 +114,11 @@ const ReportInfoSegment = (props) => {
                 </Grid.Column>
                 <Grid.Column>
                     <Header
-                        as="h3"
+                        as="h4"
                         content="Actions"
                         subheader="Count: 11"
                     />
-                    <Menu secondary compact>
+                    <Menu secondary compact size="tiny">
                         <Menu.Item>
                             <Label color="black" >
                                 Open

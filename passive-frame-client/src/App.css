@@ -3,8 +3,8 @@
     background-color: white !important;
 }
 
-.mt-42 {
-    margin-top: 42px;
+.mt-40 {
+    margin-top: 40px;
 }
 
 .remove-border-radius {
@@ -13,6 +13,7 @@
 
 .fixed-submenu {
     position: sticky;
+    /* padding-top: 2px; */
     top: 40px;
     padding-bottom: 4px;
     z-index: 20;

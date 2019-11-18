@@ -7,7 +7,7 @@ const ProfilePage = () => {
   
 
   return (
-    <div className="mt-42">
+    <div className="mt-40">
       <h2>username: {user? user.username : null}</h2>
       <h2>email: {user? user.email : null}</h2>
       <h2>id: {user? user.id : null}</h2>
