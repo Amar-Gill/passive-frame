@@ -1,8 +1,6 @@
 TODOS
 
-1) Edit Report Form (same form in create report form) accessed from report-info-segment title (change report type, date, description)
 2) Actions!
-3) Generalize HR with props (sticky) DONE
 4) Add recipients array to projects as user emails/profiles.
 5) Issue reports to recipients. Auto alert recipients of actions / action lists.
 6) Compress report-item content field on client side (using hex??) to save space in db
@@ -15,9 +13,9 @@ TODOS
 13) Track project time data
 14) Automate billing...LOL eff.......spreadsheet....
 15) Test performance analytics!!!! windows, clips, envelope, leaking, results, potatoes, potatoes =D tomatoes. Requires logging of test results. Automated forms for clips, windows, curtain wall, waterproofing, and the like ya know eh?
-16) REMOVE -> the fixed prop from NavMenu and use {position: sticky;}
 17) add reportitem info to submenu of reportitemspage
 18) HOW TO ISSUE: send an email with link to webview (HTML) of a report. User can choose to download PDF from link ;)
+19) use Text Area for reportitem description field
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
