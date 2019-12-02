@@ -1,15 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Container, Button, TextArea, Menu, Icon } from 'semantic-ui-react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, useLocation } from 'react-router-dom'
 
 const ReportItemInfoForm = (props) => {
     // states
     const [subject, setSubject] = useState('')
     const [content, setContent] = useState('')
-    const [activeItem, setActiveItem] = useState(null)
+    const [activeItem, setActiveItem] = useState(null) // for edit menu
     const { projid, reportid, itemid } = useParams()
     let history = useHistory()
+    let location = useLocation()
 
+    useEffect(() => {
+        if (props.HTTPMethod == "PUT" && location.state) {
+            setSubject(location.state.item.subject)
+            setContent(location.state.item.content)
+        } else if (props.HTTPMethod == "PUT") {
+            // use API call
+            fetch(`http://127.0.0.1:5000/api/v1/report_items/${itemid}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                }
+            })
+                .then(response => response.json())
+                .then(result => {
+                    setSubject(result.subject)
+                    setContent(result.content)
+                })
+        }
+    },[])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -59,6 +79,7 @@ const ReportItemInfoForm = (props) => {
                     <label>Subject</label>
                     <input
                         placeholder='Subject'
+                        value={subject}
                         onChange={(e) => setSubject(e.target.value)}
                     />
                     <label>Content</label>
@@ -106,6 +127,7 @@ const ReportItemInfoForm = (props) => {
                     <TextArea
                         rows={8}
                         onChange={(e) => setContent(e.target.value)}
+                        value={content}
                     />
 
                 </Form.Field>

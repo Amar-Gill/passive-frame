@@ -25,7 +25,12 @@ const ReportItemInfoSegment = props => {
                         <Menu.Item>
                             <Button
                                 as={Link}
-                                to={`/projects/${props.projid}/reports/${item.report_id}/items/${item.id}/edit/`}
+                                to={{
+                                    pathname: `/projects/${props.projid}/reports/${item.reportId}/items/${item.id}/edit/`,
+                                    state: {
+                                        item: item
+                                    }
+                                }}
                                 secondary basic circular icon>
                                 <Icon name="edit" />
                             </Button>

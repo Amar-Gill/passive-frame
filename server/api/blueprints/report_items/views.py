@@ -76,8 +76,24 @@ def update(id):
             status = "Fail"
         )
 
-@report_items_api_blueprint.route("/", methods=["GET"])
-def index():
+@report_items_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
+@report_items_api_blueprint.route("/<id>", methods=["GET"])
+def index(id):
+    # get info for one report item
+    if id:
+        report_item = ReportItem.get_or_none(ReportItem.id == id)
+        if report_item:
+            return jsonify(
+                id = report_item.id,
+                subject = report_item.subject,
+                content = report_item.content,
+                reportItemIndex = report_item.report_item_index
+            )
+        else:
+            return jsonify(
+                message = f"No report item with id: {id}",
+                status = "Fail"
+            )
     # get data
     report_id = request.json.get('reportId', None)
 
