@@ -6,6 +6,7 @@ const ReportItemInfoForm = (props) => {
     // states
     const [subject, setSubject] = useState('')
     const [content, setContent] = useState('')
+    const [reportItemIndex, setReportItemIndex] = useState(null)
     const [activeItem, setActiveItem] = useState(null) // for edit menu
     const { projid, reportid, itemid } = useParams()
     let history = useHistory()
@@ -16,6 +17,7 @@ const ReportItemInfoForm = (props) => {
         if (props.HTTPMethod == "PUT" && location.state) {
             setSubject(location.state.item.subject)
             setContent(location.state.item.content)
+            setReportItemIndex(location.state.item.reportItemIndex)
         } else if (props.HTTPMethod == "PUT") {
             // use API call
             fetch(`http://127.0.0.1:5000/api/v1/report_items/${itemid}`, {
@@ -28,9 +30,10 @@ const ReportItemInfoForm = (props) => {
                 .then(result => {
                     setSubject(result.subject)
                     setContent(result.content)
+                    setReportItemIndex(result.reportItemIndex)
                 })
         }
-    },[])
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -38,6 +41,7 @@ const ReportItemInfoForm = (props) => {
         let reportItem = {
             subject: subject,
             content: content,
+            reportItemIndex: reportItemIndex,
             reportId: reportid
         }
 
@@ -80,12 +84,24 @@ const ReportItemInfoForm = (props) => {
             <h2>{props.header}</h2>
             <Form id='report-item-info-form' onSubmit={handleSubmit}>
                 <Form.Field>
-                    <label>Subject</label>
-                    <input
-                        placeholder='Subject'
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                    />
+                    {/* <label>Subject</label> */}
+                    <Form.Group>
+                        <Form.Input
+                            width={12}
+                            placeholder='Subject'
+                            label="Subject"
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
+                        />
+                        <Form.Input
+                            width={4}
+                            placeholder='Item Number'
+                            label="Item Number"
+                            disabled = {props.HTTPMethod == "POST"}
+                        value={reportItemIndex}
+                        onChange={(e) => setReportItemIndex(e.target.value)}
+                        />
+                    </Form.Group>
                     <label>Content</label>
                     <Menu icon compact size="mini">
                         <Menu.Item

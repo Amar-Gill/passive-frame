@@ -1,7 +1,17 @@
 from flask import Blueprint, jsonify, request
 from models.report import Report
 from models.report_item import ReportItem
+import re
 
+def is_positive_int(x):
+    regex = r'[\W+A-Za-z]'
+    match = re.search(regex, x)
+    if match:
+        return False
+    elif int(x) < 0:
+        return False
+    else:
+        return True
 
 report_items_api_blueprint = Blueprint("report_items_api",
                             __name__,
@@ -58,11 +68,21 @@ def update(id):
     # get data
     subject = request.json.get("subject", None)
     content = request.json.get("content", None)
+    report_item_index = request.json.get("reportItemIndex", None)
+
+    # validate report item index is an int
+    if not is_positive_int(report_item_index):
+        return jsonify(
+            message="Report Item Index must be a positive integer",
+            status="Fail"
+        )
 
     if subject:
         report_item.subject = subject
     if content:
         report_item.content = content
+    if report_item_index:
+        report_item.report_item_index = report_item_index
 
     # save to db
     if report_item.save():
