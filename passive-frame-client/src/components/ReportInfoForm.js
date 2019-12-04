@@ -65,7 +65,7 @@ const ReportInfoForm = (props) => {
   return (
     <div>
       <h2>{props.header}</h2>
-      <Form onSubmit={handleSubmit}>
+      <Form id='report-info-form' onSubmit={handleSubmit}>
         <Form.Group >
           <Form.Select label="Report Type" onChange={(e, { value }) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type" />
           <Form.Field>

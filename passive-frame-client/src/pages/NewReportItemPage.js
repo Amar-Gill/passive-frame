@@ -95,7 +95,7 @@ const NewReportItemPage = (props) => {
                             type='submit'
                             form='report-item-info-form'
                             className="remove-border-radius" secondary icon>
-                            <Icon name="save" />
+                            <Icon name="save outline" />
                             Save
                     </Button>
                     </Menu.Item>

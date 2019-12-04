@@ -16,7 +16,7 @@ const ProjectPage = (props) => {
     useEffect(() => {
 
         if (props.location.state) {
-            setCurrentProject(props.location.state)
+            setCurrentProject(props.location.state.project)
         } else {
             // API call to fetch current project
             fetch(`http://127.0.0.1:5000/api/v1/projects/${projid}`, {
@@ -82,7 +82,9 @@ const ProjectPage = (props) => {
                         <Button as={Link}
                             to={{
                                 pathname: "/projects/" + currentProject.id + "/new_report/",
-                                state: currentProject
+                                state: {
+                                    project: currentProject
+                                }
                             }}
                             className="remove-border-radius" secondary icon>
                             <Icon name="plus" />
