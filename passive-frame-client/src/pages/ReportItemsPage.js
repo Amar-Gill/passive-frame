@@ -120,7 +120,10 @@ const ReportItemsPage = (props) => {
                         <Button as={Link}
                             to={{
                                 pathname: `/projects/${projid}/reports/${reportid}/new_item`,
-                                state: currentProject
+                                state: {
+                                    project: currentProject,
+                                    report: currentReport
+                                }
                             }}
                             className="remove-border-radius" secondary icon>
                             <Icon name="plus" />
@@ -140,7 +143,7 @@ const ReportItemsPage = (props) => {
                         return (
                             <Grid.Row key={item.id}>
                                 <Grid.Column>
-                                    <ReportItemInfoSegment projid={projid} item={item} />
+                                    <ReportItemInfoSegment project={currentProject} report={currentReport} projid={projid} item={item} />
                                 </Grid.Column>
                             </Grid.Row>
                         )

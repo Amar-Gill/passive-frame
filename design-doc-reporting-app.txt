@@ -57,6 +57,9 @@ Work Flow:
 
 13) all above actions should be related to a question. goal is to expand array of common phrases.
     analysis of patterns leads to development of temporal prompts for the different project categories.
+    zero system can learn to ask questions that lead to actions for you.
+
+14) take site report data and create virtual training scenarios for EITS
 
 Stack:
 

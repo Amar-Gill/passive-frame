@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 const ReportItemInfoSegment = props => {
     // set item from props
     const item = props.item
+    const project = props.project
+    const report = props.report
 
     return (
         <Segment>
@@ -25,7 +27,14 @@ const ReportItemInfoSegment = props => {
                         <Menu.Item>
                             <Button
                                 as={Link}
-                                to={`/projects/${props.projid}/reports/${item.report_id}/items/${item.id}/edit/`}
+                                to={{
+                                    pathname: `/projects/${props.projid}/reports/${item.reportId}/items/${item.id}/edit/`,
+                                    state: {
+                                        project: project,
+                                        report: report,
+                                        item: item
+                                    }
+                                }}
                                 secondary basic circular icon>
                                 <Icon name="edit" />
                             </Button>

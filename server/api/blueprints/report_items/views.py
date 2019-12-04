@@ -1,7 +1,17 @@
 from flask import Blueprint, jsonify, request
 from models.report import Report
 from models.report_item import ReportItem
+import re
 
+def is_positive_int(x):
+    regex = r'[\W+A-Za-z]'
+    match = re.search(regex, str(x))
+    if match:
+        return False
+    elif int(x) <= 0:
+        return False
+    else:
+        return True
 
 report_items_api_blueprint = Blueprint("report_items_api",
                             __name__,
@@ -58,11 +68,27 @@ def update(id):
     # get data
     subject = request.json.get("subject", None)
     content = request.json.get("content", None)
+    report_item_index = request.json.get("reportItemIndex", None)
+
+    if not report_item_index:
+        return jsonify(
+            message="Report Item Index must be a positive integer",
+            status="Fail"
+        )
+
+    # validate report item index is a positive int
+    if not is_positive_int(report_item_index):
+        return jsonify(
+            message="Report Item Index must be a positive integer",
+            status="Fail"
+        )
 
     if subject:
         report_item.subject = subject
     if content:
         report_item.content = content
+    if report_item_index:
+        report_item.report_item_index = int(report_item_index)
 
     # save to db
     if report_item.save():
@@ -76,8 +102,24 @@ def update(id):
             status = "Fail"
         )
 
-@report_items_api_blueprint.route("/", methods=["GET"])
-def index():
+@report_items_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
+@report_items_api_blueprint.route("/<id>", methods=["GET"])
+def index(id):
+    # get info for one report item
+    if id:
+        report_item = ReportItem.get_or_none(ReportItem.id == id)
+        if report_item:
+            return jsonify(
+                id = report_item.id,
+                subject = report_item.subject,
+                content = report_item.content,
+                reportItemIndex = report_item.report_item_index
+            )
+        else:
+            return jsonify(
+                message = f"No report item with id: {id}",
+                status = "Fail"
+            )
     # get data
     report_id = request.json.get('reportId', None)
 
