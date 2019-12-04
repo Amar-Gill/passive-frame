@@ -59,6 +59,10 @@ const ReportInfoForm = (props) => {
       .then(response => response.json())
       .then(result => {
         alert(result.message)
+        // go back one page if new report created successfully
+        if (result.status == "Success" && props.HTTPMethod == "POST") {
+          history.goBack()
+        }
       })
   }
 

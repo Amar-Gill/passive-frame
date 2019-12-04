@@ -43,7 +43,10 @@ const ReportInfoSegment = (props) => {
                             <Button basic secondary icon circular
                                 as={Link}
                                 to={{
-                                    pathname: `/projects/${props.project.id}/edit_report/${props.report.id}/`
+                                    pathname: `/projects/${props.project.id}/edit_report/${props.report.id}/`,
+                                    state: {
+                                        project: props.project
+                                    }
                                 }}
                             >
                                 <Icon name="edit outline" />
