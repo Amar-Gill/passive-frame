@@ -65,6 +65,9 @@ const ReportItemInfoForm = (props) => {
             .then(response => response.json())
             .then(result => {
                 alert(result.message)
+                if (result.status == "Success" && props.HTTPMethod == "POST") {
+                    history.goBack()
+                }
             })
     }
 
