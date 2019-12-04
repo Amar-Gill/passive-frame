@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Container, Menu, Button, Icon, Header } from 'semantic-ui-react'
 import ReportItemInfoForm from '../components/ReportItemInfoForm'
-import { useHistory, useLocation, useParams, Link } from 'react-router-dom'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 import {format} from 'date-fns'
 
@@ -89,8 +89,6 @@ const EditReportItem = (props) => {
                     </Header>
                 </Menu.Item>
                 <Menu.Menu position="right">
-
-
                     <Menu.Item>
                         <Button
                             type='submit'
