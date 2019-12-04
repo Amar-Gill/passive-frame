@@ -8,7 +8,7 @@ def is_positive_int(x):
     match = re.search(regex, x)
     if match:
         return False
-    elif int(x) < 0:
+    elif int(x) <= 0:
         return False
     else:
         return True
@@ -70,7 +70,13 @@ def update(id):
     content = request.json.get("content", None)
     report_item_index = request.json.get("reportItemIndex", None)
 
-    # validate report item index is an int
+    if not report_item_index:
+        return jsonify(
+            message="Report Item Index must be a positive integer",
+            status="Fail"
+        )
+
+    # validate report item index is a positive int
     if not is_positive_int(report_item_index):
         return jsonify(
             message="Report Item Index must be a positive integer",
