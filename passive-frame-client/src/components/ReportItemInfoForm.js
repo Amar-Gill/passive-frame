@@ -85,7 +85,7 @@ const ReportItemInfoForm = (props) => {
             <Form id='report-item-info-form' onSubmit={handleSubmit}>
                 <Form.Field>
                     {/* <label>Subject</label> */}
-                    <Form.Group>
+                    <Form.Group unstackable>
                         <Form.Input
                             width={12}
                             placeholder='Subject'

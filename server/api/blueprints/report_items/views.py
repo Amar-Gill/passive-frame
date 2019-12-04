@@ -5,7 +5,7 @@ import re
 
 def is_positive_int(x):
     regex = r'[\W+A-Za-z]'
-    match = re.search(regex, x)
+    match = re.search(regex, str(x))
     if match:
         return False
     elif int(x) <= 0:
@@ -88,7 +88,7 @@ def update(id):
     if content:
         report_item.content = content
     if report_item_index:
-        report_item.report_item_index = report_item_index
+        report_item.report_item_index = int(report_item_index)
 
     # save to db
     if report_item.save():
