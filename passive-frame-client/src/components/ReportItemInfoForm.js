@@ -11,6 +11,7 @@ const ReportItemInfoForm = (props) => {
     let history = useHistory()
     let location = useLocation()
 
+    // effect for retrieving reportitem info if being edited
     useEffect(() => {
         if (props.HTTPMethod == "PUT" && location.state) {
             setSubject(location.state.item.subject)
@@ -53,7 +54,7 @@ const ReportItemInfoForm = (props) => {
         // open chrome without web protection to allow cross origin request:
         // open -a Google\ Chrome --args --disable-web-security --user-data-dir
 
-        // send info to API to create new project
+        // send info to API to create new report item or save update
         fetch(urlString, {
             method: props.HTTPMethod,
             headers: {
@@ -74,7 +75,7 @@ const ReportItemInfoForm = (props) => {
     return (
         <div>
             <h2>{props.header}</h2>
-            <Form onSubmit={handleSubmit}>
+            <Form id='report-item-info-form' onSubmit={handleSubmit}>
                 <Form.Field>
                     <label>Subject</label>
                     <input

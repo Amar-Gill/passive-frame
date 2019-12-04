@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 const ReportItemInfoSegment = props => {
     // set item from props
     const item = props.item
+    const project = props.project
+    const report = props.report
 
     return (
         <Segment>
@@ -28,6 +30,8 @@ const ReportItemInfoSegment = props => {
                                 to={{
                                     pathname: `/projects/${props.projid}/reports/${item.reportId}/items/${item.id}/edit/`,
                                     state: {
+                                        project: project,
+                                        report: report,
                                         item: item
                                     }
                                 }}

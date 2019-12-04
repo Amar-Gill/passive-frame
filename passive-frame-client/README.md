@@ -15,7 +15,7 @@ TODOS
 15) Test performance analytics!!!! windows, clips, envelope, leaking, results, potatoes, potatoes =D tomatoes. Requires logging of test results. Automated forms for clips, windows, curtain wall, waterproofing, and the like ya know eh?
 17) add reportitem info to submenu of reportitemspage
 18) HOW TO ISSUE: send an email with link to webview (HTML) of a report. User can choose to download PDF from link ;)
-19) use Text Area for reportitem description field
+20) add project and report context
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

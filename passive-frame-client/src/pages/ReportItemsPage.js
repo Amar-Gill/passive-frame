@@ -140,7 +140,7 @@ const ReportItemsPage = (props) => {
                         return (
                             <Grid.Row key={item.id}>
                                 <Grid.Column>
-                                    <ReportItemInfoSegment projid={projid} item={item} />
+                                    <ReportItemInfoSegment project={currentProject} report={currentReport} projid={projid} item={item} />
                                 </Grid.Column>
                             </Grid.Row>
                         )
