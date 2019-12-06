@@ -8,4 +8,4 @@ class Report(BaseModel):
     report_type = pw.CharField(null=False)
     report_date = pw.DateTimeField(null=False, default=datetime.datetime.now)
     project_report_index = pw.IntegerField(null = False)
-    project = pw.ForeignKeyField(Project, null=False)
+    project = pw.ForeignKeyField(Project, null=False, backref='reports')

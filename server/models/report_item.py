@@ -8,4 +8,4 @@ class ReportItem(BaseModel):
     subject = pw.CharField(null=True)
     content = pw.CharField(null=True)
     report_item_index = pw.IntegerField(null=True)
-    report = pw.ForeignKeyField(Report, null=False)
+    report = pw.ForeignKeyField(Report, null=False, backref='report_items')

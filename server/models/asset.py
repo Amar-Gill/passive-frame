@@ -2,10 +2,10 @@ from models.base_model import BaseModel
 from models.organization import Organization
 import peewee as pw
 
-class Project(BaseModel):
+class Asset(BaseModel):
     name = pw.CharField(null=False)
     # number = pw.IntegerField(null=False)
-    organization = pw.ForeignKeyField(Organization, null=False)
+    organization = pw.ForeignKeyField(Organization, null=False, backref='assets')
     discipline = pw.CharField(null=False)
     internal = pw.BooleanField(default=False)
     projects = pw.ArrayField(default=[])
