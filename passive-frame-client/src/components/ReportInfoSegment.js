@@ -45,7 +45,8 @@ const ReportInfoSegment = (props) => {
                                 to={{
                                     pathname: `/projects/${props.project.id}/edit_report/${props.report.id}/`,
                                     state: {
-                                        project: props.project
+                                        project: props.project,
+                                        report: props.report
                                     }
                                 }}
                             >

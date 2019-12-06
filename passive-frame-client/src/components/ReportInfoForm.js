@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Container } from 'semantic-ui-react'
-import { useParams, useHistory } from "react-router-dom"
+import { useParams, useHistory, useLocation } from "react-router-dom"
 import DatePicker from 'react-datepicker'
 import format from "date-fns/format"
 import { getTime } from 'date-fns'
@@ -14,16 +14,44 @@ const selectOptions = [
 
 const ReportInfoForm = (props) => {
   // use hooks
-  const history = useHistory();
+  let history = useHistory();
+  let location = useLocation()
   const [reportType, setReportType] = useState('')
   const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
+  const [disabledForm, setDisabledForm] = useState(false)
   const { projid, reportid } = useParams()
 
   // convert reportDate to millisecond time stamp (number)
   // allows user to choose present time as reportDate default value for backend
   useEffect(() => {
-    setReportDate(getTime(reportDate))
+    if (props.HTTPMethod == "POST") {
+      setReportDate(getTime(reportDate))
+    }
   }, [])
+
+  // retrieve current report data if form is in edit mode
+  useEffect(() => {
+    if (location.state && props.HTTPMethod == "PUT") {
+      setReportType(location.state.report.report_type)
+      setReportDate(location.state.report.report_date)
+    } else if (props.HTTPMethod == "PUT") {
+      fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        }
+      })
+        .then(response => response.json())
+        .then(result => {
+          if (result.project_id != projid) {
+            setDisabledForm(true)
+          } else {
+            setReportType(result.report_type)
+            setReportDate(result.report_date)
+          }
+        })
+    }
+  },[])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -71,11 +99,12 @@ const ReportInfoForm = (props) => {
       <h2>{props.header}</h2>
       <Form id='report-info-form' onSubmit={handleSubmit}>
         <Form.Group >
-          <Form.Select label="Report Type" onChange={(e, { value }) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type" />
+          <Form.Select disabled={disabledForm} value={reportType} label="Report Type" onChange={(e, { value }) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type" />
           <Form.Field>
             <label>Time of Visit</label>
             <DatePicker
               selected={reportDate}
+              disabled={disabledForm}
               // set reportDate to millisecond time stamp of selected date
               // peewee ORM requires timestamp for DateTimeField.
               // http://docs.peewee-orm.com/en/latest/peewee/models.html#field-types-table
