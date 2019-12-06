@@ -112,6 +112,7 @@ def index(id):
             return jsonify(
                 id = report_item.id,
                 reportId = report_item.report_id,
+                projectId = Report.get_or_none(Report.id == report_item.report_id).project_id,
                 subject = report_item.subject,
                 content = report_item.content,
                 reportItemIndex = report_item.report_item_index
@@ -139,6 +140,7 @@ def index(id):
             {
                 "id": item.id,
                 "reportId": item.report_id,
+                "projectId": Report.get_or_none(Report.id == item.report_id).project_id,
                 "subject": item.subject,
                 "content": item.content,
                 "reportItemIndex": item.report_item_index

@@ -30,7 +30,7 @@ const ReportItemInfoForm = (props) => {
                 .then(response => response.json())
                 .then(result => {
                     // disable form if incorrect url provided
-                    if (result.reportId != reportid) {
+                    if (result.reportId != reportid || result.projectId != projid) {
                         setDisabledForm(true)
                     } else {
                         setSubject(result.subject)
