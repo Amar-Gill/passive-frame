@@ -1,5 +1,6 @@
 from models.base_model import BaseModel
 from models.organization import Organization
+from playhouse.postgres_ext import ArrayField
 import peewee as pw
 
 class Asset(BaseModel):
@@ -8,7 +9,7 @@ class Asset(BaseModel):
     organization = pw.ForeignKeyField(Organization, null=False, backref='assets')
     discipline = pw.CharField(null=False)
     internal = pw.BooleanField(default=False)
-    projects = pw.ArrayField(default=[])
+    projects = ArrayField(default=[])
     # (ideas: 
     # -checklist 
     # -3d models 
@@ -18,5 +19,6 @@ class Asset(BaseModel):
     # -ar overlaysss 
     # -product brochures 
     # -drawings / diagrams
-    # -Hupyter Notebooks
+    # -Jupyter Notebooks
+    # -streamlit scripts
     # -Excel Work Books)
