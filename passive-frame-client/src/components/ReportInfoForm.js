@@ -35,6 +35,7 @@ const ReportInfoForm = (props) => {
       setReportType(location.state.report.report_type)
       setReportDate(location.state.report.report_date)
     } else if (props.HTTPMethod == "PUT") {
+      // api call to fetch data if button link not used
       fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}`, {
         method: "GET",
         headers: {
@@ -43,6 +44,7 @@ const ReportInfoForm = (props) => {
       })
         .then(response => response.json())
         .then(result => {
+          // disable the form if incorrect project id in url
           if (result.project_id != projid) {
             setDisabledForm(true)
           } else {

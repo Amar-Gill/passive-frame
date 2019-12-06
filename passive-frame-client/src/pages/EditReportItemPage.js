@@ -75,10 +75,8 @@ const EditReportItem = (props) => {
                         <Header.Content>
                             {
                                 currentReport.report_type == "test" && `Test Report ${currentReport.project_report_index}`
-
                             }
                             {
-
                                 currentReport.report_type == "field" && `Field Report ${currentReport.project_report_index}`
                             }
                             <Header.Subheader>
@@ -106,7 +104,7 @@ const EditReportItem = (props) => {
             <Container text>
                 <Grid columns={1} >
                     <Grid.Column>
-                        <ReportItemInfoForm header="Edit Report Item" HTTPMethod="PUT"/>
+                        <ReportItemInfoForm project={currentProject} header="Edit Report Item" HTTPMethod="PUT"/>
                     </Grid.Column>
                 </Grid>
 

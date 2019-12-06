@@ -8,6 +8,7 @@ const ReportItemInfoForm = (props) => {
     const [content, setContent] = useState('')
     const [reportItemIndex, setReportItemIndex] = useState(null)
     const [activeItem, setActiveItem] = useState(null) // for edit menu
+    const [disabledForm, setDisabledForm] = useState(false)
     const { projid, reportid, itemid } = useParams()
     let history = useHistory()
     let location = useLocation()
@@ -19,7 +20,7 @@ const ReportItemInfoForm = (props) => {
             setContent(location.state.item.content)
             setReportItemIndex(location.state.item.reportItemIndex)
         } else if (props.HTTPMethod == "PUT") {
-            // use API call
+            // use API call if button link not used
             fetch(`http://127.0.0.1:5000/api/v1/report_items/${itemid}`, {
                 method: "GET",
                 headers: {
@@ -28,9 +29,14 @@ const ReportItemInfoForm = (props) => {
             })
                 .then(response => response.json())
                 .then(result => {
-                    setSubject(result.subject)
-                    setContent(result.content)
-                    setReportItemIndex(result.reportItemIndex)
+                    // disable form if incorrect url provided
+                    if (result.reportId != reportid) {
+                        setDisabledForm(true)
+                    } else {
+                        setSubject(result.subject)
+                        setContent(result.content)
+                        setReportItemIndex(result.reportItemIndex)
+                    }
                 })
         }
     }, [])
@@ -92,14 +98,15 @@ const ReportItemInfoForm = (props) => {
                             label="Subject"
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
+                            disabled={disabledForm}
                         />
                         <Form.Input
                             width={4}
                             placeholder='Item Number'
                             label="Item Number"
-                            disabled = {props.HTTPMethod == "POST"}
-                        value={reportItemIndex}
-                        onChange={(e) => setReportItemIndex(e.target.value)}
+                            disabled={props.HTTPMethod == "POST" || disabledForm}
+                            value={reportItemIndex}
+                            onChange={(e) => setReportItemIndex(e.target.value)}
                         />
                     </Form.Group>
                     <label>Content</label>
@@ -148,6 +155,7 @@ const ReportItemInfoForm = (props) => {
                         rows={8}
                         onChange={(e) => setContent(e.target.value)}
                         value={content}
+                        disabled={disabledForm}
                     />
 
                 </Form.Field>
