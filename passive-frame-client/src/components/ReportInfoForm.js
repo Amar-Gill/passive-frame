@@ -12,12 +12,19 @@ const selectOptions = [
   { key: "Test", value: "test", text: "Test Report" }
 ]
 
+const tempOptions = [
+  { key: "Celsius", value: "celsius", text: "C" },
+  { key: "Fahrenheit", value: "Fahrenheit", text: "F" }
+]
+
 const ReportInfoForm = (props) => {
   // use hooks
   let history = useHistory();
   let location = useLocation()
   const [reportType, setReportType] = useState('')
   const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
+  const [temperature, setTemperature] = useState(null)
+  const [tempUnit, setTempUnit] = useState(null)
   const [disabledForm, setDisabledForm] = useState(false)
   const { projid, reportid } = useParams()
 
@@ -102,7 +109,7 @@ const ReportInfoForm = (props) => {
       <Form id='report-info-form' onSubmit={handleSubmit}>
         <Form.Group >
           <Form.Select disabled={disabledForm} value={reportType} label="Report Type" onChange={(e, { value }) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type" />
-          <Form.Field>
+          <Form.Field >
             <label>Time of Visit</label>
             <DatePicker
               selected={reportDate}

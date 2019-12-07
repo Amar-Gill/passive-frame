@@ -34,3 +34,16 @@
     margin-bottom: 3.5px !important;
     /* padding-right: .4rem; */
 }
+
+.header-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.inline {
+    display: inline;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
