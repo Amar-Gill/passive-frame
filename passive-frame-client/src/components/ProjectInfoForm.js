@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Button, Form, Grid, Container } from 'semantic-ui-react'
 import UserContext from '../UserContext'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, useLocation } from 'react-router-dom'
 
 
 const ProjectInfoForm = (props) => {
@@ -11,6 +11,24 @@ const ProjectInfoForm = (props) => {
     const { user, setUser } = useContext(UserContext)
     const { id } = useParams()
     let history = useHistory()
+    let location = useLocation()
+
+    useEffect(() => {
+        if (location.state && props.HTTPMethod == "PUT") {
+            setProjectName(location.state.project.project_name)
+            setProjectNumber(location.state.project.project_number)
+        } else if (props.HTTPMethod == "PUT") {
+            // use API call with params
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${id}`, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(result => {
+                    setProjectName(result.project_name)
+                    setProjectNumber(result.project_number)
+                })
+        }
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -44,8 +62,6 @@ const ProjectInfoForm = (props) => {
         })
             .then(response => response.json())
             .then(result => {
-                setProjectName('')
-                setProjectNumber('')
                 // TODO - set the form values to ''
                 alert(result.message)
                 if (result.status == "Success" && props.HTTPMethod == "POST") {
@@ -67,11 +83,13 @@ const ProjectInfoForm = (props) => {
                             <input
                                 placeholder='Project Name'
                                 onChange={(e) => setProjectName(e.target.value)}
+                                value={projectName}
                             />
                             <label>Project Number</label>
                             <input
                                 placeholder='Project Number'
                                 onChange={(e) => setProjectNumber(e.target.value)}
+                                value={projectNumber}
                             />
                         </Form.Field>
                         <Container textAlign="right">

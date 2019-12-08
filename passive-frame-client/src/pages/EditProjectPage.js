@@ -13,7 +13,7 @@ const EditProjectPage = (props) => {
   // POST for create new Project -> use PUT for edit project
   return (
     <div className="mt-40">
-      <Menu className="fixed-submenu bg-white" secondary stackable size="small">
+      <Menu className="fixed-submenu bg-white" secondary size="small">
         <Menu.Item fitted="vertically">
           <Button
             onClick={() => {
