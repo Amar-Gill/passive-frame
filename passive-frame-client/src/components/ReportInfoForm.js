@@ -135,14 +135,14 @@ const ReportInfoForm = (props) => {
 
           <Form.Field width={6}>
             <label>Temperature: {temperature} &#8451; / {Math.round((temperature * (9 / 5)) + 32)} &#8457;</label>
-            <input style={{width: "100%", height: "38px" }} value={temperature} type="range" min="-40" max="40" onChange={(e) => {
+            <input disabled={disabledForm} style={{width: "100%", height: "38px" }} value={temperature} type="range" min="-40" max="40" onChange={(e) => {
               setTemperature(e.target.value)
             }} />
           </Form.Field>
 
         </Form.Group>
 
-        <Form.TextArea value={description} onChange={e => setDescription(e.target.value)} label="Description" rows={8} />
+        <Form.TextArea disabled={disabledForm} value={description} onChange={e => setDescription(e.target.value)} label="Description" rows={8} />
         <Container textAlign="right">
           <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
           <Button
