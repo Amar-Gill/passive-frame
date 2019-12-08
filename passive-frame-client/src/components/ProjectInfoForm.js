@@ -48,7 +48,7 @@ const ProjectInfoForm = (props) => {
                 setProjectNumber('')
                 // TODO - set the form values to ''
                 alert(result.message)
-                if (result.status == "Success") {
+                if (result.status == "Success" && props.HTTPMethod == "POST") {
                     history.goBack()
                 }
             })
