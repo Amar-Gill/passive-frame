@@ -12,10 +12,6 @@ const selectOptions = [
   { key: "Test", value: "test", text: "Test Report" }
 ]
 
-// const tempOptions = [
-//   { key: "Celsius", value: "celsius", text: "C" },
-//   { key: "Fahrenheit", value: "Fahrenheit", text: "F" }
-// ]
 
 const ReportInfoForm = (props) => {
   // use hooks
@@ -24,7 +20,7 @@ const ReportInfoForm = (props) => {
   const [reportType, setReportType] = useState('')
   const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
   const [temperature, setTemperature] = useState(0)
-  // const [tempUnit, setTempUnit] = useState(null)
+  const [description, setDescription] = useState('')
   const [disabledForm, setDisabledForm] = useState(false)
   const { projid, reportid } = useParams()
 
@@ -41,6 +37,8 @@ const ReportInfoForm = (props) => {
     if (location.state && props.HTTPMethod == "PUT") {
       setReportType(location.state.report.report_type)
       setReportDate(location.state.report.report_date)
+      setTemperature(location.state.report.temperature)
+      setDescription(location.state.report.description)
     } else if (props.HTTPMethod == "PUT") {
       // api call to fetch data if button link not used
       fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}`, {
@@ -57,6 +55,8 @@ const ReportInfoForm = (props) => {
           } else {
             setReportType(result.report_type)
             setReportDate(result.report_date)
+            setTemperature(result.temperature)
+            setDescription(result.description)
           }
         })
     }
@@ -68,7 +68,9 @@ const ReportInfoForm = (props) => {
     let reportObject = {
       reportType: reportType,
       projectId: projid,
-      reportDate: reportDate
+      reportDate: reportDate,
+      temperature: temperature,
+      description: description
     }
 
     // open chrome without web protection to allow cross origin request:
@@ -107,8 +109,9 @@ const ReportInfoForm = (props) => {
     <div>
       <h2>{props.header}</h2>
       <Form id='report-info-form' onSubmit={handleSubmit}>
+
         <Form.Group>
-          <Form.Select fluid width={4} disabled={disabledForm} value={reportType} label="Report Type" onChange={(e, { value }) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type" />
+          <Form.Select fluid width={5} disabled={disabledForm} value={reportType} label="Report Type" onChange={(e, { value }) => setReportType(value)} selection options={selectOptions} placeholder="Choose Report Type" />
           <Form.Field>
             <label>Time of Visit</label>
             <DatePicker
@@ -129,14 +132,17 @@ const ReportInfoForm = (props) => {
               dateFormat="MMMM d, yyyy h:mm aa"
             />
           </Form.Field>
-        <Form.Field width={6}>
-          <label>Temperature: {temperature} &#8451; / {Math.round((temperature * (9/5)) + 32)} &#8457;</label>
-          <input style={{height: "38px"}} value={temperature} type="range" min="-40" max="40" onChange={(e) => {
-            setTemperature(e.target.value)
-          }} />
-        </Form.Field>
+
+          <Form.Field width={6}>
+            <label>Temperature: {temperature} &#8451; / {Math.round((temperature * (9 / 5)) + 32)} &#8457;</label>
+            <input style={{width: "100%", height: "38px" }} value={temperature} type="range" min="-40" max="40" onChange={(e) => {
+              setTemperature(e.target.value)
+            }} />
+          </Form.Field>
 
         </Form.Group>
+
+        <Form.TextArea value={description} onChange={e => setDescription(e.target.value)} label="Description" rows={8} />
         <Container textAlign="right">
           <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
           <Button
@@ -152,6 +158,7 @@ const ReportInfoForm = (props) => {
       <h1>{getTime(reportDate)}</h1>
       <h1>{format(reportDate, "MMMM d, yyyy h:mm aa")}</h1>
       <h1>{temperature}</h1>
+      <h1>{description}</h1>
     </div>
   )
 }
