@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import UserContext from '../UserContext'
 
 const ProjectInfoSegment = (props) => {
+    const project = props.project
+
     return (
         <div>
             <Segment className="remove-border-radius">
@@ -16,18 +18,15 @@ const ProjectInfoSegment = (props) => {
                             <Header.Content as={Link}
                             style={{ color: "black" }}
                             to={{
-                                pathname: '/projects/' + props.id + "/",
+                                pathname: '/projects/' + project.id + "/",
                                 state: {
-                                    id: props.id,
-                                    project_name: props.project_name,
-                                    project_number: props.project_number,
-                                    organization: props.organization
+                                    project: project
                                 }
                             }}>
-                                {props.project_name}
+                                {project.project_name}
                             </Header.Content>
                             <Header.Subheader>
-                                {props.project_number}
+                                {project.project_number}
                             </Header.Subheader>
                         </Header>
 
@@ -37,7 +36,10 @@ const ProjectInfoSegment = (props) => {
                                 <Button
                                     as={Link}
                                     to={{
-                                        pathname: `/projects/${props.id}/edit/`
+                                        pathname: `/projects/${project.id}/edit/`,
+                                        state: {
+                                            project: project
+                                        }
                                     }}
                                     secondary
                                     basic
@@ -79,7 +81,12 @@ const ProjectInfoSegment = (props) => {
                             <Menu.Item>
                                 <Button
                                     as={Link}
-                                    to={`/projects/${props.id}/new_report/`}
+                                    to={{
+                                        pathname: `/projects/${project.id}/new_report/`,
+                                        state: {
+                                            project: project
+                                        }
+                                    }}
                                     secondary basic circular icon size="medium">
                                     <Icon name='plus' />
                                 </Button>

@@ -12,54 +12,63 @@ const ReportInfoSegment = (props) => {
         <Segment>
             <Grid verticalAlign="top" stackable columns={3}>
                 <Grid.Column >
-                    <Header
-                        as="h4"
+                        
+                            <Header
+                                size="small"
+                                // style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
+                            >
+                                <Header.Content>
+                                    {
+                                        props.report.report_type == "test" && `Test Report ${props.report.project_report_index}`
 
-                    >
-                        <Header.Content>
-                            {
-                                props.report.report_type == "test" && `Test Report ${props.report.project_report_index}`
+                                    }
+                                    {
 
-                            }
-                            {
+                                        props.report.report_type == "field" && `Field Report ${props.report.project_report_index}`
+                                    }
+                                </Header.Content>
+                                <Header.Subheader>
+                                    {format(props.report.report_date, "MMMM d, yyyy h:mm aa")}
+                                </Header.Subheader>
+                            </Header>
 
-                                props.report.report_type == "field" && `Field Report ${props.report.project_report_index}`
-                            }
-                        </Header.Content>
-                        <Header.Subheader>
-                            {format(props.report.report_date, "MMMM d, yyyy h:mm aa")}
-                        </Header.Subheader>
 
-                    </Header>
+
                     <Menu secondary compact size="tiny">
-
-                        <Menu.Item >
-                            <Label color="black" >
-                                Status
-                                    <Label.Detail>Draft</Label.Detail>
-                            </Label>
-                        </Menu.Item>
                         <Menu.Item>
-                            <Button basic secondary icon circular
+                            <Label  textAlign="center" size="small" color="black" >
+                                Status
+                                <Label.Detail>Draft</Label.Detail>
+                            </Label>
+
+                        </Menu.Item>
+                        <Menu.Item >
+                            <Button className='remove-border-radius'
+                                basic secondary icon 
                                 as={Link}
                                 to={{
-                                    pathname: `/projects/${props.project.id}/edit_report/${props.report.id}/`
+                                    pathname: `/projects/${props.project.id}/edit_report/${props.report.id}/`,
+                                    state: {
+                                        project: props.project,
+                                        report: props.report
+                                    }
                                 }}
                             >
                                 <Icon name="edit outline" />
-                                {/* Edit */}
+                                
                             </Button>
                         </Menu.Item>
+
                         <Menu.Item >
-                            <Button basic secondary icon circular>
+                            <Button basic secondary  icon className='remove-border-radius'>
                                 <Icon name="print" />
-                                {/* PDF */}
+                                
                             </Button>
                         </Menu.Item>
                         <Menu.Item >
-                            <Button  secondary icon circular>
+                            <Button secondary  icon className='remove-border-radius'>
                                 <Icon name="paper plane" />
-                                {/* Issue */}
+                                Issue
                             </Button>
                         </Menu.Item>
 
@@ -99,7 +108,8 @@ const ReportInfoSegment = (props) => {
                                 to={{
                                     pathname: `/projects/${props.report.project_id}/reports/${props.report.id}/new_item/`,
                                     state: {
-                                        reportId: props.report.id
+                                        report: props.report,
+                                        project: props.project
                                     }
                                 }}
                                 className="remove-border-radius"

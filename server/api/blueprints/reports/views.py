@@ -15,13 +15,15 @@ def create():
     report_type = request.json.get("reportType", None)
     project_id = request.json.get("projectId", None)
     report_date = request.json.get("reportDate", None)
+    temperature = request.json.get("temperature", None)
+    description = request.json.get("description", None)
 
     # convert project_id to int
     if project_id:
         project_id = int(project_id)
 
     # check if all data is received
-    if (not report_type) or (not project_id) or(not report_date):
+    if (not report_type) or (not project_id) or(not report_date) or (not temperature) or (not description):
         return jsonify(
             message="Missing data fields. Try again.",
             status="Fail"
@@ -47,7 +49,8 @@ def create():
 
     # create report and save to db
     report = Report(report_type=report_type, project_id=project_id,
-                    project_report_index=project_report_index, report_date=report_date)
+                    project_report_index=project_report_index, report_date=report_date,
+                    temperature = temperature, description=description)
 
     if report.save():
         return jsonify(
@@ -76,7 +79,10 @@ def update(id):
     # get data
     report_type = request.json.get("reportType", None)
     report_date = request.json.get("reportDate", None)
+    temperature = request.json.get("temperature", None)
+    description = request.json.get("description", None)
 
+    # update fields as required
     if report_type:
         report.report_type = report_type
     if report_date:
@@ -84,6 +90,10 @@ def update(id):
         # 1e3 removes millisecond precision
         report_date = datetime.datetime.fromtimestamp(report_date / 1e3)
         report.report_date = report_date
+    if temperature:
+        report.temperature = temperature
+    if description:
+        report.description = description
 
     # do something for project_report_index???
 
@@ -112,7 +122,9 @@ def index(id):
                 report_date=datetime.datetime.timestamp(
                     report.report_date)*1000,
                 project_report_index=report.project_report_index,
-                project_id=report.project_id
+                project_id=report.project_id,
+                temperature = report.temperature,
+                description = report.description
             )
         else:
             return jsonify(
@@ -129,7 +141,9 @@ def index(id):
                 "report_type": report.report_type,
                 "report_date": datetime.datetime.timestamp(report.report_date)*1000,
                 "project_report_index": report.project_report_index,
-                "project_id": report.project_id
+                "project_id": report.project_id,
+                "temperature": report.temperature,
+                "description": report.description
             }
             for report in reports]
     )

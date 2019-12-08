@@ -176,7 +176,9 @@ def index_reports(id):
                     "report_type": report.report_type,
                     "project_report_index": report.project_report_index,
                     "report_date": datetime.datetime.timestamp(report.report_date)*1000,
-                    "project_id": report.project_id
+                    "project_id": report.project_id,
+                    "temperature": report.temperature,
+                    "description": report.description
                 }
                 for report in reports]
         )
