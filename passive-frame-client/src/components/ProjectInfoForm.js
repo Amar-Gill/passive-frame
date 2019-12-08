@@ -48,6 +48,9 @@ const ProjectInfoForm = (props) => {
                 setProjectNumber('')
                 // TODO - set the form values to ''
                 alert(result.message)
+                if (result.status == "Success") {
+                    history.goBack()
+                }
             })
 
 
@@ -58,7 +61,7 @@ const ProjectInfoForm = (props) => {
             <Grid columns={1} >
                 <Grid.Column>
                     <h2>{props.header}</h2>
-                    <Form onSubmit={handleSubmit}>
+                    <Form id="project-info-form" onSubmit={handleSubmit}>
                         <Form.Field>
                             <label>Project Name</label>
                             <input
