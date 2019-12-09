@@ -5,8 +5,8 @@ from models.project import Project
 
 
 organizations_api_blueprint = Blueprint("organizations_api",
-                            __name__,
-                            template_folder= "templates")
+                                        __name__,
+                                        template_folder="templates")
 
 
 @organizations_api_blueprint.route("/", methods=["POST"])
@@ -17,8 +17,8 @@ def create():
     # check if name received
     if not organization_name:
         return jsonify(
-            message = "Missing data fields. Try again.",
-            status = "Fail"
+            message="Missing data fields. Try again.",
+            status="Fail"
         )
 
     # check if name unique
@@ -26,21 +26,21 @@ def create():
     org_names = [org.name for org in orgs]
     if organization_name in org_names:
         return jsonify(
-            message = "Organization name not unique",
-            status = "Fail"
+            message="Organization name not unique",
+            status="Fail"
         )
-    
+
     # create organization and save to db
     org = Organization(name=organization_name)
     if org.save():
         return jsonify(
-            message = "New organization created",
-            status = "success"
+            message="New organization created",
+            status="success"
         )
     else:
         return jsonify(
-            message = "Something went wrong",
-            status = "Fail"
+            message="Something went wrong",
+            status="Fail"
         )
 
 
@@ -59,25 +59,25 @@ def index(id):
         if org:
             return jsonify(
                 {"id": org.id,
-                "name": org.name,
-                "user_count": get_user_count(org)}
+                 "name": org.name,
+                 "user_count": get_user_count(org)}
             )
         else:
             return jsonify(
-                message = "Organization does not exist",
-                status = "Fail"
+                message="Organization does not exist",
+                status="Fail"
             )
-    
+
     # return all orgs
     orgs = Organization.select()
 
     return jsonify(
-        organizations = [
+        organizations=[
             {"id": org.id,
-            "name": org.name,
-            "user_count": get_user_count(org)
-            }
-        for org in orgs]
+             "name": org.name,
+             "user_count": get_user_count(org)
+             }
+            for org in orgs]
     )
 
 
@@ -87,18 +87,18 @@ def index_users(id):
     if org:
         users = User.select().where(User.organization_id == id)
         return jsonify(
-            employees = [
+            employees=[
                 {"id": user.id,
-                "username": user.username,
-                "email": user.email
-                }
-            for user in users
+                 "username": user.username,
+                 "email": user.email
+                 }
+                for user in users
             ]
         )
     else:
         return jsonify(
-            message = "Organization does not exist",
-            status = "Fail"
+            message="Organization does not exist",
+            status="Fail"
         )
 
 
@@ -108,15 +108,17 @@ def index_projects(id):
     if org:
         projects = Project.select().where(Project.organization_id == id)
         return jsonify(
-            projects = [
+            projects=[
                 {"id": project.id,
-                "project_name": project.name
-                }
-            for project in projects
+                 "project_name": project.name,
+                 "project_number": project.number,
+                 "organization": project.organization.name
+                 }
+                for project in projects
             ]
         )
     else:
         return jsonify(
-            message = "Organization does not exist",
-            status = "Fail"
+            message="Organization does not exist",
+            status="Fail"
         )
