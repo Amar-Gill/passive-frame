@@ -4,7 +4,7 @@ TODOS
 4) Add recipients array to projects as user emails/profiles.
 5) Issue reports to recipients. Auto alert recipients of actions / action lists.
 6) Compress report-item content field on client side (using hex??) to save space in db
-7) email notification / response retriaval for actions ==> instant // recurring
+7) email notification / response retrieval for actions ==> instant // recurring
 8) automate your responses
 9) email tracking of responses
 10) generate portfolio of desired documents
@@ -16,6 +16,7 @@ TODOS
 17) add reportitem info to submenu of reportitemspage
 18) HOW TO ISSUE: send an email with link to webview (HTML) of a report. User can choose to download PDF from link ;)
 20) add project and report context
+21) fix url page loading of edit project page
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

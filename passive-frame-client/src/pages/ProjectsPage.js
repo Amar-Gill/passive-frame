@@ -11,7 +11,7 @@ const ProjectsPage = (props) => {
   const { user, setUser } = useContext(UserContext)
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/api/v1/projects/`, {
+    fetch(`http://127.0.0.1:5000/api/v1/organizations/${user.organization_id}/projects`, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -78,7 +78,6 @@ const ProjectsPage = (props) => {
 
         {
           projects.map(project => {
-            if (project.organization === user.organization_name) {
               return (
                 <Grid.Row key={project.id}>
                   <Grid.Column>
@@ -88,7 +87,6 @@ const ProjectsPage = (props) => {
                   </Grid.Column>
                 </Grid.Row>
               )
-            }
           })
         }
       </Grid>

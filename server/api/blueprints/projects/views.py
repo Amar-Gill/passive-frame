@@ -86,8 +86,8 @@ def index(id):
             return jsonify(
                 message="Project does not exist",
                 status="Fail"
-            )
-
+            )     
+    
     # get all projects
     projects = Project.select()
 
