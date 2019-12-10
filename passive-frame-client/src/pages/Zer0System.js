@@ -1,6 +1,6 @@
 import React from 'react'
 import {Responsive} from 'semantic-ui-react'
-const HomePage = () => {
+const Zer0System = () => {
     // set states
 
     return (
@@ -20,4 +20,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage
+export default Zer0System

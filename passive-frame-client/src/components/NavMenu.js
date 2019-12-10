@@ -14,7 +14,7 @@ function NavMenu(props) {
 
   return (
     <div>
-      <LogoutModal setShowModal={setShowModal} showModal={showModal} setUserLoggedIn={props.setUserLoggedIn} />
+      <LogoutModal setShowModal={setShowModal} showModal={showModal} />
 
       <Menu className="bg-white" fluid pointing secondary style={{position: "fixed", top: 0, zIndex: 30}}>
         <Responsive as={Menu.Item} minWidth={higherBreakpoint}
@@ -23,7 +23,7 @@ function NavMenu(props) {
           active={activeItem === 'ZER0_system'}
           onClick={() => {
             setActiveItem('ZER0_system')
-            props.history.push('/')
+            props.history.push('/zer0_system/')
           }
           }
         />
@@ -33,7 +33,7 @@ function NavMenu(props) {
           active={activeItem === 'ZER0_system'}
           onClick={() => {
             setActiveItem('ZER0_system')
-            props.history.push('/')
+            props.history.push('/zer0_system/')
           }
           }
         />
@@ -62,7 +62,7 @@ function NavMenu(props) {
           active={activeItem === 'Assets'}
           onClick={() => {
             setActiveItem('Assets')
-            props.history.push('/')
+            props.history.push('/zer0_system/')
           }
           }
         />
@@ -104,7 +104,7 @@ function NavMenu(props) {
                 active={activeItem === 'Assets'}
                 onClick={() => {
                   setActiveItem('Assets')
-                  props.history.push('/')
+                  props.history.push('/zer0_system/')
                 }
                 }
               />

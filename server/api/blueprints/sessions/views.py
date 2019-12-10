@@ -25,7 +25,7 @@ def create():
         return jsonify(
             auth_token=auth_token,
             message = "Succesfully signed in.",
-            status = "success",
+            status = "Success",
             user = {
                 "id": user.id,
                 "username": user.username,
