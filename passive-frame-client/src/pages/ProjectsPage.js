@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Icon, Segment, Grid, Menu, Input } from 'semantic-ui-react'
-import UserContext from '../UserContext'
 import ProjectInfoSegment from '../components/ProjectInfoSegment'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import { useAuth } from '../context/auth'
 
 
 
 const ProjectsPage = (props) => {
   const [projects, setProjects] = useState([])
-  const { user, setUser } = useContext(UserContext)
+  const { currentUser } = useAuth()
+
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/api/v1/organizations/${user.organization_id}/projects`, {
+    fetch(`http://127.0.0.1:5000/api/v1/organizations/${currentUser.organization_id}/projects`, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -21,7 +22,7 @@ const ProjectsPage = (props) => {
   }, [])
 
   
-   if (!user)
+   if (!currentUser)
     return (
       <h1 className="mt-40"> LOADING...</h1>
     )

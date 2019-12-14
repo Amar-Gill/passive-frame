@@ -20,15 +20,21 @@ import './App.css'
 
 function App() {
   const [authTokens, setAuthTokens] = useState()
+  const [currentUser, setCurrentUser] = useState()
 
   const setTokens = (data) => {
     localStorage.setItem("tokens", JSON.stringify(data))
     setAuthTokens(data)
   }
 
+  // TODO - useEffect to check if token expired?
+  // if expired: setAuthTokens() and setCurrentUser()
+
 
   return (
-    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+    // AuthContext.Provider takes an object as argument for value prop.
+    // This way useAuth will have authTokens state and setAuthTokens function to update authTokens.
+    <AuthContext.Provider value={{ authTokens, currentUser, setAuthTokens: setTokens, setCurrentUser: setCurrentUser }}>
       <BrowserRouter>
         <div>
           <NavMenu />

@@ -4,11 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { useAuth } from '../context/auth'
 
 const LogoutModal = (props) => {
-  const { setAuthTokens } = useAuth()
+  const { setAuthTokens, setCurrentUser } = useAuth()
 
   const logOut = e => {
     e.preventDefault()
     setAuthTokens()
+    setCurrentUser()
   }
 
   return (

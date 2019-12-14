@@ -2,14 +2,13 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 import { Redirect, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/auth'
-import UserContext from '../UserContext'
 
 const SignInPage = (props) => {
   const [isLoggedIn, setLoggedIn] = useState(false)
   const [isError, setIsError] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { setAuthTokens } = useAuth()
+  const { setAuthTokens, setCurrentUser } = useAuth()
   let location = useLocation()
   const referer = location.state? location.state.referer : '/'
 
@@ -37,6 +36,7 @@ const SignInPage = (props) => {
       .then(result => {
         if (result.status == "Success") {
           setAuthTokens(result.auth_token)
+          setCurrentUser(result.user)
           setLoggedIn(true)
         } else {
           setIsError(true)
