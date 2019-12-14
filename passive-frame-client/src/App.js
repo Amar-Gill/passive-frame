@@ -32,8 +32,9 @@ function App() {
 
 
   return (
-    // AuthContext.Provider takes an object as argument for value prop.
+    // AuthContext.Provider given an object as argument for value prop.
     // This way useAuth will have authTokens state and setAuthTokens function to update authTokens.
+    // useAuth hook doubles as hook for currentUser object
     <AuthContext.Provider value={{ authTokens, currentUser, setAuthTokens: setTokens, setCurrentUser: setCurrentUser }}>
       <BrowserRouter>
         <div>

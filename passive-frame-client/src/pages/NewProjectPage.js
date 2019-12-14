@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ProjectInfoForm from '../components/ProjectInfoForm'
 import { Menu, Icon, Header, Button } from 'semantic-ui-react'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
-import UserContext from '../UserContext'
 import { useHistory } from 'react-router-dom'
+import { useAuth } from '../context/auth'
 
 const NewProjectPage = (props) => {
   // use states
-  const { user, setUser } = useContext(UserContext)
+  const { currentUser } = useAuth()
   let history = useHistory()
   
   // POST for create new Project -> use PUT for edit project
@@ -28,8 +28,8 @@ const NewProjectPage = (props) => {
           <Header
             as="h4"
             style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
-            content={user.organization_name}
-            subheader={`org-id: ${user.organization_id}`} />
+            content={currentUser.organization_name}
+            subheader={`org-id: ${currentUser.organization_id}`} />
         </Menu.Item>
         <Menu.Menu position="right">
 

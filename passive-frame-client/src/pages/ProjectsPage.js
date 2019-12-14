@@ -21,12 +21,6 @@ const ProjectsPage = (props) => {
       })
   }, [])
 
-  
-   if (!currentUser)
-    return (
-      <h1 className="mt-40"> LOADING...</h1>
-    )
-
    return (
     <div className='mt-40'>
       
