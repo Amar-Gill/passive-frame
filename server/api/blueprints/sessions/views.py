@@ -20,8 +20,16 @@ def create():
         result = check_password_hash(user.password, password) or None
 
     if result:
-        # return jwt
-        auth_token = create_access_token(identity=username)
+        # create a user object -> matces user object in return value
+        user_object = {
+            "id": user.id,
+            "username": username,
+            "email": user.email,
+            "organization_name": user.organization.name,
+            "organization_id": user.organization.id
+        }
+        # return jwt with user_object as identity
+        auth_token = create_access_token(identity=user_object)
         return jsonify(
             auth_token=auth_token,
             message = "Succesfully signed in.",

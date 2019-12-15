@@ -11,11 +11,11 @@ import ProjectPage from './pages/ProjectPage'
 import NewReportPage from './pages/NewReportPage'
 import NewReportItemPage from './pages/NewReportItemPage'
 import ReportItemsPage from './pages/ReportItemsPage'
-import { UserProvider } from './UserContext'
 import EditProjectPage from './pages/EditProjectPage'
 import EditReportPage from './pages/EditReportPage'
 import EditReportItemPage from './pages/EditReportItemPage'
 import { AuthContext } from "./context/auth";
+import jwt from 'jsonwebtoken'
 import './App.css'
 
 function App() {
@@ -27,8 +27,23 @@ function App() {
     setAuthTokens(data)
   }
 
+  // TODO - add JWT required to all private api routes
+  // and use useAuth hook to add token to request header
+
   // TODO - useEffect to check if token expired?
   // if expired: setAuthTokens() and setCurrentUser()
+  // check if auth token exists in local storage
+  // check if authTokens state == localStorage.getItem("tokens")? necessary?
+  // check if token expired
+  // expired? redirect to signinpage : go to page and setAuthTokens(jwt) and setCurrentUser(user or whatever)
+  useEffect(() => {
+    if (localStorage.getItem("tokens") != "undefined") {
+      setAuthTokens(JSON.parse(localStorage.tokens))
+      // decode jwt to obtain user object
+      const decoded = jwt.decode(JSON.parse(localStorage.tokens), {complete: true})
+      setCurrentUser(decoded.payload.identity)
+    }
+  }, [])
 
 
   return (
