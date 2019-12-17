@@ -155,10 +155,12 @@ const ReportInfoForm = (props) => {
             basic>Back</Button>
         </Container>
       </Form>
+
       <h1>{getTime(reportDate)}</h1>
       <h1>{format(reportDate, "MMMM d, yyyy h:mm aa")}</h1>
       <h1>{temperature}</h1>
       <h1>{description}</h1>
+      
     </div>
   )
 }

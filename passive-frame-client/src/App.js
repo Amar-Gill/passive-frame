@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import PrivateRoute from './components/PrivateRoute'
 import NavMenu from './components/NavMenu'
 import SignInPage from './pages/SignInPage'
@@ -18,7 +18,7 @@ import { AuthContext } from "./context/auth";
 import jwt from 'jsonwebtoken'
 import './App.css'
 
-function App() {
+function App(props) {
   const [authTokens, setAuthTokens] = useState()
   const [currentUser, setCurrentUser] = useState()
 
@@ -29,9 +29,10 @@ function App() {
 
   // TODO - add JWT required to all private api routes
   // and use useAuth hook to add token to request header
-
+  
   // TODO - useEffect to check if token expired?
   // if expired: setAuthTokens() and setCurrentUser()
+  // reasoning: update state of present session
   // check if auth token exists in local storage
   // check if authTokens state == localStorage.getItem("tokens")? necessary?
   // check if token expired
@@ -42,6 +43,9 @@ function App() {
       // decode jwt to obtain user object
       const decoded = jwt.decode(JSON.parse(localStorage.tokens), {complete: true})
       setCurrentUser(decoded.payload.identity)
+      // return redirect
+      // does not redirect to referer if app is refereshed deep within the component tree
+      return <Redirect to={{pathname: '/', state: {referer: props.location} }} />
     }
   }, [])
 
