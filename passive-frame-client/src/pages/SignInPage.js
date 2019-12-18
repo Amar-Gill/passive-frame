@@ -5,7 +5,7 @@ import { useAuth } from '../context/auth'
 
 const SignInPage = (props) => {
   const [isLoggedIn, setLoggedIn] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const [isError, setIsError] = useState(false) // TODO - catching and handling error state
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { setAuthTokens, setCurrentUser } = useAuth()
