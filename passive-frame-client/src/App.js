@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import PrivateRoute from './components/PrivateRoute'
 import NavMenu from './components/NavMenu'
 import SignInPage from './pages/SignInPage'
@@ -18,9 +18,31 @@ import { AuthContext } from "./context/auth";
 import jwt from 'jsonwebtoken'
 import './App.css'
 
-function App(props) {
-  const [authTokens, setAuthTokens] = useState()
-  const [currentUser, setCurrentUser] = useState()
+function App() {
+
+  // function to check if JWT exists on app refresh
+  const checkJWT = () => {
+    if (localStorage.tokens != "undefined") {
+      return JSON.parse(localStorage.tokens)
+    } else {
+      return null
+    }
+  }
+
+  // if JWT exists decode jwt to obtain user data
+  const checkUser = () => {
+    if (localStorage.tokens != "undefined") {
+      // decode jwt to obtain user object
+      const decoded = jwt.decode(JSON.parse(localStorage.tokens), { complete: true })
+      return decoded.payload.identity
+    } else {
+      return null
+    }
+  }
+
+  // pass check functions as args into useState()
+  const [authTokens, setAuthTokens] = useState(checkJWT())
+  const [currentUser, setCurrentUser] = useState(checkUser())
 
   const setTokens = (data) => {
     localStorage.setItem("tokens", JSON.stringify(data))
@@ -29,7 +51,7 @@ function App(props) {
 
   // TODO - add JWT required to all private api routes
   // and use useAuth hook to add token to request header
-  
+
   // TODO - useEffect to check if token expired?
   // if expired: setAuthTokens() and setCurrentUser()
   // reasoning: update state of present session
@@ -37,18 +59,6 @@ function App(props) {
   // check if authTokens state == localStorage.getItem("tokens")? necessary?
   // check if token expired
   // expired? redirect to signinpage : go to page and setAuthTokens(jwt) and setCurrentUser(user or whatever)
-  useEffect(() => {
-    if (localStorage.getItem("tokens") != "undefined") {
-      setAuthTokens(JSON.parse(localStorage.tokens))
-      // decode jwt to obtain user object
-      const decoded = jwt.decode(JSON.parse(localStorage.tokens), {complete: true})
-      setCurrentUser(decoded.payload.identity)
-      // return redirect
-      // does not redirect to referer if app is refereshed deep within the component tree
-      return <Redirect to={{pathname: '/', state: {referer: props.location} }} />
-    }
-  }, [])
-
 
   return (
     // AuthContext.Provider given an object as argument for value prop.
