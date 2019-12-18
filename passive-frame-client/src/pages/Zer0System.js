@@ -1,6 +1,6 @@
 import React from 'react'
 import {Responsive} from 'semantic-ui-react'
-const HomePage = () => {
+const Zer0System = () => {
     // set states
 
     return (
@@ -12,12 +12,12 @@ const HomePage = () => {
                 <h4 style={{ position: "fixed", top: "95vh", left: "25vw", color: "white", backgroundColor: "black", fontFamily: "Courier New" }} >  [  ZER0_system under development  ]  </h4>
             </Responsive>
 
-            <img src="Epyon-katoki1.jpg" style={{ width: "100vw", marginTop: 2 }} />
-            <img src="009.jpg" style={{ width: "100vw" }} />
-            <img src="Epyon-defense.jpg" style={{ width: "100vw" }} />
-            <img src="Epyon-zwei.jpg" style={{ width: "100vw" }} />
+            <img src={window.location.origin + "/Epyon-katoki1.jpg"}  style={{ width: "100vw", marginTop: 2 }} />
+            <img src={window.location.origin + "/009.jpg"}  style={{ width: "100vw" }} />
+            <img src={window.location.origin + "/Epyon-defense.jpg"}  style={{ width: "100vw" }} />
+            <img src={window.location.origin + "/Epyon-zwei.jpg"}  style={{ width: "100vw" }} />
         </div>
     )
 }
 
-export default HomePage
+export default Zer0System

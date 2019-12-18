@@ -106,60 +106,36 @@ def index(id):
 def update(id):
     project = Project.get_or_none(Project.id == id)
 
-    # get data
-    project_name = request.json.get("projectName", None)
-    project_number = request.json.get("projectNumber", None)
-    organization_id = request.json.get("organizationId", None)
+    if project:
+        # get data
+        project_name = request.json.get("projectName", None)
+        project_number = request.json.get("projectNumber", None)
+        organization_id = request.json.get("organizationId", None)
 
-    
-    # update the project info
-    if project_name:
-        project.name = project_name
-    if project_number:
-        project.number = project_number
-    if organization_id:
-        project.organization_id = organization_id
-        projects_of_org = Project.select().where(Project.organization_id == organization_id)
+        
+        # update the project info
+        if project_name and project_name != project.name:
+            project.name = project_name
+        if project_number and project_number != project.number:
+            project.number = project_number
+        if organization_id and organization_id != project.organization_id:
+            project.organization_id = organization_id
 
-    # check if name unique
-    # name to be unique within orgs only
-    if project_name:
-        project_names = [project.name for project in projects_of_org]
-        if project_name in project_names:
+
+        # save changes to db
+        if project.save():
             return jsonify(
-                message="Project name not unique.",
+                message="Project updated.",
+                status="Success"
+            )
+        else:
+            return jsonify(
+                message="Something went wrong please try again",
                 status="Fail"
             )
-
-    # check if project number unique
-    # project number to be unique within orgs only
-    if project_number:
-        project_numbers = [project.number for project in projects_of_org]
-        if project_number in project_numbers:
-            return jsonify(
-                message="Project number not unique.",
-                status="Fail"
-            )
-
-    # check if organization exists
-    if organization_id:
-        organizations = Organization.select()
-        organization_ids = [organization.id for organization in organizations]
-        if organization_id not in organization_ids:
-            return jsonify(
-                message="Organization does not exist.",
-                status="Fail"
-            )
-
-    # save changes to db
-    if project.save():
-        return jsonify(
-            message="Project updated.",
-            status="Success"
-        )
     else:
         return jsonify(
-            message="Something went wrong please try again",
+            message="Project does not exist",
             status="Fail"
         )
 

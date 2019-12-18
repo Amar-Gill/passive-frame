@@ -18,7 +18,7 @@ const ReportInfoForm = (props) => {
   let history = useHistory();
   let location = useLocation()
   const [reportType, setReportType] = useState('')
-  const [reportDate, setReportDate] = useState(new Date()) // Date() object is from date-fns library
+  const [reportDate, setReportDate] = useState(new Date())
   const [temperature, setTemperature] = useState(0)
   const [description, setDescription] = useState('')
   const [disabledForm, setDisabledForm] = useState(false)
@@ -155,10 +155,12 @@ const ReportInfoForm = (props) => {
             basic>Back</Button>
         </Container>
       </Form>
+
       <h1>{getTime(reportDate)}</h1>
       <h1>{format(reportDate, "MMMM d, yyyy h:mm aa")}</h1>
       <h1>{temperature}</h1>
       <h1>{description}</h1>
+      
     </div>
   )
 }

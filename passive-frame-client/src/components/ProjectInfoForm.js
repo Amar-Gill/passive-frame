@@ -1,18 +1,19 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Form, Grid, Container } from 'semantic-ui-react'
-import UserContext from '../UserContext'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
+import { useAuth } from '../context/auth'
 
 
 const ProjectInfoForm = (props) => {
 
     const [projectName, setProjectName] = useState('')
     const [projectNumber, setProjectNumber] = useState('')
-    const { user, setUser } = useContext(UserContext)
+    const { currentUser } = useAuth()
     const { id } = useParams()
     let history = useHistory()
     let location = useLocation()
 
+    // effect to populate fields when form in edit mode
     useEffect(() => {
         if (location.state && props.HTTPMethod == "PUT") {
             setProjectName(location.state.project.project_name)
@@ -36,7 +37,7 @@ const ProjectInfoForm = (props) => {
         let projectObject = {
             projectName: projectName,
             projectNumber: projectNumber,
-            organizationId: user.organization_id
+            organizationId: currentUser.organization_id
         }
 
         // open chrome without web protection to allow cross origin request:

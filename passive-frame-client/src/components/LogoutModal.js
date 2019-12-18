@@ -1,13 +1,15 @@
 import React from 'react'
 import { Button, Header, Icon, Modal } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
+import { useAuth } from '../context/auth'
 
 const LogoutModal = (props) => {
+  const { setAuthTokens, setCurrentUser } = useAuth()
+
   const logOut = e => {
     e.preventDefault()
-    localStorage.removeItem('JWT')
-    props.setUserLoggedIn(false)
-    props.history.push('/')
+    setAuthTokens()
+    setCurrentUser()
   }
 
   return (
