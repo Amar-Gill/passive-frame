@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import PrivateRoute from './components/PrivateRoute'
 import NavMenu from './components/NavMenu'
@@ -69,7 +69,9 @@ function App() {
     <AuthContext.Provider value={{ authTokens, currentUser, setAuthTokens: setTokens, setCurrentUser: setCurrentUser }}>
       <BrowserRouter>
         <div>
-          <NavMenu />
+          {
+            authTokens && <NavMenu/>
+          }
           <Switch>
             <Route exact path="/" render={(props) => <SignInPage {...props} />} />
             <PrivateRoute exact path="/zer0_system/" component={Zer0System} />
