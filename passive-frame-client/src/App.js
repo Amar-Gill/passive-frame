@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import PrivateRoute from './components/PrivateRoute'
 import NavMenu from './components/NavMenu'
@@ -19,29 +19,39 @@ import jwt from 'jsonwebtoken'
 import './App.css'
 
 function App() {
-
   // function to check if JWT exists on app refresh
+  // also checks if jwt expired or not
   const checkJWT = () => {
     if (localStorage.tokens != "undefined") {
-      return JSON.parse(localStorage.tokens)
-    } else {
-      return null
-    }
-  }
-
-  // if JWT exists decode jwt to obtain user data
-  const checkUser = () => {
-    if (localStorage.tokens != "undefined") {
-      // decode jwt to obtain user object
       const decoded = jwt.decode(JSON.parse(localStorage.tokens), { complete: true })
-      return decoded.payload.identity
+      const exp = decoded.payload.exp
+      // check if present time past expiry timestamp
+      if (Date.now() > exp * 1000) {
+        // remove JWT from local storage
+        localStorage.setItem("tokens", undefined)
+        return undefined
+      } else {
+        return JSON.parse(localStorage.tokens)
+      }
     } else {
-      return null
+      return undefined
     }
   }
 
   // pass check functions as args into useState()
   const [authTokens, setAuthTokens] = useState(checkJWT())
+
+  // if JWT exists decode jwt to obtain user data
+  const checkUser = () => {
+    if (authTokens) {
+      // decode jwt to obtain user object contained in identity set in api endpoint
+      const decoded = jwt.decode(JSON.parse(localStorage.tokens), { complete: true })
+      return decoded.payload.identity
+    } else {
+      return undefined
+    }
+  }
+
   const [currentUser, setCurrentUser] = useState(checkUser())
 
   const setTokens = (data) => {
@@ -51,14 +61,6 @@ function App() {
 
   // TODO - add JWT required to all private api routes
   // and use useAuth hook to add token to request header
-
-  // TODO - useEffect to check if token expired?
-  // if expired: setAuthTokens() and setCurrentUser()
-  // reasoning: update state of present session
-  // check if auth token exists in local storage
-  // check if authTokens state == localStorage.getItem("tokens")? necessary?
-  // check if token expired
-  // expired? redirect to signinpage : go to page and setAuthTokens(jwt) and setCurrentUser(user or whatever)
 
   return (
     // AuthContext.Provider given an object as argument for value prop.
