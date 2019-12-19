@@ -51,6 +51,10 @@ const ReportItemInfoForm = (props) => {
             reportId: reportid
         }
 
+        // create array for actionItem objects
+        // or inegrate save button into action form?
+        // client side can make sure action items saved before leaving
+
         let urlString = null
         switch (props.HTTPMethod) {
             case "POST":
@@ -159,7 +163,7 @@ const ReportItemInfoForm = (props) => {
                     />
 
                 </Form.Field>
-                <Container textAlign="right">
+                {/* <Container textAlign="right">
                     <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
                     <Button
                         onClick={(e) => {
@@ -169,7 +173,7 @@ const ReportItemInfoForm = (props) => {
                         className="remove-border-radius"
                         secondary
                         basic>Back</Button>
-                </Container>
+                </Container> */}
             </Form>
         </div>
     )

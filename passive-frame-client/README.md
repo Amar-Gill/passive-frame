@@ -16,6 +16,9 @@ TODOS
 18) HOW TO ISSUE: send an email with link to webview (HTML) of a report. User can choose to download PDF from link =]
 20) add project and report context?
 21) build more descriptive report item and action indexing system.
+22) public landing page
+23) sales funnel
+=]
 
 
 

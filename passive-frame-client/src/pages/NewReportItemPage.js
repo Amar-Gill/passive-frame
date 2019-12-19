@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
-import { Grid, Container, Menu, Button, Header, Icon } from 'semantic-ui-react'
+import { Grid, Container, Menu, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import ReportItemInfoForm from '../components/ReportItemInfoForm'
 import { format } from 'date-fns'
+import ActionItemForm from '../components/ActionItemForm'
 
 const NewReportItemPage = (props) => {
     // states
@@ -106,6 +107,10 @@ const NewReportItemPage = (props) => {
                 <Grid columns={1} >
                     <Grid.Column>
                         <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
+                        <Segment>
+                        <ActionItemForm/>
+
+                        </Segment>
                     </Grid.Column>
                 </Grid>
 

@@ -1,3 +1,5 @@
+Launch: March 15, 2020
+
 Site Reporting App
 
 Purpose:
@@ -104,3 +106,4 @@ Where to find people who need my product:
 7) Consulting engineers of Ontario events
 8) Toronto 2030 district
 9) Contracting and construction events
+10) UrbanToronto blog
