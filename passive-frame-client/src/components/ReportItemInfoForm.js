@@ -91,7 +91,7 @@ const ReportItemInfoForm = (props) => {
 
     return (
         <div>
-            <h2>{props.header}</h2>
+            <h4>{props.header}</h4>
             <Form id='report-item-info-form' onSubmit={handleSubmit}>
                 <Form.Field>
                     {/* <label>Subject</label> */}

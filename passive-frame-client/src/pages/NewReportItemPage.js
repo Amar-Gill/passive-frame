@@ -103,13 +103,14 @@ const NewReportItemPage = (props) => {
                 </Menu.Menu>
             </Menu>
             <StickyHorizontalDivider topDesktop={86} topMobile={86} />
-            <Container text>
+            <Container>
                 <Grid columns={1} >
                     <Grid.Column>
-                        <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
                         <Segment>
-                        <ActionItemForm/>
-
+                            <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
+                        </Segment>
+                        <Segment>
+                            <ActionItemForm />
                         </Segment>
                     </Grid.Column>
                 </Grid>
