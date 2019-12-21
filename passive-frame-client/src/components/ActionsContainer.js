@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Segment } from 'semantic-ui-react'
 import ActionItemForm from './ActionItemForm'
+import ActionItemInfoSegment from './ActionItemInfoSegment'
 
 const ActionsContainer = () => {
     // set states
@@ -16,19 +17,7 @@ const ActionsContainer = () => {
             {
                 actions.map(action => {
                     return (
-                        <Segment>
-                            <h6>
-                                owner: {action.owner}
-                            </h6>
-                            <h6>
-
-                                description: {action.description}
-                            </h6>
-                            <h6>
-
-                                status: {action.status}
-                            </h6>
-                        </Segment>
+                        <ActionItemInfoSegment key={action.dueDate} action={action}/>
                     )
                 })
             }

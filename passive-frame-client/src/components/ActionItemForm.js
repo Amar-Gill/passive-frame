@@ -80,6 +80,7 @@ const ActionItemForm = (props) => {
             <h6>{status}</h6>
             <h6>{owner}</h6>
             <h6>{getTime(dueDate)}</h6>
+            <h6>{getTime(dueDate)}</h6>
             <h6>{description}</h6>
 
         </div>
