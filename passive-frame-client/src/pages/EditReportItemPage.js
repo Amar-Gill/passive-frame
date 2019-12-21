@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Container, Menu, Button, Icon, Header } from 'semantic-ui-react'
+import { Grid, Container, Menu, Button, Icon, Header, Segment } from 'semantic-ui-react'
 import ReportItemInfoForm from '../components/ReportItemInfoForm'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
-import {format} from 'date-fns'
+import { format } from 'date-fns'
+import ActionItemForm from '../components/ActionItemForm'
+import ActionsContainer from '../components/ActionsContainer'
 
 const EditReportItem = (props) => {
     // states
@@ -52,7 +54,7 @@ const EditReportItem = (props) => {
 
     return (
         <div className="mt-40">
-            <Menu className="fixed-submenu bg-white" secondary  size="small">
+            <Menu className="fixed-submenu bg-white" secondary size="small">
                 <Menu.Item fitted="vertically">
                     <Button
                         onClick={(e) => {
@@ -101,10 +103,13 @@ const EditReportItem = (props) => {
                 </Menu.Menu>
             </Menu>
             <StickyHorizontalDivider topDesktop={86} topMobile={86} />
-            <Container text>
+            <Container>
                 <Grid columns={1} >
                     <Grid.Column>
-                        <ReportItemInfoForm project={currentProject} header="Edit Report Item" HTTPMethod="PUT"/>
+                        <Segment>
+                            <ReportItemInfoForm project={currentProject} header="Edit Report Item" HTTPMethod="PUT" />
+                        </Segment>
+                        <ActionsContainer/>
                     </Grid.Column>
                 </Grid>
 

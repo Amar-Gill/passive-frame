@@ -5,6 +5,7 @@ import { Grid, Container, Menu, Button, Header, Icon, Segment } from 'semantic-u
 import ReportItemInfoForm from '../components/ReportItemInfoForm'
 import { format } from 'date-fns'
 import ActionItemForm from '../components/ActionItemForm'
+import ActionsContainer from '../components/ActionsContainer'
 
 const NewReportItemPage = (props) => {
     // states
@@ -109,9 +110,7 @@ const NewReportItemPage = (props) => {
                         <Segment>
                             <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
                         </Segment>
-                        <Segment>
-                            <ActionItemForm />
-                        </Segment>
+                        <ActionsContainer/>
                     </Grid.Column>
                 </Grid>
 

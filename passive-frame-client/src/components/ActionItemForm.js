@@ -8,23 +8,41 @@ const selectOptions = [
     { key: "closed", value: "closed", text: "Closed" }
 ]
 
-const ActionItemForm = () => {
+const ActionItemForm = (props) => {
     // set state
     const [dueDate, setDueDate] = useState(new Date())
     const [status, setStatus] = useState('open')
     const [owner, setOwner] = useState('')
     const [description, setDescription] = useState('')
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const action = {
+            'dueDate': dueDate,
+            'status': status,
+            'owner': owner,
+            'description': description
+        }
+
+        // alert(actions)
+        props.setActions([...props.actions, action])
+    }
+
     return (
         <div>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h4
                         style={{ display: 'inline', marginTop: 'auto' }}
                     >New Action Item</h4>
 
-                    <Button secondary icon className="remove-border-radius">
-                        <Icon name="save outline" />
+                    <Button
+                    secondary
+                    icon
+                    type='submit'
+                    className="remove-border-radius">
+                        <Icon name="plus" />
+                        Add
                     </Button>
                 </div>
 
