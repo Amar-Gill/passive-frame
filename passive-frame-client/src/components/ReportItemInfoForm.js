@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Container, Button, TextArea, Menu, Icon } from 'semantic-ui-react'
+import { Form, TextArea, Menu, Icon } from 'semantic-ui-react'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
 
 const ReportItemInfoForm = (props) => {
@@ -80,7 +80,7 @@ const ReportItemInfoForm = (props) => {
             .then(result => {
                 alert(result.message)
                 if (result.status == "Success" && props.HTTPMethod == "POST") {
-                    history.goBack()
+                    history.push(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
                 }
             })
     }

@@ -46,7 +46,15 @@ def create():
     if new_report_item.save():
         return jsonify(
             message = "New report item created.",
-            status = "Success"
+            status = "Success",
+            reportItem = {
+                "id": new_report_item.id,
+                "subject": subject,
+                "content": content,
+                "reportItemIndex": report_item_index,
+                "reportId": report_id,
+                "projectId": Report.get_or_none(Report.id == report_id).project_id
+            }
         )
     else:
         return jsonify(

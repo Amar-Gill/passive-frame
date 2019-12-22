@@ -110,7 +110,7 @@ const NewReportItemPage = (props) => {
                         <Segment>
                             <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
                         </Segment>
-                        <ActionsContainer/>
+                        
                     </Grid.Column>
                 </Grid>
 

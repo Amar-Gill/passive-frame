@@ -24,12 +24,12 @@ const ActionItemInfoSegment = (props) => {
 
                 </Button>
             </div>
-            <Menu>
+            <Menu compact>
                 <Menu.Item>
-                    {action.owner}
+                    Owner: {action.owner}
                 </Menu.Item>
                 <Menu.Item>
-                    {format(action.dueDate, "MMMM d, yyyy h:mm aa")}
+                    Due: {format(action.dueDate, "MMMM d, yyyy h:mm aa")}
                 </Menu.Item>
                 <Menu.Item>
                     <Label color="black">
@@ -41,7 +41,7 @@ const ActionItemInfoSegment = (props) => {
                     </Label>
                 </Menu.Item>
             </Menu>
-            <label>description</label>
+            <h4>Description</h4>
             <Segment>
                 {action.description}
 
