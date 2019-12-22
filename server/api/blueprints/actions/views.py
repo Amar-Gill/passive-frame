@@ -13,7 +13,7 @@ actions_api_blueprint = Blueprint("actions_api",
 @actions_api_blueprint.route("/", methods=["POST"])
 def create():
     # get data
-    content = request.json.get("content", None)
+    description = request.json.get("description", None)
     owner = request.json.get("owner", None)
     due_date = request.json.get("dueDate", None)
     report_item_id = request.json.get("reportItemId", None)
@@ -45,11 +45,13 @@ def create():
 
     # convert due_date which is bigint to datetimeobject for peewee
     # 1e3 removes millisecond precision
+    # due_date = int(due_date)
+    # due_date = due_date / 1e3
     due_date = datetime.datetime.fromtimestamp(due_date / 1e3)
 
     # instantiate object and save to db
     action = Action(
-        content=content,
+        description=description,
         owner=owner,
         due_date=due_date,
         report_item_id=report_item_id,
@@ -59,10 +61,25 @@ def create():
     if action.save():
         return jsonify(
             message="New action created.",
-            status="Success"
+            status="Success",
+            # returned action must match report_items.actions response
+            action={
+                "id": action.id,
+                "description": action.description,
+                "owner": action.owner,
+                "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                "closed": action.closed,
+                "actionItemIndex": action.action_item_index,
+                "reportItemId": action.report_item_id
+            }
         )
     else:
         return jsonify(
             message="Something went wrong please try again",
             status="Fail"
         )
+
+
+@actions_api_blueprint.route("/", methods=["GET"])
+def index():
+    pass

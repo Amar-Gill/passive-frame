@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Icon, Button } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import { getTime } from 'date-fns'
+import { useParams } from 'react-router-dom'
 
 const selectOptions = [
     { key: "open", value: "open", text: "Open" },
@@ -10,10 +11,12 @@ const selectOptions = [
 
 const ActionItemForm = (props) => {
     // set state
-    const [dueDate, setDueDate] = useState(new Date())
+    const [dueDate, setDueDate] = useState(getTime(new Date()))
     const [status, setStatus] = useState('open')
     const [owner, setOwner] = useState('')
     const [description, setDescription] = useState('')
+
+    const { itemid } = useParams()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -21,11 +24,27 @@ const ActionItemForm = (props) => {
             'dueDate': dueDate,
             'status': status,
             'owner': owner,
-            'description': description
+            'description': description, // rename API endpoint to use description?
+            'reportItemId': itemid
         }
 
+        fetch(`http://127.0.0.1:5000/api/v1/actions/`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(action)
+        })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message)
+                if (result.status == "Success") {
+                    props.setActions([...props.actions, result.action])
+                }
+            })
+
         // alert(actions)
-        props.setActions([...props.actions, action])
+        // props.setActions([...props.actions, action])
     }
 
     return (
@@ -37,10 +56,10 @@ const ActionItemForm = (props) => {
                     >New Action Item</h4>
 
                     <Button
-                    secondary
-                    icon
-                    type='submit'
-                    className="remove-border-radius">
+                        secondary
+                        icon
+                        type='submit'
+                        className="remove-border-radius">
                         <Icon name="plus" />
                         Add
                     </Button>
@@ -48,11 +67,11 @@ const ActionItemForm = (props) => {
 
                 <Form.Group unstackable widths={3}>
                     <Form.Select label="Status" placeholder="Status" options={selectOptions}
-                    onChange={(e, { value }) => setStatus(value)}
-                    value={status}/>
+                        onChange={(e, { value }) => setStatus(value)}
+                        value={status} />
                     <Form.Input label="Owner" placeholder="Owner"
-                    onChange={(e) => setOwner(e.target.value)}
-                    value={owner}/>
+                        onChange={(e) => setOwner(e.target.value)}
+                        value={owner} />
                     <Form.Field>
                         <label>Due Date</label>
                         <DatePicker
@@ -73,14 +92,14 @@ const ActionItemForm = (props) => {
                     </Form.Field>
                 </Form.Group>
                 <Form.TextArea label="Description" rows={4}
-                value={description}
-                onChange={e => setDescription(e.target.value)}/>
+                    value={description}
+                    onChange={e => setDescription(e.target.value)} />
             </Form>
             <h5>TESTING:</h5>
             <h6>{status}</h6>
             <h6>{owner}</h6>
             <h6>{getTime(dueDate)}</h6>
-            <h6>{getTime(dueDate)}</h6>
+            <h6>{getTime(dueDate)/1000}</h6>
             <h6>{description}</h6>
 
         </div>

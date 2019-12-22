@@ -74,7 +74,8 @@ const ReportItemsPage = (props) => {
                     <Button
                         onClick={(e) => {
                             e.preventDefault()
-                            history.goBack()
+                            // history.goBack()
+                            history.push(`/projects/${projid}/`)
                         }}
                         compact
                         className="remove-border-radius"
