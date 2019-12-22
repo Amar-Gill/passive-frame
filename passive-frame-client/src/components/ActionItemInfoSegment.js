@@ -12,7 +12,7 @@ const ActionItemInfoSegment = (props) => {
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <h4
                     style={{ display: 'inline', marginTop: 'auto' }}
-                >F.01.A</h4>
+                >Action Item Index: {action.actionItemIndex}</h4>
 
                 <Button
                     secondary
@@ -35,7 +35,7 @@ const ActionItemInfoSegment = (props) => {
                     <Label color="black">
                         Status
                             <Label.Detail>
-                            {action.status}
+                            {action.closed ? 'closed' : 'open'}
 
                         </Label.Detail>
                     </Label>
@@ -44,7 +44,6 @@ const ActionItemInfoSegment = (props) => {
             <h4>Description</h4>
             <Segment>
                 {action.description}
-
             </Segment>
 
         </Segment>

@@ -17,6 +17,7 @@ def create():
     owner = request.json.get("owner", None)
     due_date = request.json.get("dueDate", None)
     report_item_id = request.json.get("reportItemId", None)
+    # status = request
     # index actions by report_item or project?... report_item for now
 
     # data validation
