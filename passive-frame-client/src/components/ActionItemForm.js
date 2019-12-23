@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Icon, Button } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import { getTime } from 'date-fns'
@@ -11,16 +11,15 @@ const selectOptions = [
 
 const ActionItemForm = (props) => {
     // set state
-    const [dueDate, setDueDate] = useState(getTime(new Date()))
-    const [status, setStatus] = useState('open')
-    const [owner, setOwner] = useState('')
-    const [description, setDescription] = useState('')
-
+    const [dueDate, setDueDate] = useState(props.editMode ? props.action.dueDate : getTime(new Date()))
+    const [status, setStatus] = useState(props.editMode ? (props.action.closed ? 'closed' : 'open') : 'open')
+    const [owner, setOwner] = useState(props.editMode ? props.action.owner : '')
+    const [description, setDescription] = useState(props.editMode ? props.action.description : '')
     const { itemid } = useParams()
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const action = {
+        const actionObject = {
             'dueDate': dueDate,
             'status': status,
             'owner': owner,
@@ -28,23 +27,33 @@ const ActionItemForm = (props) => {
             'reportItemId': itemid
         }
 
-        fetch(`http://127.0.0.1:5000/api/v1/actions/`, {
-            method: "POST",
+        let HTTPMethod = null
+
+        props.editMode? HTTPMethod = "PUT" : HTTPMethod = "POST"
+
+        let urlString = null
+
+        props.editMode? urlString = `http://127.0.0.1:5000/api/v1/actions/${props.action.id}` : urlString = `http://127.0.0.1:5000/api/v1/actions/`
+
+        fetch(urlString, {
+            method: HTTPMethod,
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: JSON.stringify(action)
+            body: JSON.stringify(actionObject)
         })
             .then(response => response.json())
             .then(result => {
                 alert(result.message)
-                if (result.status == "Success") {
+                if (result.status == "Success" && HTTPMethod == "POST") {
                     props.setActions([...props.actions, result.action])
+                    setStatus('open')
+                    setDescription('')
+                    setOwner('')
+                } else if (result.status == "Success" && HTTPMethod == "PUT") {
+                    props.setEditMode(false)
                 }
             })
-
-        // alert(actions)
-        // props.setActions([...props.actions, action])
     }
 
     return (
@@ -52,17 +61,41 @@ const ActionItemForm = (props) => {
             <Form onSubmit={handleSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h4
-                        style={{ display: 'inline', marginTop: 'auto' }}
-                    >New Action Item</h4>
+                        style={{ display: 'inline', marginTop: 'auto' }}>
+                        {
+                            props.editMode ? `Revising Action: ${props.action.actionItemIndex}` : "New Action"
+                        }
+                    </h4>
+                    <span>
+                        <Button
+                            secondary
+                            icon
+                            type='submit'
+                            className="remove-border-radius">
+                            <Icon name={props.editMode ? "save outline" : "plus"} />
+                            {
+                                props.editMode ? "Save" : "Add"
+                            }
+                        </Button>
+                        {
+                            props.editMode &&
+                            <Button
+                                onClick={
+                                    (e) => {
+                                        e.preventDefault()
+                                        props.setEditMode(false)
+                                    }
+                                }
+                                secondary
+                                basic
+                                icon
+                                className="remove-border-radius">
+                                <Icon name="close" />
 
-                    <Button
-                        secondary
-                        icon
-                        type='submit'
-                        className="remove-border-radius">
-                        <Icon name="plus" />
-                        Add
-                    </Button>
+                            </Button>
+                        }
+                    </span>
+
                 </div>
 
                 <Form.Group unstackable widths={3}>
@@ -99,7 +132,7 @@ const ActionItemForm = (props) => {
             <h6>{status}</h6>
             <h6>{owner}</h6>
             <h6>{getTime(dueDate)}</h6>
-            <h6>{getTime(dueDate)/1000}</h6>
+            <h6>{getTime(dueDate) / 1000}</h6>
             <h6>{description}</h6>
 
         </div>

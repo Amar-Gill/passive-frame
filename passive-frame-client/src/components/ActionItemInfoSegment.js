@@ -1,10 +1,21 @@
-import React from 'react'
-import { Button, Segment, Grid, Icon, Label, Menu } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Button, Segment, Icon, Label, Menu } from 'semantic-ui-react'
 import format from 'date-fns/format'
+import ActionItemForm from './ActionItemForm'
 
 const ActionItemInfoSegment = (props) => {
     //props?
+    const [editMode, setEditMode] = useState(false)
     const { action } = props
+
+    if (editMode) {
+        return (
+            <Segment>
+                <ActionItemForm setEditMode={setEditMode} editMode={editMode} action={action} />
+            </Segment>
+
+        )
+    }
 
     return (
         <Segment>
@@ -15,6 +26,7 @@ const ActionItemInfoSegment = (props) => {
                 >Action Item Index: {action.actionItemIndex}</h4>
 
                 <Button
+                    onClick={() => setEditMode(true)}
                     secondary
                     basic
                     icon
