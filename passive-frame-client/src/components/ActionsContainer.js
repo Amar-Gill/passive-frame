@@ -11,28 +11,28 @@ const ActionsContainer = () => {
 
     useEffect(() => {
         fetch(`http://127.0.0.1:5000/api/v1/report_items/${itemid}/actions`,
-        {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(result => {
-            setActions([...result.actions])
-        })
+            {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(result => {
+                setActions([...result.actions])
+            })
     }, [])
 
 
     return (
         <div>
-            <Segment>
-                <ActionItemForm actions={actions} setActions={setActions} />
-            </Segment>
             {
                 actions.map(action => {
                     return (
-                        <ActionItemInfoSegment key={action.dueDate} action={action}/>
+                        <ActionItemInfoSegment key={action.id} action={action} />
                     )
                 })
             }
+            <Segment>
+                <ActionItemForm actions={actions} setActions={setActions} />
+            </Segment>
         </div>
     )
 }

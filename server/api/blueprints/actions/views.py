@@ -17,7 +17,7 @@ def create():
     owner = request.json.get("owner", None)
     due_date = request.json.get("dueDate", None)
     report_item_id = request.json.get("reportItemId", None)
-    # status = request
+    status = request.json.get("status", None)
     # index actions by report_item or project?... report_item for now
 
     # data validation
@@ -46,8 +46,6 @@ def create():
 
     # convert due_date which is bigint to datetimeobject for peewee
     # 1e3 removes millisecond precision
-    # due_date = int(due_date)
-    # due_date = due_date / 1e3
     due_date = datetime.datetime.fromtimestamp(due_date / 1e3)
 
     # instantiate object and save to db
@@ -58,6 +56,9 @@ def create():
         report_item_id=report_item_id,
         action_item_index=action_item_index
     )
+    # check status
+    if status == "closed":
+        action.closed = True
 
     if action.save():
         return jsonify(
@@ -73,6 +74,56 @@ def create():
                 "actionItemIndex": action.action_item_index,
                 "reportItemId": action.report_item_id
             }
+        )
+    else:
+        return jsonify(
+            message="Something went wrong please try again",
+            status="Fail"
+        )
+
+
+@actions_api_blueprint.route("/<id>", methods=["PUT"])
+def update(id):
+    # get action item
+    action = Action.get_or_none(Action.id == id)
+
+    if not action:
+        return jsonify(
+            message=f"No action with id: {id}",
+            status="Fail"
+        )
+
+    # get data
+    description = request.json.get("description", None)
+    owner = request.json.get("owner", None)
+    due_date = request.json.get("dueDate", None)
+    status = request.json.get("status", None)
+
+    # convert due_date which is bigint to datetimeobject for peewee
+    # 1e3 removes millisecond precision
+    due_date = datetime.datetime.fromtimestamp(due_date / 1e3)
+
+    # resolve if action open or closed
+    closed = None
+    if status == 'open':
+        closed = False
+    else:
+        closed = True
+
+    if action.description != description:  # allow for empty string
+        action.description = description
+    if action.owner != owner:
+        action.owner = owner
+    if due_date and action.due_date != due_date:
+        action.due_date = due_date
+    if action.closed != closed:
+        action.closed = closed
+
+    # save changes to db
+    if action.save():
+        return jsonify(
+            message="Action updated.",
+            status="Success"
         )
     else:
         return jsonify(

@@ -24,7 +24,7 @@ const ActionItemInfoSegment = (props) => {
 
                 </Button>
             </div>
-            <Menu compact>
+            <Menu compact stackable>
                 <Menu.Item>
                     Owner: {action.owner}
                 </Menu.Item>
