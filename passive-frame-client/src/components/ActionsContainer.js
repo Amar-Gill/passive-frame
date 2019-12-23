@@ -27,7 +27,7 @@ const ActionsContainer = () => {
             {
                 actions.map(action => {
                     return (
-                        <ActionItemInfoSegment key={action.id} action={action} />
+                        <ActionItemInfoSegment actions={actions} setActions={setActions} key={action.id} action={action} />
                     )
                 })
             }

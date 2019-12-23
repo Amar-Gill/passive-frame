@@ -123,7 +123,16 @@ def update(id):
     if action.save():
         return jsonify(
             message="Action updated.",
-            status="Success"
+            status="Success",
+            action={
+                "id": action.id,
+                "description": action.description,
+                "owner": action.owner,
+                "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                "closed": action.closed,
+                "actionItemIndex": action.action_item_index,
+                "reportItemId": action.report_item_id
+            }
         )
     else:
         return jsonify(
