@@ -17,7 +17,9 @@ const ActionsContainer = () => {
             })
             .then(response => response.json())
             .then(result => {
-                setActions([...result.actions])
+                const actionsArray = [...result.actions]
+                actionsArray.sort( (a,b) => a.actionItemIndex - b.actionItemIndex)
+                setActions(actionsArray)
             })
     }, [])
 

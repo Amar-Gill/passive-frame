@@ -52,10 +52,13 @@ const ActionItemForm = (props) => {
                     setOwner('')
                 } else if (result.status == "Success" && HTTPMethod == "PUT") {
                     // use filter to create new array of actions minus the one edited
-                    const filteredActions = props.actions.filter(action => action.id != props.action.id)
-                    console.log(filteredActions)
+                    let actionsArray = props.actions.filter(action => action.id != props.action.id)
                     // return the updated action object from api and append to array
-                    props.setActions([...filteredActions, result.action])
+                    actionsArray = [...actionsArray, result.action]
+                    // sort the array
+                    actionsArray.sort( (a,b) => a.actionItemIndex - b.actionItemIndex)
+                    // set state
+                    props.setActions(actionsArray)
                     // set editMode to false
                     props.setEditMode(false)
                 }
