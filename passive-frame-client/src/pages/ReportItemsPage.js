@@ -57,7 +57,9 @@ const ReportItemsPage = (props) => {
         })
             .then(response => response.json())
             .then(result => {
-                setReportItems(result.items)
+                const itemsArray = result.items
+                itemsArray.sort( (a,b) => a.reportItemIndex - b.reportItemIndex)
+                setReportItems(itemsArray)
             })
     }, [])
 
@@ -74,7 +76,8 @@ const ReportItemsPage = (props) => {
                     <Button
                         onClick={(e) => {
                             e.preventDefault()
-                            history.goBack()
+                            // history.goBack()
+                            history.push(`/projects/${projid}/`)
                         }}
                         compact
                         className="remove-border-radius"

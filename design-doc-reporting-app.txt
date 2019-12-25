@@ -1,3 +1,5 @@
+Launch: March 15, 2020
+
 Site Reporting App
 
 Purpose:
@@ -64,3 +66,44 @@ Work Flow:
 Stack:
 
 PWA using React and Flask RESTful API backend.
+
+Three Important Questions:
+
+What do I think people want to do?
+Why would they want to do that?
+Why would they pay money for that?
+
+Message Template:
+
+I believe that people want to <ability> so that they can <outcome>,
+and they would pay good money for that because <value>.
+
+If you <value>, you can <ability> with <Your Business Name>
+so that you can <outcome>.
+
+Iteration 1:
+
+I believe that people want to efficiently complete formatted field reports with
+integrated action tracking capabilities so that they can effectively deliver quality
+assurance outcomes for their projects and they would pay good money for that because projects
+are becoming larger and more complicated with increasingly strenuous requirements.
+
+Iteration 2:
+
+If you are working on complex construction projects with tight quality assurance
+requirements, you can efficiently prepare reports, track actions and collaboratively
+resolve issues with the web based REPORTING-APP, so that you can deliver the desired
+quality targets your client's building project.
+
+Where to find people who need my product:
+
+1) CaGBC events
+2) OAA events
+3) construct canada show
+4) passive-house events
+5) TGS events
+6) BCRAO events
+7) Consulting engineers of Ontario events
+8) Toronto 2030 district
+9) Contracting and construction events
+10) UrbanToronto blog

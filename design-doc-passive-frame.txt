@@ -12,3 +12,16 @@ Purpose:
 -connect to site reporting funtionality during construction
 -automatic commissioning timeline and schedule creation upon design completion <- big feature
 -aim to reduce time and cost of low/mid-rise home construction to enable faster adoption of net-zero sustainable designs
+
+
+Design Platform
+-market place for passivehouse certified and other clean products and matlz
+-procurement opportunities during design =]
+-anyone can sign up and produce designs
+-receive 1% of everysale
+-quick and visual(important) communication of product benefits and comparison
+-link to user testimonies and articles / reviews
+-TSLA whips
+-relevant technical documentation (specs) available on platform
+-e.g. complete final designs for a project, use MH building path finder for energy graphs
+

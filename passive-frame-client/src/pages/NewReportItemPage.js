@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
-import { Grid, Container, Menu, Button, Header, Icon } from 'semantic-ui-react'
+import { Grid, Container, Menu, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import ReportItemInfoForm from '../components/ReportItemInfoForm'
 import { format } from 'date-fns'
+import ActionItemForm from '../components/ActionItemForm'
+import ActionsContainer from '../components/ActionsContainer'
 
 const NewReportItemPage = (props) => {
     // states
@@ -102,10 +104,13 @@ const NewReportItemPage = (props) => {
                 </Menu.Menu>
             </Menu>
             <StickyHorizontalDivider topDesktop={86} topMobile={86} />
-            <Container text>
+            <Container>
                 <Grid columns={1} >
                     <Grid.Column>
-                        <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
+                        <Segment>
+                            <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
+                        </Segment>
+                        
                     </Grid.Column>
                 </Grid>
 

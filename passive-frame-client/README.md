@@ -15,6 +15,10 @@ TODOS
 15) Test performance analytics!!!! windows, clips, envelope, leaking, results, potatoes, potatoes =D tomatoes. Requires logging of test results. Automated forms for clips, windows, curtain wall, waterproofing, and the like ya know eh?
 18) HOW TO ISSUE: send an email with link to webview (HTML) of a report. User can choose to download PDF from link =]
 20) add project and report context?
+21) build more descriptive report item and action indexing system.
+22) public landing page
+23) sales funnel
+=]
 
 
 

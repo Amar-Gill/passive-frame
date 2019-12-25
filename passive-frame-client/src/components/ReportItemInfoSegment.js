@@ -2,6 +2,7 @@ import React from 'react'
 import { Segment, Grid, Menu, Label, Header, Button, Icon } from 'semantic-ui-react'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
+import ActionsModal from './ActionsModal'
 
 const ReportItemInfoSegment = props => {
     // set item from props
@@ -169,9 +170,7 @@ const ReportItemInfoSegment = props => {
                             </Label>
                         </Menu.Item>
                         <Menu.Item>
-                            <Button size="small" className="binary-padding-capsule" secondary basic circular icon>
-                                <Icon name='plus' />
-                            </Button>
+                            <ActionsModal item={item}/>
                         </Menu.Item>
                     </Menu>
                 </Grid.Column>

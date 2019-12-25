@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Container, Button, TextArea, Menu, Icon } from 'semantic-ui-react'
+import { Form, TextArea, Menu, Icon } from 'semantic-ui-react'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
 
 const ReportItemInfoForm = (props) => {
@@ -51,6 +51,10 @@ const ReportItemInfoForm = (props) => {
             reportId: reportid
         }
 
+        // create array for actionItem objects
+        // or inegrate save button into action form?
+        // client side can make sure action items saved before leaving
+
         let urlString = null
         switch (props.HTTPMethod) {
             case "POST":
@@ -76,7 +80,7 @@ const ReportItemInfoForm = (props) => {
             .then(result => {
                 alert(result.message)
                 if (result.status == "Success" && props.HTTPMethod == "POST") {
-                    history.goBack()
+                    history.push(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
                 }
             })
     }
@@ -87,7 +91,7 @@ const ReportItemInfoForm = (props) => {
 
     return (
         <div>
-            <h2>{props.header}</h2>
+            <h4>{props.header}</h4>
             <Form id='report-item-info-form' onSubmit={handleSubmit}>
                 <Form.Field>
                     {/* <label>Subject</label> */}
@@ -159,7 +163,7 @@ const ReportItemInfoForm = (props) => {
                     />
 
                 </Form.Field>
-                <Container textAlign="right">
+                {/* <Container textAlign="right">
                     <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
                     <Button
                         onClick={(e) => {
@@ -169,7 +173,7 @@ const ReportItemInfoForm = (props) => {
                         className="remove-border-radius"
                         secondary
                         basic>Back</Button>
-                </Container>
+                </Container> */}
             </Form>
         </div>
     )

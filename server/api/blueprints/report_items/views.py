@@ -1,7 +1,9 @@
 from flask import Blueprint, jsonify, request
 from models.report import Report
 from models.report_item import ReportItem
+from models.action import Action
 import re
+import datetime
 
 def is_positive_int(x):
     regex = r'[\W+A-Za-z]'
@@ -46,7 +48,15 @@ def create():
     if new_report_item.save():
         return jsonify(
             message = "New report item created.",
-            status = "Success"
+            status = "Success",
+            reportItem = {
+                "id": new_report_item.id,
+                "subject": subject,
+                "content": content,
+                "reportItemIndex": report_item_index,
+                "reportId": report_id,
+                "projectId": Report.get_or_none(Report.id == report_id).project_id
+            }
         )
     else:
         return jsonify(
@@ -147,3 +157,30 @@ def index(id):
             }
         for item in report_items]
     )
+
+@report_items_api_blueprint.route("<id>/actions", methods=["GET"])
+def index_actions(id):
+    # get report_item
+    report_item = ReportItem.get_or_none(ReportItem.id == id)
+
+    if report_item:
+        # get actions for that report_item
+        actions = Action.select().where(Action.report_item_id == id)
+        return jsonify(
+            actions = [
+                {
+                    "id": action.id,
+                    "description": action.description,
+                    "owner": action.owner,
+                    "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                    "closed": action.closed,
+                    "actionItemIndex": action.action_item_index,
+                    "reportItemId": action.report_item_id
+                }
+            for action in actions]
+        )
+    else:
+        return jsonify(
+            message = f"No report item with id: {id}",
+            status = "Fail"
+        )
