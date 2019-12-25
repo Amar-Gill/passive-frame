@@ -6,12 +6,12 @@ import ActionItemForm from './ActionItemForm'
 const ActionItemInfoSegment = (props) => {
     //props?
     const [editMode, setEditMode] = useState(false)
-    const { action, actions, setActions } = props
+    const { action, actions, setActions, item } = props
 
     if (editMode) {
         return (
             <Segment>
-                <ActionItemForm actions={actions} setActions={setActions} setEditMode={setEditMode} editMode={editMode} action={action} />
+                <ActionItemForm item={item} actions={actions} setActions={setActions} setEditMode={setEditMode} editMode={editMode} action={action} />
             </Segment>
 
         )
@@ -23,7 +23,7 @@ const ActionItemInfoSegment = (props) => {
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <h4
                     style={{ display: 'inline', marginTop: 'auto' }}
-                >Action Item Index: {action.actionItemIndex}</h4>
+                >Action Item: {action.actionItemIndex}</h4>
 
                 <Button
                     onClick={() => setEditMode(true)}

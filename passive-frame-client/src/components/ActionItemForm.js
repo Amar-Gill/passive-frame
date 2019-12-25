@@ -24,7 +24,7 @@ const ActionItemForm = (props) => {
             'status': status,
             'owner': owner,
             'description': description, // rename API endpoint to use description?
-            'reportItemId': itemid
+            'reportItemId': itemid || props.item.id
         }
 
         let HTTPMethod = null
@@ -72,7 +72,7 @@ const ActionItemForm = (props) => {
                     <h4
                         style={{ display: 'inline', marginTop: 'auto' }}>
                         {
-                            props.editMode ? `Revising Action: ${props.action.actionItemIndex}` : "New Action"
+                            props.editMode ? `Revising Action Item: ${props.action.actionItemIndex}` : "New Action"
                         }
                     </h4>
                     <span>
@@ -137,13 +137,12 @@ const ActionItemForm = (props) => {
                     value={description}
                     onChange={e => setDescription(e.target.value)} />
             </Form>
-            <h5>TESTING:</h5>
+            {/* <h5>TESTING:</h5>
             <h6>{status}</h6>
             <h6>{owner}</h6>
             <h6>{getTime(dueDate)}</h6>
             <h6>{getTime(dueDate) / 1000}</h6>
-            <h6>{description}</h6>
-
+            <h6>{description}</h6> */}
         </div>
     )
 }
