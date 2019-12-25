@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Segment, Grid, Container, Progress, Button, Icon, Menu, Label, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import ActionsModal from './ActionsModal'
 
 
 const ReportInfoSegment = (props) => {
@@ -142,9 +143,7 @@ const ReportInfoSegment = (props) => {
                             </Label>
                         </Menu.Item>
                         <Menu.Item>
-                            <Button secondary basic circular icon>
-                                <Icon name='plus' />
-                            </Button>
+                            <ActionsModal items={props.report.items}/>
                         </Menu.Item>
                     </Menu>
                 </Grid.Column>

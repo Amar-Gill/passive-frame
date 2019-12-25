@@ -23,7 +23,7 @@ const ActionItemForm = (props) => {
             'dueDate': dueDate,
             'status': status,
             'owner': owner,
-            'description': description, // rename API endpoint to use description?
+            'description': description,
             'reportItemId': itemid || props.item.id
         }
 
@@ -67,7 +67,7 @@ const ActionItemForm = (props) => {
 
     return (
         <div>
-            <Form onSubmit={handleSubmit}>
+            <Form  onSubmit={handleSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h4
                         style={{ display: 'inline', marginTop: 'auto' }}>
@@ -108,13 +108,13 @@ const ActionItemForm = (props) => {
                 </div>
 
                 <Form.Group unstackable widths={3}>
-                    <Form.Select label="Status" placeholder="Status" options={selectOptions}
+                    <Form.Select  label="Status" placeholder="Status" options={selectOptions}
                         onChange={(e, { value }) => setStatus(value)}
                         value={status} />
-                    <Form.Input label="Owner" placeholder="Owner"
+                    <Form.Input  label="Owner" placeholder="Owner"
                         onChange={(e) => setOwner(e.target.value)}
                         value={owner} />
-                    <Form.Field>
+                    <Form.Field >
                         <label>Due Date</label>
                         <DatePicker
                             selected={dueDate}
@@ -133,7 +133,7 @@ const ActionItemForm = (props) => {
                         />
                     </Form.Field>
                 </Form.Group>
-                <Form.TextArea label="Description" rows={4}
+                <Form.TextArea  label="Description" rows={4}
                     value={description}
                     onChange={e => setDescription(e.target.value)} />
             </Form>
