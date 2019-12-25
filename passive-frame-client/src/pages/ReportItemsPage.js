@@ -57,7 +57,9 @@ const ReportItemsPage = (props) => {
         })
             .then(response => response.json())
             .then(result => {
-                setReportItems(result.items)
+                const itemsArray = result.items
+                itemsArray.sort( (a,b) => a.reportItemIndex - b.reportItemIndex)
+                setReportItems(itemsArray)
             })
     }, [])
 
