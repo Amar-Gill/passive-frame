@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from models.organization import Organization
 from models.project import Project
 from models.report import Report
+from models.report_item import ReportItem
 import datetime
 
 
@@ -145,6 +146,7 @@ def index_reports(id):
     project = Project.get_or_none(Project.id == id)
     if project:
         reports = Report.select().where(Report.project_id == id)
+        # calculate report_item_count
         return jsonify(
             reports=[
                 {
@@ -154,7 +156,8 @@ def index_reports(id):
                     "report_date": datetime.datetime.timestamp(report.report_date)*1000,
                     "project_id": report.project_id,
                     "temperature": report.temperature,
-                    "description": report.description
+                    "description": report.description,
+                    "item_count": ReportItem.select().where(ReportItem.report_id == report.id).count()
                 }
                 for report in reports]
         )

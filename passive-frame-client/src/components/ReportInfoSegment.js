@@ -79,7 +79,7 @@ const ReportInfoSegment = (props) => {
                     <Header
                         as="h4"
                         content="Report Items"
-                        subheader="Count: 4 | Pages: 14 | Assets: 2"
+                        subheader={`Count: ${props.report.item_count} | Pages: null | Assets: null`}
                     />
 
                     <Menu secondary compact size="tiny">

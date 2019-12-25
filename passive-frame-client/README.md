@@ -18,6 +18,7 @@ TODOS
 21) build more descriptive report item and action indexing system.
 22) public landing page
 23) sales funnel
+24) Auto-populate project with actions, reports, report items upon project creation
 =]
 
 
