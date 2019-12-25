@@ -55,7 +55,9 @@ const ActionItemInfoSegment = (props) => {
             </Menu>
             <h4>Description</h4>
             <Segment>
-                {action.description}
+                <div style={{'white-space': 'pre-wrap'}}>
+                    {action.description}
+                </div>
             </Segment>
 
         </Segment>
