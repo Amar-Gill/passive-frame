@@ -8,7 +8,8 @@ const ActionsModal = (props) => {
     // set states
     const [actions, setActions] = useState([])
     const [item, setItem] = useState() // item prop passed from ReportItemInfoSegment
-    const items = props.report ? props.report.items : null // report.items prop passed from ReportInfoSegment
+    const items = props.items || null // report.items prop passed from ReportInfoSegment
+    // TODO - find way to pass report prop from ReportItemInfoSegment.....
     const { projid } = useParams()
 
     const selectOptions = [
@@ -76,7 +77,9 @@ const ActionsModal = (props) => {
             }>
             <Modal.Header>
                 {
-                    item ? `Report Item ${item.reportItemIndex} - Actions` : `Project Level Actions: ${props.project && props.project.project_name} - ${props.project && props.project.project_number}`
+                    item
+                    ?`Project_No. [${props.project.project_number}] / ${props.report.report_type == 'field'?  'Field': props.report.report_type == 'test' && 'Test'} Report ${props.report.project_report_index} / Item ${item.reportItemIndex} / Actions`
+                    : `Project_No. [${props.project && props.project.project_number}] / Actions`
                 }
 
             </Modal.Header>
@@ -105,7 +108,7 @@ const ActionsModal = (props) => {
                 {
                     actions.map(action => {
                         return (
-                            <ActionItemInfoSegment item={item} actions={actions} setActions={setActions} key={action.id} action={action} />
+                            <ActionItemInfoSegment project={props.project} item={item} actions={actions} setActions={setActions} key={action.id} action={action} />
                         )
                     })
                 }
