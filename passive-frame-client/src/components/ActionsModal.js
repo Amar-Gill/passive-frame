@@ -7,11 +7,11 @@ const ActionsModal = (props) => {
     // set states
     const [actions, setActions] = useState([])
     const [item, setItem] = useState(props.item || null) // item prop passed from ReportItemInfoSegment
-    const items = props.items || null // items prop passed from ReportInfoSegment
+    const items = props.report? props.report.items : null // report.items prop passed from ReportInfoSegment
 
     const selectOptions = [
         {
-            key: 'projectLevel', value: 0, text: 'Project Level Action'
+            key: 'projectLevel', value: 0, text: 'No Reference'
         }
     ]
 
@@ -50,7 +50,11 @@ const ActionsModal = (props) => {
     return (
         <Modal
             // size='large'
-            onClose={() => setActions([])}
+            onClose={() => {
+                setActions([])
+                setItem(props.item || null)
+            }
+            }
             closeIcon
             centered={false}
             trigger={
@@ -60,7 +64,7 @@ const ActionsModal = (props) => {
             }>
             <Modal.Header>
                 {
-                    item ? `Report Item ${item.reportItemIndex} - Actions` : 'Project Level Actions'
+                    item ? `Report Item ${item.reportItemIndex} - Actions` : `Project Level Actions: ${props.project.project_name} - ${props.project.project_number}`
                 }
 
             </Modal.Header>
@@ -71,8 +75,13 @@ const ActionsModal = (props) => {
                         <Segment>
                             <Form>
                                 {/* {/* <h5>Project Level Action or Select Report Item Reference</h5> */}
-                                <Form.Select width={10} label="Report Item Reference (optional)" options={selectOptions}
-                                    onChange={(e, { value }) => setItem(value)} defaultValue={0} />
+                                <Form.Select
+                                    width={10}
+                                    label="Report Item Reference (optional)"
+                                    options={selectOptions}
+                                    onChange={(e, { value }) => setItem(value)}
+                                    defaultValue={0}
+                                />
                             </Form>
                         </Segment>
                     </div>

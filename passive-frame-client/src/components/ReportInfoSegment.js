@@ -143,7 +143,7 @@ const ReportInfoSegment = (props) => {
                             </Label>
                         </Menu.Item>
                         <Menu.Item>
-                            <ActionsModal items={props.report.items}/>
+                            <ActionsModal project={props.project} report={props.report}/>
                         </Menu.Item>
                     </Menu>
                 </Grid.Column>
