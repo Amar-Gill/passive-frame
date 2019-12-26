@@ -50,8 +50,8 @@ def index(id):
 
     # return number of users
     def get_user_count(org):
-        users = User.select().where(User.organization_id == org.id)
-        return len(users)
+        user_count = User.select().where(User.organization_id == org.id).count()
+        return user_count
 
     # return info for one org
     if id:

@@ -52,15 +52,21 @@ const ReportItemsPage = (props) => {
 
     // set reportItems
     useEffect(() => {
-        fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}/items`, {
-            method: 'GET',
-        })
-            .then(response => response.json())
-            .then(result => {
-                const itemsArray = result.items
-                itemsArray.sort( (a,b) => a.reportItemIndex - b.reportItemIndex)
-                setReportItems(itemsArray)
+        if (props.location.state) {
+            const itemsArray = props.location.state.report.items
+            itemsArray.sort((a, b) => a.reportItemIndex - b.reportItemIndex)
+            setReportItems(itemsArray)
+        } else {
+            fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}/items`, {
+                method: 'GET',
             })
+                .then(response => response.json())
+                .then(result => {
+                    const itemsArray = result.items
+                    itemsArray.sort((a, b) => a.reportItemIndex - b.reportItemIndex)
+                    setReportItems(itemsArray)
+                })
+        }
     }, [])
 
 
@@ -142,6 +148,7 @@ const ReportItemsPage = (props) => {
             <Grid padded="horizontally" columns="1">
 
                 {
+                // (reportItems && currentProject && currentReport) &&
                     reportItems.map(item => {
                         return (
                             <Grid.Row key={item.id}>

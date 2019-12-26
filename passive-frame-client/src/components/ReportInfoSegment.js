@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Segment, Grid, Container, Progress, Button, Icon, Menu, Label, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import ActionsModal from './ActionsModal'
 
 
 const ReportInfoSegment = (props) => {
@@ -79,7 +80,7 @@ const ReportInfoSegment = (props) => {
                     <Header
                         as="h4"
                         content="Report Items"
-                        subheader="Count: 4 | Pages: 14 | Assets: 2"
+                        subheader={`Count: ${props.report.item_count} | Pages: null | Assets: null`}
                     />
 
                     <Menu secondary compact size="tiny">
@@ -142,9 +143,7 @@ const ReportInfoSegment = (props) => {
                             </Label>
                         </Menu.Item>
                         <Menu.Item>
-                            <Button secondary basic circular icon>
-                                <Icon name='plus' />
-                            </Button>
+                            <ActionsModal project={props.project} report={props.report} items={props.report.items}/>
                         </Menu.Item>
                     </Menu>
                 </Grid.Column>

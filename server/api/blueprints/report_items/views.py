@@ -175,7 +175,8 @@ def index_actions(id):
                     "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
                     "closed": action.closed,
                     "actionItemIndex": action.action_item_index,
-                    "reportItemId": action.report_item_id
+                    "reportItemId": action.report_item_id,
+                    "projectId": action.project_id
                 }
             for action in actions]
         )

@@ -15,7 +15,7 @@ const ActionItemForm = (props) => {
     const [status, setStatus] = useState(props.editMode ? (props.action.closed ? 'closed' : 'open') : 'open')
     const [owner, setOwner] = useState(props.editMode ? props.action.owner : '')
     const [description, setDescription] = useState(props.editMode ? props.action.description : '')
-    const { itemid } = useParams()
+    const { itemid, projid } = useParams() // itemid param available from ReportItemsPage
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -23,8 +23,10 @@ const ActionItemForm = (props) => {
             'dueDate': dueDate,
             'status': status,
             'owner': owner,
-            'description': description, // rename API endpoint to use description?
-            'reportItemId': itemid || props.item.id
+            'description': description,
+            // reportItemId == null means project level action. no report_item reference
+            'reportItemId': itemid || (props.item? props.item.id : null),
+            'projectId': projid || props.project.id
         }
 
         let HTTPMethod = null
@@ -108,13 +110,13 @@ const ActionItemForm = (props) => {
                 </div>
 
                 <Form.Group unstackable widths={3}>
-                    <Form.Select label="Status" placeholder="Status" options={selectOptions}
+                    <Form.Select  label="Status" placeholder="Status" options={selectOptions}
                         onChange={(e, { value }) => setStatus(value)}
                         value={status} />
-                    <Form.Input label="Owner" placeholder="Owner"
+                    <Form.Input  label="Owner" placeholder="Owner"
                         onChange={(e) => setOwner(e.target.value)}
                         value={owner} />
-                    <Form.Field>
+                    <Form.Field >
                         <label>Due Date</label>
                         <DatePicker
                             selected={dueDate}
@@ -133,7 +135,7 @@ const ActionItemForm = (props) => {
                         />
                     </Form.Field>
                 </Form.Group>
-                <Form.TextArea label="Description" rows={4}
+                <Form.TextArea  label="Description" rows={4}
                     value={description}
                     onChange={e => setDescription(e.target.value)} />
             </Form>

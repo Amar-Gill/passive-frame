@@ -17,32 +17,53 @@ def create():
     owner = request.json.get("owner", None)
     due_date = request.json.get("dueDate", None)
     report_item_id = request.json.get("reportItemId", None)
+    project_id = request.json.get("projectId", None)
     status = request.json.get("status", None)
     # index actions by report_item or project?... report_item for now
 
     # data validation
-    if not report_item_id:
+    if (not report_item_id) and (not project_id):
         return jsonify(
-            message="missing reportItemId",
+            message="missing reportItemId or projectId",
             status="Fail"
         )
 
     # check if report_item_exists
-    report_item = ReportItem.get_or_none(ReportItem.id == report_item_id)
-    if not report_item:
-        return jsonify(
-            message="ReportItem does not exist.",
-            status="Fail"
-        )
-
-    # convert report_item_id to int
+    report_item = None
     if report_item_id:
+        report_item = ReportItem.get_or_none(ReportItem.id == report_item_id)
+        if not report_item:
+            return jsonify(
+                message="ReportItem does not exist.",
+                status="Fail"
+            )
+        # convert report_item_id to int
         report_item_id = int(report_item_id)
 
-    # calculate action item index
-    action_item_count = Action.select().where(
-        Action.report_item_id == report_item_id).count()
-    action_item_index = action_item_count + 1
+    if project_id:
+        project = Project.get_or_none(Project.id == project_id)
+        if not project:
+            return jsonify(
+                message="Project does not exist.",
+                status="Fail"
+            )
+        # convert project_id to int
+        project_id = int(project_id)
+
+
+    # calculate action item index if report_item reference provided
+    if report_item:
+        action_item_count = Action.select().where(
+            Action.report_item_id == report_item_id).count()
+        action_item_index = action_item_count + 1
+
+    # calculate action item index if project level action
+    # meaning report_item_id == None
+    if not report_item_id:
+        action_item_count = Action.select().where(
+            (Action.project_id == project_id) & (Action.report_item_id == None)
+        ).count()
+        action_item_index = action_item_count + 1
 
     # convert due_date which is bigint to datetimeobject for peewee
     # 1e3 removes millisecond precision
@@ -54,6 +75,7 @@ def create():
         owner=owner,
         due_date=due_date,
         report_item_id=report_item_id,
+        project_id=project_id,
         action_item_index=action_item_index
     )
     # check status
@@ -72,7 +94,8 @@ def create():
                 "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
                 "closed": action.closed,
                 "actionItemIndex": action.action_item_index,
-                "reportItemId": action.report_item_id
+                "reportItemId": action.report_item_id,
+                "projectId": action.project_id
             }
         )
     else:
@@ -131,7 +154,8 @@ def update(id):
                 "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
                 "closed": action.closed,
                 "actionItemIndex": action.action_item_index,
-                "reportItemId": action.report_item_id
+                "reportItemId": action.report_item_id,
+                "projectId": action.project_id
             }
         )
     else:

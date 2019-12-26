@@ -6,12 +6,12 @@ import ActionItemForm from './ActionItemForm'
 const ActionItemInfoSegment = (props) => {
     //props?
     const [editMode, setEditMode] = useState(false)
-    const { action, actions, setActions, item } = props
+    const { action, actions, setActions, item, project } = props
 
     if (editMode) {
         return (
             <Segment>
-                <ActionItemForm item={item} actions={actions} setActions={setActions} setEditMode={setEditMode} editMode={editMode} action={action} />
+                <ActionItemForm project={project} item={item} actions={actions} setActions={setActions} setEditMode={setEditMode} editMode={editMode} action={action} />
             </Segment>
 
         )

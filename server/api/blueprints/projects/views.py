@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify, request
 from models.organization import Organization
 from models.project import Project
 from models.report import Report
+from models.report_item import ReportItem
+from models.action import Action
 import datetime
 
 
@@ -86,8 +88,8 @@ def index(id):
             return jsonify(
                 message="Project does not exist",
                 status="Fail"
-            )     
-    
+            )
+
     # get all projects
     projects = Project.select()
 
@@ -112,7 +114,6 @@ def update(id):
         project_number = request.json.get("projectNumber", None)
         organization_id = request.json.get("organizationId", None)
 
-        
         # update the project info
         if project_name and project_name != project.name:
             project.name = project_name
@@ -120,7 +121,6 @@ def update(id):
             project.number = project_number
         if organization_id and organization_id != project.organization_id:
             project.organization_id = organization_id
-
 
         # save changes to db
         if project.save():
@@ -142,11 +142,21 @@ def update(id):
 
 @projects_api_blueprint.route("/<id>/reports", methods=["GET"])
 def index_reports(id):
+    # use id parameter to query db for project
     project = Project.get_or_none(Project.id == id)
+
     if project:
+        # query db for reports belonging to the project
         reports = Report.select().where(Report.project_id == id)
-        return jsonify(
-            reports=[
+
+        # create new list for response
+        json_response = []
+
+        # iterate through list of reports and build up response
+        for report in reports:
+            # for each report, query db for items
+            report_items = ReportItem.select().where(ReportItem.report_id == report.id)
+            json_response.append(
                 {
                     "id": report.id,
                     "report_type": report.report_type,
@@ -154,9 +164,54 @@ def index_reports(id):
                     "report_date": datetime.datetime.timestamp(report.report_date)*1000,
                     "project_id": report.project_id,
                     "temperature": report.temperature,
-                    "description": report.description
+                    "description": report.description,
+                    "item_count": report_items.count(),
+                    "items": [
+                        {
+                            "id": report_item.id,
+                            "subject": report_item.subject,
+                            "content": report_item.content,  # expand content lataz
+                            "reportItemIndex": report_item.report_item_index,
+                            "reportId": report_item.report_id,
+                            "createdAt": datetime.datetime.timestamp(report_item.created_at)*1000,
+                            "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000
+                        }
+
+                        for report_item in report_items]
                 }
-                for report in reports]
+            )
+        return jsonify(
+            reports=json_response
+        )
+    else:
+        return jsonify(
+            message=f"No project with id {id}",
+            status="Fail"
+        )
+
+
+@projects_api_blueprint.route("/<id>/actions", methods=["GET"])
+def index_actions(id):
+    # api endpoint for project specific actions
+    # therefore query db for actions with project_id == id AND report_item_id == None
+    project = Project.get_or_none(Project.id == id)
+
+    if project:
+        # query for project specific actions
+        actions = Action.select().where((Action.project_id == id) & (Action.report_item_id == None))
+        return jsonify(
+            actions = [
+                {
+                    "id": action.id,
+                    "description": action.description,
+                    "owner": action.owner,
+                    "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                    "closed": action.closed,
+                    "actionItemIndex": action.action_item_index,
+                    "reportItemId": action.report_item_id,
+                    "projectId": action.project_id
+                }
+            for action in actions]
         )
     else:
         return jsonify(
