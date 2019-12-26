@@ -26,7 +26,7 @@ const ActionItemForm = (props) => {
             'description': description,
             // reportItemId == null means project level action. no report_item reference
             'reportItemId': itemid || (props.item? props.item.id : null),
-            'projectId': projid
+            'projectId': projid || props.project.id
         }
 
         let HTTPMethod = null
@@ -69,7 +69,7 @@ const ActionItemForm = (props) => {
 
     return (
         <div>
-            <Form  onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h4
                         style={{ display: 'inline', marginTop: 'auto' }}>

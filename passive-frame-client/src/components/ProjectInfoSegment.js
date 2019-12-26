@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Segment, Grid, Container, Button, Icon, Menu, Label, Header } from 'semantic-ui-react'
+import React from 'react'
+import { Segment, Grid, Button, Icon, Menu, Label, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import UserContext from '../UserContext'
+import ActionsModal from './ActionsModal'
 
 const ProjectInfoSegment = (props) => {
     const project = props.project
@@ -114,9 +114,7 @@ const ProjectInfoSegment = (props) => {
                                 </Label>
                             </Menu.Item>
                             <Menu.Item position="right">
-                                <Button secondary basic circular icon>
-                                    <Icon name='plus' />
-                                </Button>
+                                <ActionsModal project={project}/>
                             </Menu.Item>
                         </Menu>
                     </Grid.Column>

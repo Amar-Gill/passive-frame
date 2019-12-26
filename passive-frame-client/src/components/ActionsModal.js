@@ -45,7 +45,7 @@ const ActionsModal = (props) => {
                     setActions(actionsArray)
                 })
         } else {
-            fetch(`http://127.0.0.1:5000/api/v1/projects/${projid}/actions`,
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${projid || props.project.id}/actions`,
                 {
                     method: 'GET'
                 })
@@ -88,7 +88,7 @@ const ActionsModal = (props) => {
                             <Form>
                                 {/* {/* <h5>Project Level Action or Select Report Item Reference</h5> */}
                                 <Form.Select
-                                    width={10}
+                                    width={6}
                                     label="Report Item Reference (optional)"
                                     options={selectOptions}
                                     onChange={(e, { value }) => setItem(value)}
@@ -100,7 +100,7 @@ const ActionsModal = (props) => {
                 }
 
                 <Segment>
-                    <ActionItemForm item={item} actions={actions} setActions={setActions} />
+                    <ActionItemForm project={props.project} item={item} actions={actions} setActions={setActions} />
                 </Segment>
                 {
                     actions.map(action => {
