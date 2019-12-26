@@ -6,8 +6,8 @@ import ActionItemInfoSegment from './ActionItemInfoSegment'
 const ActionsModal = (props) => {
     // set states
     const [actions, setActions] = useState([])
-    const [item, setItem] = useState(props.item || null)
-    const items = props.items || null
+    const [item, setItem] = useState(props.item || null) // item prop passed from ReportItemInfoSegment
+    const items = props.items || null // items prop passed from ReportInfoSegment
 
     const selectOptions = [
         {
@@ -50,6 +50,7 @@ const ActionsModal = (props) => {
     return (
         <Modal
             // size='large'
+            onClose={() => setActions([])}
             closeIcon
             centered={false}
             trigger={
@@ -69,8 +70,8 @@ const ActionsModal = (props) => {
                     <div>
                         <Segment>
                             <Form>
-                                {/* <label>Select Report</label> */}
-                                <Form.Select width={8} label="Choose Report Item or Make a Project Level Action" options={selectOptions}
+                                {/* {/* <h5>Project Level Action or Select Report Item Reference</h5> */}
+                                <Form.Select width={10} label="Report Item Reference (optional)" options={selectOptions}
                                     onChange={(e, { value }) => setItem(value)} defaultValue={0} />
                             </Form>
                         </Segment>
