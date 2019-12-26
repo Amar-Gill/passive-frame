@@ -3,6 +3,7 @@ from models.organization import Organization
 from models.project import Project
 from models.report import Report
 from models.report_item import ReportItem
+from models.action import Action
 import datetime
 
 
@@ -181,6 +182,36 @@ def index_reports(id):
             )
         return jsonify(
             reports=json_response
+        )
+    else:
+        return jsonify(
+            message=f"No project with id {id}",
+            status="Fail"
+        )
+
+
+@projects_api_blueprint.route("/<id>/actions", methods=["GET"])
+def index_actions(id):
+    # api endpoint for project specific actions
+    # therefore query db for actions with project_id == id AND report_item_id == None
+    project = Project.get_or_none(Project.id == id)
+
+    if project:
+        # query for project specific actions
+        actions = Action.select().where((Action.project_id == id) & (Action.report_item_id == None))
+        return jsonify(
+            actions = [
+                {
+                    "id": action.id,
+                    "description": action.description,
+                    "owner": action.owner,
+                    "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                    "closed": action.closed,
+                    "actionItemIndex": action.action_item_index,
+                    "reportItemId": action.report_item_id,
+                    "projectId": action.project_id
+                }
+            for action in actions]
         )
     else:
         return jsonify(

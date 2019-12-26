@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom'
 const ActionsContainer = () => {
     // set states
     const [actions, setActions] = useState([])
-    // const [reviseAction, setReviseAction] = useState()
     const { itemid } = useParams()
 
     useEffect(() => {

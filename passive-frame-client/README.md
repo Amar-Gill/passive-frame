@@ -19,6 +19,8 @@ TODOS
 22) public landing page
 23) sales funnel
 24) Auto-populate project with actions, reports, report items upon project creation
+25) allow for new report to have 0 deg C temp
+26) Actions db page
 =]
 
 

@@ -15,7 +15,7 @@ const ActionItemForm = (props) => {
     const [status, setStatus] = useState(props.editMode ? (props.action.closed ? 'closed' : 'open') : 'open')
     const [owner, setOwner] = useState(props.editMode ? props.action.owner : '')
     const [description, setDescription] = useState(props.editMode ? props.action.description : '')
-    const { itemid } = useParams()
+    const { itemid, projid } = useParams() // itemid param available from ReportItemsPage
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -24,7 +24,9 @@ const ActionItemForm = (props) => {
             'status': status,
             'owner': owner,
             'description': description,
-            'reportItemId': itemid || props.item.id
+            // reportItemId == null means project level action. no report_item reference
+            'reportItemId': itemid || (props.item? props.item.id : null),
+            'projectId': projid
         }
 
         let HTTPMethod = null

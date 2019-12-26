@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Modal, Button, Icon, Segment, Form } from 'semantic-ui-react'
 import ActionItemForm from './ActionItemForm'
 import ActionItemInfoSegment from './ActionItemInfoSegment'
+import { useParams } from 'react-router-dom'
 
 const ActionsModal = (props) => {
     // set states
     const [actions, setActions] = useState([])
-    const [item, setItem] = useState(props.item || null) // item prop passed from ReportItemInfoSegment
-    const items = props.report? props.report.items : null // report.items prop passed from ReportInfoSegment
+    const [item, setItem] = useState() // item prop passed from ReportItemInfoSegment
+    const items = props.report ? props.report.items : null // report.items prop passed from ReportInfoSegment
+    const { projid } = useParams()
 
     const selectOptions = [
         {
@@ -43,7 +45,16 @@ const ActionsModal = (props) => {
                     setActions(actionsArray)
                 })
         } else {
-            setActions([])
+            fetch(`http://127.0.0.1:5000/api/v1/projects/${projid}/actions`,
+                {
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    const actionsArray = [...result.actions]
+                    actionsArray.sort((a, b) => a.actionItemIndex - b.actionItemIndex)
+                    setActions(actionsArray)
+                })
         }
     }, [item])
 
@@ -52,9 +63,10 @@ const ActionsModal = (props) => {
             // size='large'
             onClose={() => {
                 setActions([])
-                setItem(props.item || null)
+                setItem()
             }
             }
+            onMount={() => setItem(props.item || null)} // item prop passed from ReportItemInfoSegment
             closeIcon
             centered={false}
             trigger={
@@ -64,7 +76,7 @@ const ActionsModal = (props) => {
             }>
             <Modal.Header>
                 {
-                    item ? `Report Item ${item.reportItemIndex} - Actions` : `Project Level Actions: ${props.project.project_name} - ${props.project.project_number}`
+                    item ? `Report Item ${item.reportItemIndex} - Actions` : `Project Level Actions: ${props.project && props.project.project_name} - ${props.project && props.project.project_number}`
                 }
 
             </Modal.Header>
