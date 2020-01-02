@@ -1,0 +1,54 @@
+Cloud Storage Options (for images):
+(https://www.youtube.com/watch?v=wKd8hP4Gse0)
+-notes from video:
+    -recommends cloudinary if starting new
+    -he uploads raw image to AWS S3
+    -imgix sits in front of AWS-S3 and resizes image on demand 
+
+-Amazon S3
+-Cloudinary
+-Linode
+-Imgix (can resize images on their server)
+-ImageKit
+*stack option: AWS S3 storage and imgix for transformations (mysaffronapp.com)
+*stack option: AWS S3 storage and Cloudinary for transformations ** (free tier)
+*stack option: AWS S3 for raw file storage
+                -> set policy to migrate to infrequent access after 3 months
+
+Front-End Hosting:
+
+-Netlify
+
+Server and db hosting:
+-Digital Ocean
+-Linode
+-Google Cloud Compute Engine
+-vultr
+
+
+Virtual Private Machine
+-ssdnodes (not a managed db)
+
+Video: Where to host a full stack project on a budget
+(https://www.youtube.com/watch?v=Kx_1NYYJS7Q)
+-managing services yourself:
+    1) Host the database / server
+        Managed db service:
+            -not recommended if on a budget
+            -too expensive
+            -e.g. mlab, redislabs
+        Host db and python server in virtual private server (VPS) **
+            -to host both db and server
+            -can set up chron job to backup db if required (in AWS S3)
+            -e.g. Dokku (similar to Heroku), vultr, ssdnodes
+            -vultr is recommended in video to start
+            -see joshtronic blog (joshtronic.com -> VPS Showdown - December 2019)
+            -vpsbenchmarks.com <- great way to learn about different providers
+    2) Host Frontend
+        -Netlify **
+    3) User uploaded images
+        -recommends a vendor service to handle dynamically resizing images
+        depending on application requirements if saved at original size.
+        -Cloudinary free tier = 25 credits, 1 credit = 1000 transformations **
+        -Imgix $3/1000 master imgs. No cost for transformations.
+        -Imgix does not provide storage. Cloudinary does.
