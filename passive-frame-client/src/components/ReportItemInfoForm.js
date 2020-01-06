@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, TextArea, Menu, Icon } from 'semantic-ui-react'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
+import ImageUploadWidget from './ImageUploadWidget'
 
 const ReportItemInfoForm = (props) => {
     // states
@@ -9,6 +10,8 @@ const ReportItemInfoForm = (props) => {
     const [reportItemIndex, setReportItemIndex] = useState(null)
     const [activeItem, setActiveItem] = useState(null) // for edit menu
     const [disabledForm, setDisabledForm] = useState(false)
+    const [images, setImages] = useState([]) // prop passed down to ImageUploadWidget
+
     const { projid, reportid, itemid } = useParams()
     let history = useHistory()
     let location = useLocation()
@@ -161,7 +164,6 @@ const ReportItemInfoForm = (props) => {
                         value={content}
                         disabled={disabledForm}
                     />
-
                 </Form.Field>
                 {/* <Container textAlign="right">
                     <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
@@ -174,6 +176,8 @@ const ReportItemInfoForm = (props) => {
                         secondary
                         basic>Back</Button>
                 </Container> */}
+                <hr />
+                <ImageUploadWidget captionKey={0} images={images} setImages={setImages} />
             </Form>
         </div>
     )

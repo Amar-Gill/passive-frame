@@ -21,6 +21,9 @@ TODOS
 24) Auto-populate project with actions, reports, report items upon project creation
 25) allow for new report to have 0 deg C temp
 26) Actions db page
+27) window for semantic tags - db model for semantic tags + creating new ones
+28) eventually semantic tags will be incorporated into ML model to associate key words with different report bodies
+29) Data management console / dashboard for users to monitor data usage with visual widgets and indicators - can be used for cost management by user =]
 =]
 
 
