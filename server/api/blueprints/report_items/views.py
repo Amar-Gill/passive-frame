@@ -2,9 +2,11 @@ from flask import Blueprint, jsonify, request
 from models.report import Report
 from models.report_item import ReportItem
 from models.action import Action
+from models.image import Image
 import re
 import datetime
 
+# TODO - move function into helpers.py file
 def is_positive_int(x):
     regex = r'[\W+A-Za-z]'
     match = re.search(regex, str(x))
@@ -26,6 +28,8 @@ def create():
     content = request.json.get("content", None)
     report_id = request.json.get("reportId", None)
 
+    # send images in an array from client
+
     # data validation
     if not report_id:
         return jsonify(
@@ -45,7 +49,12 @@ def create():
                         report_id=report_id
                         )
 
+    # hardcode image saving first???.. wait no report item needs to exist...
+
     if new_report_item.save():
+        # save images here...???
+        # save report_item into db...
+        # then iterate through images save each.. only then do you return response
         return jsonify(
             message = "New report item created.",
             status = "Success",
@@ -115,6 +124,7 @@ def update(id):
 @report_items_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
 @report_items_api_blueprint.route("/<id>", methods=["GET"])
 def index(id):
+    # TODO - update response data to provide reference to images for report item
     # get info for one report item
     if id:
         report_item = ReportItem.get_or_none(ReportItem.id == id)
