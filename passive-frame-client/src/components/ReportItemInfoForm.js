@@ -177,7 +177,7 @@ const ReportItemInfoForm = (props) => {
                         basic>Back</Button>
                 </Container> */}
                 <hr />
-                <ImageUploadWidget captionKey={0} images={images} setImages={setImages} />
+                <ImageUploadWidget key={0} imageKey={0} images={images} setImages={setImages} />
             </Form>
         </div>
     )

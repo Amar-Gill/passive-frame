@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 const dropzone = {
@@ -41,11 +41,10 @@ const img = {
 
 const ImageUploadWidget = (props) => {
 
-    // const uniqueImageKey = 9
     const [files, setFiles] = useState([]); // find
+    const [caption, setCaption] = useState('')
 
-
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
         // accept only image files
         accept: 'image/*',
         onDrop: acceptedFiles => {
@@ -55,15 +54,16 @@ const ImageUploadWidget = (props) => {
                     preview: URL.createObjectURL(file)
                 }))
             )
+            // create filtered array without image with key==props.imageKey
+            const filteredArray = props.images.filter(image => image.key != props.imageKey)
             // setState in parent element form
             props.setImages(
-                [...props.images, {
+                [...filteredArray, {
                     path: acceptedFiles[0].path,
-                    caption: '',
-                    key: props.captionKey
+                    caption: caption,
+                    key: props.imageKey
                 }]
             );
-            console.log(acceptedFiles[0])
         }
     });
 
@@ -83,29 +83,20 @@ const ImageUploadWidget = (props) => {
         files.forEach(file => URL.revokeObjectURL(file.preview));
     }, [files]);
 
-    // useEffect(() => { // effect for finding correct element in array...!
-    //     // take props.images array and find element that has key==uniqueImageKey
-    //     // function to use is array.find or array.filter
-    //     if (!imageObject) {
-    //         setImageObject(props.images.filter(image => image.key == uniqueImageKey))
-    //     }
-
-    //     // an effect that updates caption for this particulaur image
-    //     // based on key in image state
-    //     // update each time local caption state changes
-    // },[caption])
-
     const handleCaptionChange = (event) => {
 
+        // setCaption state (used for changing photos)
+        setCaption(event.target.value)
+
         //setImages state. filter out the imageObject being changed first
-        const filteredArray = props.images.filter(image => image.key != props.captionKey)
+        const filteredArray = props.images.filter(image => image.key != props.imageKey)
 
         // then re-add it to array with new caption
         props.setImages([...filteredArray, {
             // path: imageObject.path,
             path: acceptedFiles[0].path,
             caption: event.target.value,
-            key: props.captionKey
+            key: props.imageKey
         }])
     }
 
@@ -116,9 +107,12 @@ const ImageUploadWidget = (props) => {
                     acceptedFiles.length ?
                         <aside style={{ thumbsContainer }}>
                             <ul>{thumbs}</ul>
-                            <button onClick={e => e.preventDefault()} >Change Photo</button>
+                            {/* <button onClick={e =>  e.preventDefault()}>Change Photo</button> */}
+                            <button type='button' onClick={open}>Change Photo</button>
+                            <input  {...getInputProps()} />
+                            {/* TODO change acceptedFile[0] with input */}
                             <input
-
+                                value={caption}
                                 onChange={e => handleCaptionChange(e)}
                                 type='text' placeholder='enter caption' />
                         </aside>
@@ -131,7 +125,7 @@ const ImageUploadWidget = (props) => {
             </section>
             {
                 acceptedFiles.length &&
-                <ImageUploadWidget captionKey={props.captionKey + 1} images={props.images} setImages={props.setImages} />
+                <ImageUploadWidget key={props.imageKey + 1} imageKey={props.imageKey + 1} images={props.images} setImages={props.setImages} />
             }
         </div>
     );
