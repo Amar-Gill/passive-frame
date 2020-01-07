@@ -7,7 +7,7 @@ import peewee as pw
 class Image(BaseModel):
     image_path = pw.CharField(null=False)
     caption = pw.CharField(null=True)
-    index = pw.IntegerField(null=True) # proj/report/item/XX
+    index = pw.IntegerField(null=True) # proj/report/item/XX -- use key. is render order.
     report_item = pw.ForeignKeyField(ReportItem, backref='images', null=True)
 
     # @hybrid_property

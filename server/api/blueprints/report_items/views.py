@@ -27,6 +27,7 @@ def create():
     subject = request.json.get("subject", None)
     content = request.json.get("content", None)
     report_id = request.json.get("reportId", None)
+    images = request.json.get("images", None)
 
     # send images in an array from client
 
