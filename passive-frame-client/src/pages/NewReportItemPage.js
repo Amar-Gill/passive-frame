@@ -114,9 +114,9 @@ const NewReportItemPage = (props) => {
             <Container>
                 <Grid columns={1} >
                     <Grid.Column>
-                        <Segment>
+                        {/* <Segment> <- added Segment to form component*/}
                             <ReportItemInfoForm header="New Report Item" HTTPMethod="POST" />
-                        </Segment>
+                        {/* </Segment> */}
                         
                     </Grid.Column>
                 </Grid>

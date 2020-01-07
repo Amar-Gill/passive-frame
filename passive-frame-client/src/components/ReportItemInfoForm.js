@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, TextArea, Menu, Icon } from 'semantic-ui-react'
+import { Form, TextArea, Menu, Icon, Segment } from 'semantic-ui-react'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
 import ImageUploadWidget from './ImageUploadWidget'
 
@@ -51,7 +51,8 @@ const ReportItemInfoForm = (props) => {
             subject: subject,
             content: content,
             reportItemIndex: reportItemIndex,
-            reportId: reportid
+            reportId: reportid,
+            images: images
         }
 
         // create array for actionItem objects
@@ -94,78 +95,81 @@ const ReportItemInfoForm = (props) => {
 
     return (
         <div>
-            <h4>{props.header}</h4>
-            <Form id='report-item-info-form' onSubmit={handleSubmit}>
-                <Form.Field>
-                    {/* <label>Subject</label> */}
-                    <Form.Group unstackable>
-                        <Form.Input
-                            width={12}
-                            placeholder='Subject'
-                            label="Subject"
-                            value={subject}
-                            onChange={(e) => setSubject(e.target.value)}
+            <Segment>
+                <h4>{props.header}</h4>
+                <Form id='report-item-info-form' onSubmit={handleSubmit}>
+                    <Form.Field>
+                        {/* <label>Subject</label> */}
+                        <Form.Group unstackable>
+                            <Form.Input
+                                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                width={12}
+                                placeholder='Subject'
+                                label="Subject"
+                                value={subject}
+                                onChange={(e) => setSubject(e.target.value)}
+                                disabled={disabledForm}
+                            />
+                            <Form.Input
+                                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                width={4}
+                                placeholder='Item Number'
+                                label="Item Number"
+                                disabled={props.HTTPMethod == "POST" || disabledForm}
+                                value={reportItemIndex}
+                                onChange={(e) => setReportItemIndex(e.target.value)}
+                            />
+                        </Form.Group>
+                        <label>Content</label>
+                        <Menu icon compact size="mini">
+                            <Menu.Item
+                                name='bold'
+                                active={activeItem === 'bold'}
+                                onClick={handleItemClick}
+                            >
+                                <Icon name='bold' />
+                            </Menu.Item>
+
+                            <Menu.Item
+                                name='italic'
+                                active={activeItem === 'italic'}
+                                onClick={handleItemClick}
+                            >
+                                <Icon name='italic' />
+                            </Menu.Item>
+
+                            <Menu.Item
+                                name='underline'
+                                active={activeItem === 'underline'}
+                                onClick={handleItemClick}
+                            >
+                                <Icon name='underline' />
+                            </Menu.Item>
+
+                            <Menu.Item
+                                name='list'
+                                active={activeItem === 'list'}
+                                onClick={handleItemClick}
+                            >
+                                <Icon name='list' />
+                            </Menu.Item>
+
+                            <Menu.Item
+                                name='list ol'
+                                active={activeItem === 'list ol'}
+                                onClick={handleItemClick}
+                            >
+                                <Icon name='list ol' />
+                            </Menu.Item>
+                        </Menu>
+                        <TextArea
+                            rows={8}
+                            onChange={(e) => setContent(e.target.value)}
+                            value={content}
                             disabled={disabledForm}
                         />
-                        <Form.Input
-                            width={4}
-                            placeholder='Item Number'
-                            label="Item Number"
-                            disabled={props.HTTPMethod == "POST" || disabledForm}
-                            value={reportItemIndex}
-                            onChange={(e) => setReportItemIndex(e.target.value)}
-                        />
-                    </Form.Group>
-                    <label>Content</label>
-                    <Menu icon compact size="mini">
-                        <Menu.Item
-                            name='bold'
-                            active={activeItem === 'bold'}
-                            onClick={handleItemClick}
-                        >
-                            <Icon name='bold' />
-                        </Menu.Item>
-
-                        <Menu.Item
-                            name='italic'
-                            active={activeItem === 'italic'}
-                            onClick={handleItemClick}
-                        >
-                            <Icon name='italic' />
-                        </Menu.Item>
-
-                        <Menu.Item
-                            name='underline'
-                            active={activeItem === 'underline'}
-                            onClick={handleItemClick}
-                        >
-                            <Icon name='underline' />
-                        </Menu.Item>
-
-                        <Menu.Item
-                            name='list'
-                            active={activeItem === 'list'}
-                            onClick={handleItemClick}
-                        >
-                            <Icon name='list' />
-                        </Menu.Item>
-
-                        <Menu.Item
-                            name='list ol'
-                            active={activeItem === 'list ol'}
-                            onClick={handleItemClick}
-                        >
-                            <Icon name='list ol' />
-                        </Menu.Item>
-                    </Menu>
-                    <TextArea
-                        rows={8}
-                        onChange={(e) => setContent(e.target.value)}
-                        value={content}
-                        disabled={disabledForm}
-                    />
-                </Form.Field>
-                {/* <Container textAlign="right">
+                    </Form.Field>
+                    {/* <Container textAlign="right">
                     <Button className="remove-border-radius" secondary type='Submit'>Submit</Button>
                     <Button
                         onClick={(e) => {
@@ -176,9 +180,11 @@ const ReportItemInfoForm = (props) => {
                         secondary
                         basic>Back</Button>
                 </Container> */}
-                <hr />
+                </Form>
+            </Segment>
+            <Segment>
                 <ImageUploadWidget key={0} imageKey={0} images={images} setImages={setImages} />
-            </Form>
+            </Segment>
         </div>
     )
 }

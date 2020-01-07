@@ -107,11 +107,10 @@ const ImageUploadWidget = (props) => {
                     acceptedFiles.length ?
                         <aside style={{ thumbsContainer }}>
                             <ul>{thumbs}</ul>
-                            {/* <button onClick={e =>  e.preventDefault()}>Change Photo</button> */}
                             <button type='button' onClick={open}>Change Photo</button>
-                            <input  {...getInputProps()} />
-                            {/* TODO change acceptedFile[0] with input */}
+                            <input {...getInputProps()} />
                             <input
+                                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                 value={caption}
                                 onChange={e => handleCaptionChange(e)}
                                 type='text' placeholder='enter caption' />
