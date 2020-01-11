@@ -16,6 +16,21 @@ const ReportItemInfoForm = (props) => {
     let history = useHistory()
     let location = useLocation()
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+    // https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript
+
+    // async function _toBase64(file) {
+    //     const encodedFile = await toBase64(file)
+    //     // const result = await resolveAfter2Seconds();
+    //     // console.log(encodedFile)
+    //     return encodedFile
+    // }
+
     // effect for retrieving reportitem info if being edited
     useEffect(() => {
         if (props.HTTPMethod == "PUT" && location.state) {
@@ -47,6 +62,28 @@ const ReportItemInfoForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        // async function encode(array) {
+        //     let encodedImages = []
+        //     for (let i = 0; i < array.length; i++) {
+        //         encodedImages.push(
+        //             {
+        //                 file: await toBase64(array[i].file), // encode this
+        //                 path: array[i].path,
+        //                 caption: array[i].caption,
+        //                 key: array[i].key
+        //             }
+        //         )
+        //     }
+
+        // }
+
+        // const encodedImages = encode(images)
+        // // convert all image files to base64 enc string
+        // setTimeout(function(){
+        //     console.log('timeout completed')
+        // }, 12000)
+
+
         let reportItem = {
             subject: subject,
             content: content,
@@ -54,10 +91,6 @@ const ReportItemInfoForm = (props) => {
             reportId: reportid,
             images: images
         }
-
-        // create array for actionItem objects
-        // or inegrate save button into action form?
-        // client side can make sure action items saved before leaving
 
         let urlString = null
         switch (props.HTTPMethod) {
@@ -69,17 +102,24 @@ const ReportItemInfoForm = (props) => {
                 break
         }
 
-        // open chrome without web protection to allow cross origin request:
-        // open -a Google\ Chrome --args --disable-web-security --user-data-dir
-
-        // send info to API to create new report item or save update
-        fetch(urlString, {
+        const options = {
             method: props.HTTPMethod,
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify(reportItem)
-        })
+        }
+
+        // open chrome without web protection to allow cross origin request:
+        // open -a Google\ Chrome --args --disable-web-security --user-data-dir
+        // if (options && options.headers) {
+        //     delete options.headers['Content-Type'];
+        // }
+
+        console.log(reportItem)
+
+        // send info to API to create new report item or save update
+        fetch(urlString, options) // fetch returns a promise
             .then(response => response.json())
             .then(result => {
                 alert(result.message)
@@ -97,7 +137,7 @@ const ReportItemInfoForm = (props) => {
         <div>
             <Segment>
                 <h4>{props.header}</h4>
-                <Form id='report-item-info-form' onSubmit={handleSubmit}>
+                <Form id='report-item-info-form' onSubmit={handleSubmit} enctype="multipart/form-data">
                     <Form.Field>
                         {/* <label>Subject</label> */}
                         <Form.Group unstackable>
@@ -180,10 +220,8 @@ const ReportItemInfoForm = (props) => {
                         secondary
                         basic>Back</Button>
                 </Container> */}
+                    <ImageUploadWidget key={0} imageKey={0} images={images} setImages={setImages} />
                 </Form>
-            </Segment>
-            <Segment>
-                <ImageUploadWidget key={0} imageKey={0} images={images} setImages={setImages} />
             </Segment>
         </div>
     )

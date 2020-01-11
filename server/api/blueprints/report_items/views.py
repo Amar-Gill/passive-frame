@@ -1,25 +1,20 @@
 from flask import Blueprint, jsonify, request
+from werkzeug.utils import secure_filename
 from models.report import Report
 from models.report_item import ReportItem
 from models.action import Action
 from models.image import Image
-import re
+from helpers.is_positive_int import is_positive_int
+from helpers.amazon_s3_helper import *
+from config import Config
 import datetime
-
-# TODO - move function into helpers.py file
-def is_positive_int(x):
-    regex = r'[\W+A-Za-z]'
-    match = re.search(regex, str(x))
-    if match:
-        return False
-    elif int(x) <= 0:
-        return False
-    else:
-        return True
 
 report_items_api_blueprint = Blueprint("report_items_api",
                             __name__,
                             template_folder= "templates")
+
+def sort_keys(image):
+    return image["key"]
 
 @report_items_api_blueprint.route("/", methods=["POST"])
 def create():
@@ -28,7 +23,10 @@ def create():
     content = request.json.get("content", None)
     report_id = request.json.get("reportId", None)
     images = request.json.get("images", None)
+    # https://code.tutsplus.com/tutorials/base64-encoding-and-decoding-using-python--cms-25588
 
+    breakpoint()
+    i = i + 1
     # send images in an array from client
 
     # data validation
@@ -50,12 +48,40 @@ def create():
                         report_id=report_id
                         )
 
-    # hardcode image saving first???.. wait no report item needs to exist...
-
     if new_report_item.save():
-        # save images here...???
-        # save report_item into db...
-        # then iterate through images save each.. only then do you return response
+        # saved images information to return in response
+        saved_images =[]
+
+        if images:
+            # sort images array by key here
+            images.sort(key=sort_keys)
+            # iterate through sorted list and upload to S3
+            for image in images:
+                file = image["file"]
+                # check if a file was included in object
+                if file['path'] == "":
+                    saved_images.append({"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                # upload to s3
+                elif file and allowed_file(file['path']):
+                    file['path'] = secure_filename(file['path'])
+                    output = upload_file_to_s3(file, Config.S3_BUCKET)
+                    if output["upload_status"]:
+                        # save image in db if upload to s3 success
+                        new_image = Image(
+                                        path=str(output["filename"]),
+                                        key=image["key"],
+                                        caption=image["caption"],
+                                        report_item_id=new_report_item.id
+                                    )
+                        if new_image.save():
+                            saved_images.append({"key": image["key"], "status": "Success", "message": "Image uploaded to S3 successfully."})
+                    else:
+                        # do not save into db if s3 upload fails
+                        saved_images.append({"key": image["key"], "status": "Fail", "message": output["message"]})
+                else:
+                    saved_images.append({"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+            
+
         return jsonify(
             message = "New report item created.",
             status = "Success",
@@ -65,7 +91,8 @@ def create():
                 "content": content,
                 "reportItemIndex": report_item_index,
                 "reportId": report_id,
-                "projectId": Report.get_or_none(Report.id == report_id).project_id
+                "projectId": Report.get_or_none(Report.id == report_id).project_id,
+                "savedImages": saved_images
             }
         )
     else:

@@ -37,11 +37,19 @@ const img = {
     height: '100%'
 };
 
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+// https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript
 
 
 const ImageUploadWidget = (props) => {
 
     const [files, setFiles] = useState([]); // find
+    const [encodedFile, setEncodedFile] = useState()
     const [caption, setCaption] = useState('')
 
     const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
@@ -56,14 +64,23 @@ const ImageUploadWidget = (props) => {
             )
             // create filtered array without image with key==props.imageKey
             const filteredArray = props.images.filter(image => image.key != props.imageKey)
-            // setState in parent element form
-            props.setImages(
-                [...filteredArray, {
-                    path: acceptedFiles[0].path,
-                    caption: caption,
-                    key: props.imageKey
-                }]
-            );
+            // async loop to encode file
+            toBase64(acceptedFiles[0])
+                .then(response => response)
+                .then(result => {
+                    // set local encodedFile state
+                    setEncodedFile(result)
+                    // setState in parent element form
+                    props.setImages(
+                        [...filteredArray, {
+                            file: result, // encode this
+                            path: acceptedFiles[0].path,
+                            caption: caption,
+                            key: props.imageKey
+                        }]
+                    );
+                })
+
         }
     });
 
@@ -93,7 +110,7 @@ const ImageUploadWidget = (props) => {
 
         // then re-add it to array with new caption
         props.setImages([...filteredArray, {
-            // path: imageObject.path,
+            file: encodedFile, // need encoded file.
             path: acceptedFiles[0].path,
             caption: event.target.value,
             key: props.imageKey
