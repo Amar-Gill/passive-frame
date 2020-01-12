@@ -8,13 +8,18 @@ from helpers.is_positive_int import is_positive_int
 from helpers.amazon_s3_helper import *
 from config import Config
 import datetime
+import base64
+import tempfile
+
 
 report_items_api_blueprint = Blueprint("report_items_api",
-                            __name__,
-                            template_folder= "templates")
+                                       __name__,
+                                       template_folder="templates")
+
 
 def sort_keys(image):
     return image["key"]
+
 
 @report_items_api_blueprint.route("/", methods=["POST"])
 def create():
@@ -23,69 +28,80 @@ def create():
     content = request.json.get("content", None)
     report_id = request.json.get("reportId", None)
     images = request.json.get("images", None)
-    # https://code.tutsplus.com/tutorials/base64-encoding-and-decoding-using-python--cms-25588
-
-    breakpoint()
-    i = i + 1
-    # send images in an array from client
 
     # data validation
     if not report_id:
         return jsonify(
-            message = "Missing reportId",
-            status = "Fail"
+            message="Missing reportId",
+            status="Fail"
         )
 
     # calculate report_item_index
-    report_item_count = ReportItem.select().where(ReportItem.report_id == report_id).count()
+    report_item_count = ReportItem.select().where(
+        ReportItem.report_id == report_id).count()
     report_item_index = report_item_count + 1
 
     # instantiate new_report_item and save to db
     new_report_item = ReportItem(
-                        subject = subject,
-                        content = content,
-                        report_item_index=report_item_index,
-                        report_id=report_id
-                        )
+        subject=subject,
+        content=content,
+        report_item_index=report_item_index,
+        report_id=report_id
+    )
 
     if new_report_item.save():
         # saved images information to return in response
-        saved_images =[]
+        saved_images = []
 
         if images:
             # sort images array by key here
             images.sort(key=sort_keys)
             # iterate through sorted list and upload to S3
             for image in images:
-                file = image["file"]
-                # check if a file was included in object
-                if file['path'] == "":
-                    saved_images.append({"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
-                # upload to s3
-                elif file and allowed_file(file['path']):
-                    file['path'] = secure_filename(file['path'])
-                    output = upload_file_to_s3(file, Config.S3_BUCKET)
-                    if output["upload_status"]:
-                        # save image in db if upload to s3 success
-                        new_image = Image(
-                                        path=str(output["filename"]),
-                                        key=image["key"],
-                                        caption=image["caption"],
-                                        report_item_id=new_report_item.id
-                                    )
-                        if new_image.save():
-                            saved_images.append({"key": image["key"], "status": "Success", "message": "Image uploaded to S3 successfully."})
+                # https://code.tutsplus.com/tutorials/base64-encoding-and-decoding-using-python--cms-25588
+                # https://stackabuse.com/encoding-and-decoding-base64-strings-in-python/
+                imgstring = image["file"] # base 64 encoded string
+                content_type = imgstring[imgstring.index(':')+1 : imgstring.index(';')] # obtain content type of encoded file string
+                imgstring = imgstring[imgstring.index(',')+1:] # remove data URL declaration
+                imgbytes = imgstring.encode('utf-8')
+                
+                with tempfile.NamedTemporaryFile() as file:
+                    file.name = image["path"]
+                    decoded_img_data = base64.decodebytes(imgbytes)
+                    file.write(decoded_img_data)
+
+                    # check if a file was included in object
+                    if file.name == "":
+                        saved_images.append(
+                            {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                    # upload to s3
+                    elif file and allowed_file(file.name):
+                        file.name = secure_filename(file.name)
+                        file.seek(0)
+                        output = upload_file_to_s3(file, Config.S3_BUCKET, content_type)
+                        if output["upload_status"]:
+                            # save image in db if upload to s3 success
+                            new_image = Image(
+                                path=str(output["filename"]),
+                                key=image["key"],
+                                caption=image["caption"],
+                                report_item_id=new_report_item.id
+                            )
+                            if new_image.save():
+                                saved_images.append(
+                                    {"key": image["key"], "status": "Success", "message": "Image uploaded to S3 successfully."})
+                        else:
+                            # do not save into db if s3 upload fails
+                            saved_images.append(
+                                {"key": image["key"], "status": "Fail", "message": output["message"]})
                     else:
-                        # do not save into db if s3 upload fails
-                        saved_images.append({"key": image["key"], "status": "Fail", "message": output["message"]})
-                else:
-                    saved_images.append({"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
-            
+                        saved_images.append(
+                            {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
 
         return jsonify(
-            message = "New report item created.",
-            status = "Success",
-            reportItem = {
+            message="New report item created.",
+            status="Success",
+            reportItem={
                 "id": new_report_item.id,
                 "subject": subject,
                 "content": content,
@@ -97,9 +113,10 @@ def create():
         )
     else:
         return jsonify(
-            message = "Something went wrong please try again",
-            status = "Fail"
+            message="Something went wrong please try again",
+            status="Fail"
         )
+
 
 @report_items_api_blueprint.route("/<id>", methods=["PUT"])
 def update(id):
@@ -108,10 +125,10 @@ def update(id):
 
     if not report_item:
         return jsonify(
-            message = "ReportItem does not exist.",
-            status = "Fail"
+            message="ReportItem does not exist.",
+            status="Fail"
         )
-    
+
     # get data
     subject = request.json.get("subject", None)
     content = request.json.get("content", None)
@@ -140,14 +157,15 @@ def update(id):
     # save to db
     if report_item.save():
         return jsonify(
-            message = "Report item updated.",
-            status = "Success"
+            message="Report item updated.",
+            status="Success"
         )
     else:
         return jsonify(
-            message = "Something went wrong please try again",
-            status = "Fail"
+            message="Something went wrong please try again",
+            status="Fail"
         )
+
 
 @report_items_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
 @report_items_api_blueprint.route("/<id>", methods=["GET"])
@@ -158,17 +176,18 @@ def index(id):
         report_item = ReportItem.get_or_none(ReportItem.id == id)
         if report_item:
             return jsonify(
-                id = report_item.id,
-                reportId = report_item.report_id,
-                projectId = Report.get_or_none(Report.id == report_item.report_id).project_id,
-                subject = report_item.subject,
-                content = report_item.content,
-                reportItemIndex = report_item.report_item_index
+                id=report_item.id,
+                reportId=report_item.report_id,
+                projectId=Report.get_or_none(
+                    Report.id == report_item.report_id).project_id,
+                subject=report_item.subject,
+                content=report_item.content,
+                reportItemIndex=report_item.report_item_index
             )
         else:
             return jsonify(
-                message = f"No report item with id: {id}",
-                status = "Fail"
+                message=f"No report item with id: {id}",
+                status="Fail"
             )
     # get data
     report_id = request.json.get('reportId', None)
@@ -176,15 +195,15 @@ def index(id):
     # data validation
     if not report_id:
         return jsonify(
-            message = "Missing reportId",
-            status = "Fail"
+            message="Missing reportId",
+            status="Fail"
         )
-    
+
     # query db for report_items
     report_items = ReportItem.select().where(ReportItem.report_id == report_id)
 
     return jsonify(
-        items = [
+        items=[
             {
                 "id": item.id,
                 "reportId": item.report_id,
@@ -193,8 +212,9 @@ def index(id):
                 "content": item.content,
                 "reportItemIndex": item.report_item_index
             }
-        for item in report_items]
+            for item in report_items]
     )
+
 
 @report_items_api_blueprint.route("<id>/actions", methods=["GET"])
 def index_actions(id):
@@ -205,7 +225,7 @@ def index_actions(id):
         # get actions for that report_item
         actions = Action.select().where(Action.report_item_id == id)
         return jsonify(
-            actions = [
+            actions=[
                 {
                     "id": action.id,
                     "description": action.description,
@@ -216,10 +236,10 @@ def index_actions(id):
                     "reportItemId": action.report_item_id,
                     "projectId": action.project_id
                 }
-            for action in actions]
+                for action in actions]
         )
     else:
         return jsonify(
-            message = f"No report item with id: {id}",
-            status = "Fail"
+            message=f"No report item with id: {id}",
+            status="Fail"
         )

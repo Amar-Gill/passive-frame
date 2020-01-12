@@ -62,28 +62,6 @@ const ReportItemInfoForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        // async function encode(array) {
-        //     let encodedImages = []
-        //     for (let i = 0; i < array.length; i++) {
-        //         encodedImages.push(
-        //             {
-        //                 file: await toBase64(array[i].file), // encode this
-        //                 path: array[i].path,
-        //                 caption: array[i].caption,
-        //                 key: array[i].key
-        //             }
-        //         )
-        //     }
-
-        // }
-
-        // const encodedImages = encode(images)
-        // // convert all image files to base64 enc string
-        // setTimeout(function(){
-        //     console.log('timeout completed')
-        // }, 12000)
-
-
         let reportItem = {
             subject: subject,
             content: content,
