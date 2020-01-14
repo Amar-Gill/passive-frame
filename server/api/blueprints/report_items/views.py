@@ -175,6 +175,7 @@ def index(id):
     if id:
         report_item = ReportItem.get_or_none(ReportItem.id == id)
         if report_item:
+            images = Image.select().where(Image.report_item_id == id)
             return jsonify(
                 id=report_item.id,
                 reportId=report_item.report_id,
@@ -182,7 +183,15 @@ def index(id):
                     Report.id == report_item.report_id).project_id,
                 subject=report_item.subject,
                 content=report_item.content,
-                reportItemIndex=report_item.report_item_index
+                reportItemIndex=report_item.report_item_index,
+                images=[
+                    {
+                        'path': image.path,
+                        'caption': image.caption,
+                        'key': image.key,
+                        's3_image_url': image.s3_image_url
+                    }
+                for image in images]
             )
         else:
             return jsonify(
@@ -202,18 +211,43 @@ def index(id):
     # query db for report_items
     report_items = ReportItem.select().where(ReportItem.report_id == report_id)
 
-    return jsonify(
-        items=[
+    # return jsonify(
+    #     items=[
+    #         {
+    #             "id": item.id,
+    #             "reportId": item.report_id,
+    #             "projectId": Report.get_or_none(Report.id == item.report_id).project_id,
+    #             "subject": item.subject,
+    #             "content": item.content,
+    #             "reportItemIndex": item.report_item_index
+    #         }
+    #         for item in report_items]
+    # )
+
+    json_response =[]
+
+    for item in report_items:
+        images = Image.select().where(Image.report_item_id == item.id)
+        json_response.append(
             {
                 "id": item.id,
                 "reportId": item.report_id,
                 "projectId": Report.get_or_none(Report.id == item.report_id).project_id,
                 "subject": item.subject,
                 "content": item.content,
-                "reportItemIndex": item.report_item_index
+                "reportItemIndex": item.report_item_index,
+                "images": [
+                    {
+                        'path': image.path,
+                        'caption': image.caption,
+                        'key': image.key,
+                        's3_image_url': image.s3_image_url
+                    }
+                for image in images]
             }
-            for item in report_items]
-    )
+        )
+    
+    return jsonify(items=json_response)
 
 
 @report_items_api_blueprint.route("<id>/actions", methods=["GET"])

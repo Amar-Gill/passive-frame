@@ -7,9 +7,10 @@ class Config(object):
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or os.urandom(32)
     S3_BUCKET                 = os.environ.get("S3_BUCKET_NAME")
+    S3_REGION                 = os.environ.get("S3_REGION_NAME")
     S3_KEY                    = os.environ.get("S3_PUBLIC_ACCESS_KEY")
     S3_SECRET                 = os.environ.get("S3_SECRET_ACCESS_KEY")
-    S3_LOCATION               = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+    S3_LOCATION               = f'https://{S3_BUCKET}.s3.{S3_REGION}.amazonaws.com/'
     JWT_SECRET_KEY            = os.environ.get("JWT_SECRET_KEY")
 
 class ProductionConfig(Config):

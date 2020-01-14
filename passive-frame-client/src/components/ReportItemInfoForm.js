@@ -24,13 +24,6 @@ const ReportItemInfoForm = (props) => {
     });
     // https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript
 
-    // async function _toBase64(file) {
-    //     const encodedFile = await toBase64(file)
-    //     // const result = await resolveAfter2Seconds();
-    //     // console.log(encodedFile)
-    //     return encodedFile
-    // }
-
     // effect for retrieving reportitem info if being edited
     useEffect(() => {
         if (props.HTTPMethod == "PUT" && location.state) {
@@ -93,8 +86,6 @@ const ReportItemInfoForm = (props) => {
         // if (options && options.headers) {
         //     delete options.headers['Content-Type'];
         // }
-
-        console.log(reportItem)
 
         // send info to API to create new report item or save update
         fetch(urlString, options) // fetch returns a promise
@@ -197,7 +188,7 @@ const ReportItemInfoForm = (props) => {
                         secondary
                         basic>Back</Button>
                 </Container> */}
-                    <ImageUploadWidget key={0} imageKey={0} images={images} setImages={setImages} />
+                    <ImageUploadWidget key={props.HTTPMethod=="POST"? 0 : 0} imageKey={props.HTTPMethod=="POST"? 0 : 0} images={images} setImages={setImages} />
                 </Form>
         </div>
     )

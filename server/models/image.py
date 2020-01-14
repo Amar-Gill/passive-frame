@@ -12,4 +12,4 @@ class Image(BaseModel):
 
     @hybrid_property
     def s3_image_url(self):
-        return Config.S3_LOCATION + self.image_path
+        return Config.S3_LOCATION + f'report-item-{self.report_item.id}/{self.path}'
