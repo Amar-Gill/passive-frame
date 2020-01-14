@@ -54,8 +54,8 @@ def create():
         saved_images = []
 
         if images:
-            # sort images array by key here
-            images.sort(key=sort_keys)
+            # sort images array by key here <- not necessary here
+            # images.sort(key=sort_keys)
             # iterate through sorted list and upload to S3
             for image in images:
                 # https://code.tutsplus.com/tutorials/base64-encoding-and-decoding-using-python--cms-25588
@@ -78,7 +78,7 @@ def create():
                     elif file and allowed_file(file.name):
                         file.name = secure_filename(file.name)
                         file.seek(0)
-                        output = upload_file_to_s3(file, Config.S3_BUCKET, content_type)
+                        output = upload_file_to_s3(file, f'{Config.S3_BUCKET}', content_type, f'report-item-{new_report_item.id}')
                         if output["upload_status"]:
                             # save image in db if upload to s3 success
                             new_image = Image(

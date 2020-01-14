@@ -10,18 +10,19 @@ s3 = boto3.client(
    aws_secret_access_key=Config.S3_SECRET
 )
 
-def upload_file_to_s3(file, bucket_name, content_type, acl="public-read"):
+def upload_file_to_s3(file, bucket_name, content_type, folder, acl="public-read"):
 
     """
     Docs: http://boto3.readthedocs.io/en/latest/guide/s3.html
     """
 
     try:
-
+        # do check if same folder/file.name uploaded
+        # prevent extra work?
         s3.upload_fileobj(
             file,
             bucket_name,
-            file.name,
+            f'{folder}/{file.name}',
             ExtraArgs={
                 "ACL": acl,
                 "ContentType": content_type # file.content_type

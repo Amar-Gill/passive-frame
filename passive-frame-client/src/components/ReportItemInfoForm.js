@@ -113,7 +113,6 @@ const ReportItemInfoForm = (props) => {
 
     return (
         <div>
-            <Segment>
                 <h4>{props.header}</h4>
                 <Form id='report-item-info-form' onSubmit={handleSubmit} enctype="multipart/form-data">
                     <Form.Field>
@@ -200,7 +199,6 @@ const ReportItemInfoForm = (props) => {
                 </Container> */}
                     <ImageUploadWidget key={0} imageKey={0} images={images} setImages={setImages} />
                 </Form>
-            </Segment>
         </div>
     )
 }
