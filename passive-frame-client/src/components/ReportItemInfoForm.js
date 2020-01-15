@@ -114,29 +114,10 @@ const ReportItemInfoForm = (props) => {
         setActiveItem(name)
     }
 
-    // const handleCaptionChange = (event, imageKey) => {
-
-    //     // setCaption state (used for changing photos)
-    //     // setCaption(event.target.value)
-
-    //     //setImages state. filter out the imageObject being changed first
-    //     const filteredArray = images.filter(image => image.key != imageKey)
-
-    //     // then re-add it to array with new caption
-    //     props.setImages([...filteredArray, {
-    //         file: null, // need encoded file.
-    //         path: null,
-    //         caption: event.target.value,
-    //         key: imageKey,
-    //         s3_image_url: null,
-    //         saved: true
-    //     }])
-    // }
-
     return (
         <div>
             <h4>{props.header}</h4>
-            <Form id='report-item-info-form' onSubmit={handleSubmit} enctype="multipart/form-data">
+            <Form id='report-item-info-form' onSubmit={handleSubmit}>
                 <Form.Field>
                     {/* <label>Subject</label> */}
                     <Form.Group unstackable>
@@ -226,13 +207,11 @@ const ReportItemInfoForm = (props) => {
                         if (image.saved) {
                             return (
                                 <div>
-                                    <SavedImageContainer image={image} images={images} setImages={setImages} />
-                                    <input
-                                        onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                        type='text'
-                                        value={image.caption}
-                                        // onChange={handleCaptionChange(image.key)}
-                                        />
+                                    <SavedImageContainer
+                                    key={image.key}
+                                    image={image}
+                                    images={images}
+                                    setImages={setImages} />
                                 </div>
                             )
                         }
