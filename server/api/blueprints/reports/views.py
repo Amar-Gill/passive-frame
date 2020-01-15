@@ -189,7 +189,9 @@ def index_items(id):
                             'path': image.path,
                             'caption': image.caption,
                             'key': image.key,
-                            's3_image_url': image.s3_image_url
+                            's3_image_url': image.s3_image_url,
+                            'file': None,
+                            'saved': True
                         }
                     for image in images]
                 }

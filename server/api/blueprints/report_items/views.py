@@ -170,7 +170,6 @@ def update(id):
 @report_items_api_blueprint.route("/", methods=["GET"], defaults={"id": None})
 @report_items_api_blueprint.route("/<id>", methods=["GET"])
 def index(id):
-    # TODO - update response data to provide reference to images for report item
     # get info for one report item
     if id:
         report_item = ReportItem.get_or_none(ReportItem.id == id)
@@ -189,7 +188,9 @@ def index(id):
                         'path': image.path,
                         'caption': image.caption,
                         'key': image.key,
-                        's3_image_url': image.s3_image_url
+                        's3_image_url': image.s3_image_url,
+                        'file': None,
+                        'saved': True
                     }
                 for image in images]
             )
@@ -241,7 +242,9 @@ def index(id):
                         'path': image.path,
                         'caption': image.caption,
                         'key': image.key,
-                        's3_image_url': image.s3_image_url
+                        's3_image_url': image.s3_image_url,
+                        'file': None,
+                        'saved': True
                     }
                 for image in images]
             }

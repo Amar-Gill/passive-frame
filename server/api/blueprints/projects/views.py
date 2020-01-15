@@ -176,7 +176,7 @@ def index_reports(id):
                             "reportId": report_item.report_id,
                             "createdAt": datetime.datetime.timestamp(report_item.created_at)*1000,
                             "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000,
-                            "images": []
+                            "images": None
                         }
 
                         for report_item in report_items]
@@ -191,7 +191,9 @@ def index_reports(id):
                         'path': image.path,
                         'caption': image.caption,
                         'key': image.key,
-                        's3_image_url': image.s3_image_url
+                        's3_image_url': image.s3_image_url,
+                        'file': None,
+                        'saved': True
                     }
                 for image in images]
 

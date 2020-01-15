@@ -3,7 +3,10 @@ import { useDropzone } from 'react-dropzone';
 
 const dropzone = {
     height: 60,
-    borderStyle: 'dashed'
+    borderStyle: 'dashed',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
 }
 
 const thumbsContainer = {
@@ -76,7 +79,9 @@ const ImageUploadWidget = (props) => {
                             file: result, // encode this
                             path: acceptedFiles[0].path,
                             caption: caption,
-                            key: props.imageKey
+                            key: props.imageKey,
+                            s3_image_url: null,
+                            saved: false
                         }]
                     );
                 })
@@ -113,7 +118,9 @@ const ImageUploadWidget = (props) => {
             file: encodedFile, // need encoded file.
             path: acceptedFiles[0].path,
             caption: event.target.value,
-            key: props.imageKey
+            key: props.imageKey,
+            s3_image_url: null,
+            saved: false
         }])
     }
 
