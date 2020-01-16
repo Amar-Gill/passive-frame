@@ -185,7 +185,7 @@ def index_reports(id):
 
         for report in json_response:
             for item in report["items"]:
-                images = Image.select().where(Image.report_item_id == item["id"])
+                images = Image.select().where((Image.report_item_id == item["id"]) & (Image.key != None))
                 item["images"] = [
                     {
                         'path': image.path,

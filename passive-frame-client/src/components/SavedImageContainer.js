@@ -75,6 +75,8 @@ const SavedImageContainer = (props) => {
             url: URL.createObjectURL(event.target.files[0])
         })
 
+        // TODO - effect for preventing memory leak caused by objectURL
+
         // create filtered array without image with key==props.imageKey
         const filteredArray = props.images.filter(image => image.key != props.image.key)
         // async loop to encode file

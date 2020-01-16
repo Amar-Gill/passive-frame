@@ -80,7 +80,7 @@ def create():
                         file.seek(0)
                         output = upload_file_to_s3(file, f'{Config.S3_BUCKET}', content_type, f'report-item-{new_report_item.id}')
                         if output["upload_status"]:
-                            # save image in db if upload to s3 success
+                            # save image in db if upload to s3 successful
                             new_image = Image(
                                 path=str(output["filename"]),
                                 key=image["key"],
@@ -133,8 +133,13 @@ def update(id):
     subject = request.json.get("subject", None)
     content = request.json.get("content", None)
     report_item_index = request.json.get("reportItemIndex", None)
+    images = request.json.get("images", None)
 
-    if not report_item_index:
+    # breakpoint()
+
+    # alpha = beta + gamma
+
+    if not report_item_index: # case for empty string
         return jsonify(
             message="Report Item Index must be a positive integer",
             status="Fail"
@@ -147,18 +152,172 @@ def update(id):
             status="Fail"
         )
 
-    if subject:
+    if subject and subject != report_item.subject:
         report_item.subject = subject
-    if content:
+    if content and content != report_item.content:
         report_item.content = content
-    if report_item_index:
+    if report_item_index and report_item.report_item_index:
         report_item.report_item_index = int(report_item_index)
 
     # save to db
     if report_item.save():
+        # handle images here.
+        # if images array
+        if images:
+            saved_images =[]
+            new_image_state = []
+            for image in images:
+                # switch(image_is_saved) (values: True, False, or 'changed'):
+                if image["saved"]:
+                    # case 'changed': caption or image changed, or both
+                    if image["saved"] == "changed":
+                        # check case of caption only changed
+                        if not image["file"]:
+                            updated_image = Image.get((Image.report_item_id == report_item.id) & (Image.key == image["key"]))
+                            updated_image.caption = image["caption"]
+                            if updated_image.save():
+                                saved_images.append({"key": image["key"], "status": "Success", "message": "Caption updated."})
+                                new_image_state.append(
+                                    {
+                                        "key": image["key"],
+                                        "file": None,
+                                        "caption": image["caption"],
+                                        "path": image["path"],
+                                        "s3_image_url": image["s3_image_url"],
+                                        "saved": True
+                                    }
+                                )
+                        # case for new photo. image file means encoded file string is present because file changed
+                        if image["file"]:
+                            # decode string
+                            imgstring = image["file"] # base 64 encoded string
+                            content_type = imgstring[imgstring.index(':')+1 : imgstring.index(';')] # obtain content type of encoded file string
+                            imgstring = imgstring[imgstring.index(',')+1:] # remove data URL declaration
+                            imgbytes = imgstring.encode('utf-8')
+                            
+                            with tempfile.NamedTemporaryFile() as file:
+                                file.name = image["path"]
+                                decoded_img_data = base64.decodebytes(imgbytes)
+                                file.write(decoded_img_data)
+
+                                # check if a file was included in object
+                                if file.name == "":
+                                    saved_images.append(
+                                        {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                                # upload to s3
+                                elif file and allowed_file(file.name):
+                                    file.name = secure_filename(file.name)
+                                    file.seek(0)
+                                    output = upload_file_to_s3(file, f'{Config.S3_BUCKET}', content_type, f'report-item-{report_item.id}')
+                                    if output["upload_status"]:
+                                        # save image in db if upload to s3 successful
+                                        new_image = Image(
+                                            path=str(output["filename"]),
+                                            key=image["key"],
+                                            caption=image["caption"],
+                                            report_item_id=report_item.id
+                                        )
+                                        if new_image.save():
+                                            saved_images.append(
+                                                {"key": image["key"], "status": "Success", "message": "Image uploaded to S3 successfully."})
+                                            # set old image key to None. set caption to ''
+                                            prev_image = Image.get((Image.report_item_id == report_item.id) & (Image.key == image["key"]) & (Image.id != new_image.id))
+                                            prev_image.key = None
+                                            prev_image.caption = ''
+                                            prev_image.save()
+                                            new_image_state.append(
+                                                {
+                                                    "key": image["key"],
+                                                    "file": None,
+                                                    "path": image["path"],
+                                                    "caption": image["caption"],
+                                                    "s3_image_url": new_image.s3_image_url,
+                                                    "saved": True
+                                                }
+                                            )
+                                    else:
+                                        # do not save into db if s3 upload fails
+                                        saved_images.append(
+                                            {"key": image["key"], "status": "Fail", "message": output["message"]})
+                                        # if s3 upload fails, return same object
+                                        new_image_state.append(image) # wrong get previous state...
+                                else:
+                                    # somehow a non image file included. code shouldn't reach here. controlled at client side.
+                                    saved_images.append(
+                                        {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                                    new_image_state.append(image)
+                    # case true: do nothing
+                    else:
+                        saved_images.append({"key": image["key"], "status": "Success", "message": "No change to image"})
+                        new_image_state.append(image)
+                else:
+                    # case false: save upload to s3 then save to db
+                    # new image and new key. important - NEW image.
+                    # get the file and decode
+                    imgstring = image["file"] # base 64 encoded string
+                    content_type = imgstring[imgstring.index(':')+1 : imgstring.index(';')] # obtain content type of encoded file string
+                    imgstring = imgstring[imgstring.index(',')+1:] # remove data URL declaration
+                    imgbytes = imgstring.encode('utf-8')
+                    
+                    with tempfile.NamedTemporaryFile() as file:
+                        file.name = image["path"]
+                        decoded_img_data = base64.decodebytes(imgbytes)
+                        file.write(decoded_img_data)
+
+                        # check if a file was included in object
+                        if file.name == "":
+                            saved_images.append(
+                                {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                        # upload to s3
+                        elif file and allowed_file(file.name):
+                            file.name = secure_filename(file.name)
+                            file.seek(0)
+                            output = upload_file_to_s3(file, f'{Config.S3_BUCKET}', content_type, f'report-item-{report_item.id}')
+                            if output["upload_status"]:
+                                # save image in db if upload to s3 successful
+                                new_image = Image(
+                                    path=str(output["filename"]),
+                                    key=image["key"],
+                                    caption=image["caption"],
+                                    report_item_id=report_item.id
+                                )
+                                if new_image.save():
+                                    saved_images.append(
+                                        {"key": image["key"], "status": "Success", "message": "Image uploaded to S3 successfully."})
+                                    new_image_state.append(
+                                        {
+                                            "key": new_image.key,
+                                            "file": None,
+                                            "path": new_image.path,
+                                            "caption": new_image.caption,
+                                            "s3_image_url": new_image.s3_image_url,
+                                            "saved": True
+                                        }
+                                    )
+                            else:
+                                # do not save into db if s3 upload fails
+                                saved_images.append(
+                                    {"key": image["key"], "status": "Fail", "message": output["message"]})
+                                new_image_state.append(image)
+                        else:
+                            # somehow a non image file included. code shouldn't reach here. controlled at client side.
+                            saved_images.append(
+                                {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                            new_image_state.append(image)
+                    
         return jsonify(
             message="Report item updated.",
-            status="Success"
+            status="Success",
+            reportItem={
+                "id": id,
+                "subject": subject,
+                "content": content,
+                "reportItemIndex": report_item_index,
+                "reportId": report_item.report_id,
+                "projectId": Report.get_or_none(Report.id == report_item.report_id).project_id,
+                "savedImages": saved_images,
+                "newImageState": new_image_state
+            }
         )
     else:
         return jsonify(
@@ -174,7 +333,7 @@ def index(id):
     if id:
         report_item = ReportItem.get_or_none(ReportItem.id == id)
         if report_item:
-            images = Image.select().where(Image.report_item_id == id)
+            images = Image.select().where((Image.report_item_id == id) & (Image.key != None)) # and where key != None
             return jsonify(
                 id=report_item.id,
                 reportId=report_item.report_id,
@@ -228,7 +387,7 @@ def index(id):
     json_response =[]
 
     for item in report_items:
-        images = Image.select().where(Image.report_item_id == item.id)
+        images = Image.select().where((Image.report_item_id == item.id) & (Image.key != None))
         json_response.append(
             {
                 "id": item.id,

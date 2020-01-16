@@ -172,7 +172,7 @@ def index_items(id):
 
         for item in report_items:
 
-            images = Image.select().where(Image.report_item_id == item.id)
+            images = Image.select().where((Image.report_item_id == item.id) & (Image.key != None))
 
             json_response.append(
                 {

@@ -142,7 +142,7 @@ const ImageUploadWidget = (props) => {
                         :
                         <div style={dropzone} {...getRootProps({ className: 'dropzone' })}>
                             <input {...getInputProps()} />
-                            <p>Drag 'n' drop image files here, or click to select files</p>
+                            <p>Drop image files to upload.</p>
                         </div>
                 }
             </section>

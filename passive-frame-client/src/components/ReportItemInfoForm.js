@@ -95,18 +95,25 @@ const ReportItemInfoForm = (props) => {
 
         // open chrome without web protection to allow cross origin request:
         // open -a Google\ Chrome --args --disable-web-security --user-data-dir
-        // if (options && options.headers) {
-        //     delete options.headers['Content-Type'];
-        // }
-
         // send info to API to create new report item or save update
         fetch(urlString, options) // fetch returns a promise
             .then(response => response.json())
             .then(result => {
                 alert(result.message)
                 if (result.status == "Success" && props.HTTPMethod == "POST") {
+                    // push to edit page when new item created
                     history.push(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
+                } else if (result.status == "Success") {
+                    // bug where if caption saved twice, image will save again in db.
+                    // update state. use saved_images from response? or updated_images?
+                    // const newImageState = result.newImageState
+                    // newImageState.sort((a,b) => a.key - b.key)
+                    // setImages(newImageState)
+                    // set number of saved images?
+                    // setNumberOfSavedImages(newImageState.length)
+                    window.location.reload()
                 }
+    
             })
     }
 
@@ -204,7 +211,7 @@ const ReportItemInfoForm = (props) => {
                     (images && props.HTTPMethod == "PUT") &&
 
                     images.map(image => {
-                        if (image.saved) {
+                        if (image.saved && image.key != null) {
                             return (
                                 <div>
                                     <SavedImageContainer
