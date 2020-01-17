@@ -13,7 +13,7 @@ const ReportItemInfoForm = (props) => {
     const [activeItem, setActiveItem] = useState(null) // for edit menu
     const [disabledForm, setDisabledForm] = useState(false)
     const [images, setImages] = useState(props.HTTPMethod == "POST" ? [] : undefined) // prop passed down to ImageUploadWidget
-    const [numberOfSavedImages, setNumberOfSavedImages] = useState()
+    const [uploadWidgetKey, setUploadWidgetKey] = useState()
 
     const { projid, reportid, itemid } = useParams()
     let history = useHistory()
@@ -36,7 +36,7 @@ const ReportItemInfoForm = (props) => {
             setReportItemIndex(location.state.item.reportItemIndex)
             let imagesArray = location.state.item.images
             imagesArray.sort((a, b) => a.key - b.key)
-            setNumberOfSavedImages(imagesArray.length)
+            setUploadWidgetKey(imagesArray.length)
             setImages(imagesArray)
         } else if (props.HTTPMethod == "PUT") {
             // use API call if button link not used
@@ -57,7 +57,7 @@ const ReportItemInfoForm = (props) => {
                         setReportItemIndex(result.reportItemIndex)
                         let imagesArray = result.images
                         imagesArray.sort((a, b) => a.key - b.key)
-                        setNumberOfSavedImages(imagesArray.length)
+                        setUploadWidgetKey(imagesArray.length)
                         setImages(imagesArray)
                     }
                 })
@@ -100,18 +100,16 @@ const ReportItemInfoForm = (props) => {
             .then(response => response.json())
             .then(result => {
                 alert(result.message)
+                console.log(result)
                 if (result.status == "Success" && props.HTTPMethod == "POST") {
                     // push to edit page when new item created
                     history.push(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
                 } else if (result.status == "Success") {
-                    // bug where if caption saved twice, image will save again in db.
-                    // update state. use saved_images from response? or updated_images?
-                    // const newImageState = result.newImageState
-                    // newImageState.sort((a,b) => a.key - b.key)
-                    // setImages(newImageState)
-                    // set number of saved images?
-                    // setNumberOfSavedImages(newImageState.length)
-                    window.location.reload()
+                    // update state. use new image state is returned in response always
+                    const newImageState = result.reportItem.newImageState
+                    newImageState.sort((a,b) => a.key - b.key)
+                    setImages(newImageState)
+                    setUploadWidgetKey(newImageState.length)
                 }
     
             })
@@ -226,7 +224,10 @@ const ReportItemInfoForm = (props) => {
                 }
                 {
                     images &&
-                    <ImageUploadWidget key={props.HTTPMethod == "POST" ? 0 : numberOfSavedImages} imageKey={props.HTTPMethod == "POST" ? 0 : numberOfSavedImages} images={images} setImages={setImages} />
+                    <ImageUploadWidget
+                    key={props.HTTPMethod == "POST" ? 0 : uploadWidgetKey}
+                    imageKey={props.HTTPMethod == "POST" ? 0 : uploadWidgetKey}
+                    images={images} setImages={setImages} />
                 }
 
 

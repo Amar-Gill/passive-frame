@@ -81,7 +81,8 @@ const ImageUploadWidget = (props) => {
                             caption: caption,
                             key: props.imageKey,
                             s3_image_url: null,
-                            saved: false
+                            saved: false,
+                            fromClient: true
                         }]
                     );
                 })
@@ -120,7 +121,8 @@ const ImageUploadWidget = (props) => {
             caption: event.target.value,
             key: props.imageKey,
             s3_image_url: null,
-            saved: false
+            saved: false,
+            fromClient: true
         }])
     }
 

@@ -191,7 +191,8 @@ def index_items(id):
                             'key': image.key,
                             's3_image_url': image.s3_image_url,
                             'file': None,
-                            'saved': True
+                            'saved': True,
+                            'fromClient': False
                         }
                     for image in images]
                 }

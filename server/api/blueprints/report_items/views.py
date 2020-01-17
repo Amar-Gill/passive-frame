@@ -161,11 +161,19 @@ def update(id):
 
     # save to db
     if report_item.save():
-        # handle images here.
-        # if images array
+        # handle images here. image interface with react State:
+        # imageDict = {
+        #     "key" : image.key (db field),
+        #     "path": image.path (db field),
+        #     "caption": image.caption (db field),
+        #     "file": image.file or None, (base64 encoded string)
+        #     "s3_image_url": image.s3_image_url or None, (hybrid property of model)
+        #     "saved": True or False or "changed" (False means new upload.)
+        # }
+        # if images array present
         if images:
             saved_images =[]
-            new_image_state = []
+            new_image_state = [] # generate new images state for form as a return value for ui
             for image in images:
                 # switch(image_is_saved) (values: True, False, or 'changed'):
                 if image["saved"]:
@@ -184,8 +192,9 @@ def update(id):
                                         "caption": image["caption"],
                                         "path": image["path"],
                                         "s3_image_url": image["s3_image_url"],
-                                        "saved": True
-                                    }
+                                        "saved": True,
+                                        "fromClient": False
+                                    } # yes makes sense.
                                 )
                         # case for new photo. image file means encoded file string is present because file changed
                         if image["file"]:
@@ -218,13 +227,16 @@ def update(id):
                                             report_item_id=report_item.id
                                         )
                                         if new_image.save():
+                                            
                                             saved_images.append(
                                                 {"key": image["key"], "status": "Success", "message": "Image uploaded to S3 successfully."})
+                                            
                                             # set old image key to None. set caption to ''
                                             prev_image = Image.get((Image.report_item_id == report_item.id) & (Image.key == image["key"]) & (Image.id != new_image.id))
                                             prev_image.key = None
                                             prev_image.caption = ''
                                             prev_image.save()
+
                                             new_image_state.append(
                                                 {
                                                     "key": image["key"],
@@ -232,24 +244,48 @@ def update(id):
                                                     "path": image["path"],
                                                     "caption": image["caption"],
                                                     "s3_image_url": new_image.s3_image_url,
-                                                    "saved": True
-                                                }
+                                                    "saved": True,
+                                                    "fromClient": False
+                                                } # yes makes sense
                                             )
                                     else:
                                         # do not save into db if s3 upload fails
                                         saved_images.append(
                                             {"key": image["key"], "status": "Fail", "message": output["message"]})
-                                        # if s3 upload fails, return same object
-                                        new_image_state.append(image) # wrong get previous state...
+                                        # if s3 upload fails, return same object for state
+                                        # update fromClient flag
+                                        image["fromClient"] = False
+                                        new_image_state.append(image)
+                                        # image object should be as follows:
+
+                                        # imageDict = {
+                                        #     "key" : image.key (db field),
+                                        #     "path": user input file name,
+                                        #     "caption": user input caption,
+                                        #     "file": user uploaded file (base64 encoded string)
+                                        #     "s3_image_url": None - because saved image being changed
+                                        #     "saved": "changed"
+                                        # }
+
                                 else:
                                     # somehow a non image file included. code shouldn't reach here. controlled at client side.
                                     saved_images.append(
                                         {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                                    image["fromClient"] = False
                                     new_image_state.append(image)
                     # case true: do nothing
                     else:
                         saved_images.append({"key": image["key"], "status": "Success", "message": "No change to image"})
+                        image["fromClient"] = False
                         new_image_state.append(image)
+                        # imageDict = {
+                        #     "key" : image.key (db field),
+                        #     "path": image.path,
+                        #     "caption": image.caption,
+                        #     "file": None,
+                        #     "s3_image_url": image.s3_image_url
+                        #     "saved": True # no changes
+                        # } yes makes sense.
                 else:
                     # case false: save upload to s3 then save to db
                     # new image and new key. important - NEW image.
@@ -268,6 +304,7 @@ def update(id):
                         if file.name == "":
                             saved_images.append(
                                 {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                            new_image_state.append(image)
                         # upload to s3
                         elif file and allowed_file(file.name):
                             file.name = secure_filename(file.name)
@@ -286,25 +323,45 @@ def update(id):
                                         {"key": image["key"], "status": "Success", "message": "Image uploaded to S3 successfully."})
                                     new_image_state.append(
                                         {
-                                            "key": new_image.key,
+                                            "key": new_image.key, # same as image["key"]
                                             "file": None,
                                             "path": new_image.path,
                                             "caption": new_image.caption,
                                             "s3_image_url": new_image.s3_image_url,
-                                            "saved": True
-                                        }
+                                            "saved": True,
+                                            "fromClient": False
+                                        } # yes makes sense
                                     )
                             else:
                                 # do not save into db if s3 upload fails
                                 saved_images.append(
                                     {"key": image["key"], "status": "Fail", "message": output["message"]})
+                                image["fromClient"] = False
                                 new_image_state.append(image)
+                                # imageDict = {
+                                #     "key" : image["key"] a new key,
+                                #     "path": image["path"] user inputted file name,
+                                #     "caption": image["caption"] user inputted caption,
+                                #     "file": user uploaded file (base64 encoded string). decode at client.
+                                #     "s3_image_url": None - because s3 upload failed
+                                #     "saved": False
+                                # } makes sense
                         else:
                             # somehow a non image file included. code shouldn't reach here. controlled at client side.
                             saved_images.append(
                                 {"key": image["key"], "status": "Fail", "message": "Must upload an image file."})
+                            image["fromClient"] = False
                             new_image_state.append(image)
-                    
+                                # imageDict = {
+                                #     "key" : image["key"] a new key,
+                                #     "path": image["path"] user inputted file name,
+                                #     "caption": image["caption"] user inputted caption,
+                                #     "file": user uploaded file (base64 encoded string). decode at client.
+                                #     "s3_image_url": None - because s3 upload failed
+                                #     "saved": False
+                                # } makes sense
+
+        # maybe sort image here before returning response? no need sorted on client side.         
         return jsonify(
             message="Report item updated.",
             status="Success",
@@ -349,7 +406,8 @@ def index(id):
                         'key': image.key,
                         's3_image_url': image.s3_image_url,
                         'file': None,
-                        'saved': True
+                        'saved': True,
+                        'fromClient': False
                     }
                 for image in images]
             )
@@ -403,7 +461,8 @@ def index(id):
                         'key': image.key,
                         's3_image_url': image.s3_image_url,
                         'file': None,
-                        'saved': True
+                        'saved': True,
+                        'fromClient': False
                     }
                 for image in images]
             }
