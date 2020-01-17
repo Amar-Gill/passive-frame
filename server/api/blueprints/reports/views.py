@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from models.project import Project
 from models.report import Report
 from models.report_item import ReportItem
+from models.image import Image
 import datetime
 
 reports_api_blueprint = Blueprint("reports_api",
@@ -50,7 +51,7 @@ def create():
     # create report and save to db
     report = Report(report_type=report_type, project_id=project_id,
                     project_report_index=project_report_index, report_date=report_date,
-                    temperature = temperature, description=description)
+                    temperature=temperature, description=description)
 
     if report.save():
         return jsonify(
@@ -123,8 +124,8 @@ def index(id):
                     report.report_date)*1000,
                 project_report_index=report.project_report_index,
                 project_id=report.project_id,
-                temperature = report.temperature,
-                description = report.description
+                temperature=report.temperature,
+                description=report.description
             )
         else:
             return jsonify(
@@ -154,19 +155,51 @@ def index_items(id):
     report = Report.get_or_none(Report.id == id)
     if report:
         report_items = ReportItem.select().where(ReportItem.report_id == id)
-        return jsonify(
-            items=[
+        # return jsonify(
+        #     items=[
+        #         {
+        #             "id": report_item.id,
+        #             "subject": report_item.subject,
+        #             "content": report_item.content, # expand content lataz
+        #             "reportItemIndex": report_item.report_item_index,
+        #             "reportId": report_item.report_id,
+        #             "createdAt": datetime.datetime.timestamp(report_item.created_at)*1000,
+        #             "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000
+        #         }
+        #         for report_item in report_items]
+        # )
+        json_response=[]
+
+        for item in report_items:
+
+            images = Image.select().where((Image.report_item_id == item.id) & (Image.key != None))
+
+            json_response.append(
                 {
-                    "id": report_item.id,
-                    "subject": report_item.subject,
-                    "content": report_item.content, # expand content lataz
-                    "reportItemIndex": report_item.report_item_index,
-                    "reportId": report_item.report_id,
-                    "createdAt": datetime.datetime.timestamp(report_item.created_at)*1000,
-                    "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000
+                    "id": item.id,
+                    "reportId": item.report_id,
+                    "projectId": Report.get_or_none(Report.id == item.report_id).project_id,
+                    "subject": item.subject,
+                    "content": item.content,
+                    "reportItemIndex": item.report_item_index,
+                    "createdAt": datetime.datetime.timestamp(item.created_at)*1000,
+                    "updatedAt": datetime.datetime.timestamp(item.updated_at)*1000,
+                    "images": [
+                        {
+                            'path': image.path,
+                            'caption': image.caption,
+                            'key': image.key,
+                            's3_image_url': image.s3_image_url,
+                            'file': None,
+                            'saved': True,
+                            'fromClient': False
+                        }
+                    for image in images]
                 }
-                for report_item in report_items]
-        )
+            )
+
+        return jsonify(items=json_response)
+
     else:
         return jsonify(
             message=f"No report with id {id}",

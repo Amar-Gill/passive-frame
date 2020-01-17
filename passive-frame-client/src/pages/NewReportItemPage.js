@@ -4,8 +4,8 @@ import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 import { Grid, Container, Menu, Button, Header, Icon, Segment } from 'semantic-ui-react'
 import ReportItemInfoForm from '../components/ReportItemInfoForm'
 import { format } from 'date-fns'
-import ActionItemForm from '../components/ActionItemForm'
-import ActionsContainer from '../components/ActionsContainer'
+// import ActionItemForm from '../components/ActionItemForm'
+// import ActionsContainer from '../components/ActionsContainer'
 
 const NewReportItemPage = (props) => {
     // states
@@ -96,9 +96,16 @@ const NewReportItemPage = (props) => {
                         <Button
                             type='submit'
                             form='report-item-info-form'
+                            // instead of giving form attribute. I can write a function to submit both forms...??
+                            // problem is how to redirect....
+                            // if each ReportItem is linked to many Images...
+                            // then Images can be part of same form..??!!!!
                             className="remove-border-radius" secondary icon>
                             <Icon name="save outline" />
                             Save
+                            {/* review tutorial to submit multiple
+                            forms with one button
+                            https://pqina.nl/blog/async-form-posts-with-a-couple-lines-of-vanilla-javascript/ */}
                     </Button>
                     </Menu.Item>
                 </Menu.Menu>

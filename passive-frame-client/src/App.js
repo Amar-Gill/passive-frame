@@ -22,7 +22,7 @@ function App() {
   // function to check if JWT exists on app refresh
   // also checks if jwt expired or not
   const checkJWT = () => {
-    if (localStorage.tokens != "undefined") {
+    if (localStorage.tokens && localStorage.tokens != "undefined") {
       const decoded = jwt.decode(JSON.parse(localStorage.tokens), { complete: true })
       const exp = decoded.payload.exp
       // check if present time past expiry timestamp

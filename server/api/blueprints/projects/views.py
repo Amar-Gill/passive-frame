@@ -4,6 +4,7 @@ from models.project import Project
 from models.report import Report
 from models.report_item import ReportItem
 from models.action import Action
+from models.image import Image
 import datetime
 
 
@@ -174,12 +175,29 @@ def index_reports(id):
                             "reportItemIndex": report_item.report_item_index,
                             "reportId": report_item.report_id,
                             "createdAt": datetime.datetime.timestamp(report_item.created_at)*1000,
-                            "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000
+                            "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000,
+                            "images": None
                         }
 
                         for report_item in report_items]
                 }
             )
+
+        for report in json_response:
+            for item in report["items"]:
+                images = Image.select().where((Image.report_item_id == item["id"]) & (Image.key != None))
+                item["images"] = [
+                    {
+                        'path': image.path,
+                        'caption': image.caption,
+                        'key': image.key,
+                        's3_image_url': image.s3_image_url,
+                        'file': None,
+                        'saved': True,
+                        'fromClient': False
+                    }
+                for image in images]
+
         return jsonify(
             reports=json_response
         )
