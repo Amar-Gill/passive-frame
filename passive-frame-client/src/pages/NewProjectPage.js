@@ -8,8 +8,8 @@ import { useAuth } from '../context/auth'
 const NewProjectPage = (props) => {
   // use states
   const { currentUser } = useAuth()
-  let history = useHistory()
-  
+  const history = useHistory()
+
   // POST for create new Project -> use PUT for edit project
   return (
     <div className="mt-40">
@@ -27,18 +27,18 @@ const NewProjectPage = (props) => {
           </Button>
           <Header
             as="h4"
-            style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
+            style={{ paddingLeft: 6, marginTop: 'auto', marginBottom: 'auto' }}
             content={currentUser.organization_name}
             subheader={`org-id: ${currentUser.organization_id}`} />
         </Menu.Item>
         <Menu.Menu position="right">
 
           <Menu.Item>
-            <Button 
+            <Button
               className="remove-border-radius" secondary icon type="submit" form="project-info-form">
               <Icon name="save outline" />
               Save
-                    </Button>
+            </Button>
 
           </Menu.Item>
 

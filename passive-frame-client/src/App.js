@@ -14,21 +14,21 @@ import ReportItemsPage from './pages/ReportItemsPage'
 import EditProjectPage from './pages/EditProjectPage'
 import EditReportPage from './pages/EditReportPage'
 import EditReportItemPage from './pages/EditReportItemPage'
-import { AuthContext } from "./context/auth";
+import { AuthContext } from './context/auth'
 import jwt from 'jsonwebtoken'
 import './App.css'
 
-function App() {
+function App () {
   // function to check if JWT exists on app refresh
   // also checks if jwt expired or not
   const checkJWT = () => {
-    if (localStorage.tokens && localStorage.tokens != "undefined") {
+    if (localStorage.tokens && localStorage.tokens != 'undefined') {
       const decoded = jwt.decode(JSON.parse(localStorage.tokens), { complete: true })
       const exp = decoded.payload.exp
       // check if present time past expiry timestamp
       if (Date.now() > exp * 1000) {
         // remove JWT from local storage
-        localStorage.setItem("tokens", undefined)
+        localStorage.setItem('tokens', undefined)
         return undefined
       } else {
         return JSON.parse(localStorage.tokens)
@@ -55,7 +55,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(checkUser())
 
   const setTokens = (data) => {
-    localStorage.setItem("tokens", JSON.stringify(data))
+    localStorage.setItem('tokens', JSON.stringify(data))
     setAuthTokens(data)
   }
 

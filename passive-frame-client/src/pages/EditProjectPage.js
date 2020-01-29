@@ -1,6 +1,6 @@
 import React from 'react'
 import ProjectInfoForm from '../components/ProjectInfoForm'
-import {Menu, Button, Icon, Header } from 'semantic-ui-react'
+import { Menu, Button, Icon, Header } from 'semantic-ui-react'
 import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../context/auth'
@@ -8,8 +8,8 @@ import { useAuth } from '../context/auth'
 const EditProjectPage = (props) => {
   // use states
   const { currentUser } = useAuth()
-  let history = useHistory()
-  
+  const history = useHistory()
+
   // POST for create new Project -> use PUT for edit project
   return (
     <div className="mt-40">
@@ -27,7 +27,7 @@ const EditProjectPage = (props) => {
           </Button>
           <Header
             as="h4"
-            style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
+            style={{ paddingLeft: 6, marginTop: 'auto', marginBottom: 'auto' }}
             content={currentUser.organization_name}
             subheader={`org-id: ${currentUser.organization_id}`} />
         </Menu.Item>
@@ -38,7 +38,7 @@ const EditProjectPage = (props) => {
               className="remove-border-radius" secondary icon type="submit" form="project-info-form">
               <Icon name="save outline" />
               Save
-                    </Button>
+            </Button>
 
           </Menu.Item>
 

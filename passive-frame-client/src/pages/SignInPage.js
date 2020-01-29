@@ -9,14 +9,13 @@ const SignInPage = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { setAuthTokens, setCurrentUser } = useAuth()
-  let location = useLocation()
-  const referer = location.state? location.state.referer : '/'
-
+  const location = useLocation()
+  const referer = location.state ? location.state.referer : '/'
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let userCredentials = {
+    const userCredentials = {
       username: username,
       password: password
     }
@@ -34,7 +33,7 @@ const SignInPage = (props) => {
     })
       .then(response => response.json())
       .then(result => {
-        if (result.status == "Success") {
+        if (result.status == 'Success') {
           setAuthTokens(result.auth_token)
           setCurrentUser(result.user)
           setLoggedIn(true)
@@ -48,7 +47,7 @@ const SignInPage = (props) => {
   }
 
   if (isLoggedIn) {
-    return <Redirect to={referer} />;
+    return <Redirect to={referer} />
   }
 
   return (

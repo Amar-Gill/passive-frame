@@ -3,20 +3,19 @@ import { Menu, Responsive, Dropdown } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import LogoutModal from './LogoutModal'
 
-
-function NavMenu(props) {
+function NavMenu (props) {
   const [activeItem, setActiveItem] = useState('')
   const [showModal, setShowModal] = useState(false)
 
   // lowerBreakpoint is maxWidth for mobile rendering
   // higherBreakpoint is minWidth for desktop rendering
-  const [lowerBreakpoint, higherBreakpoint] = [789,790]
+  const [lowerBreakpoint, higherBreakpoint] = [789, 790]
 
   return (
     <div>
       <LogoutModal setShowModal={setShowModal} showModal={showModal} />
 
-      <Menu className="bg-white" fluid pointing secondary style={{position: "fixed", top: 0, zIndex: 30}}>
+      <Menu className="bg-white" fluid pointing secondary style={{ position: 'fixed', top: 0, zIndex: 30 }}>
         <Responsive as={Menu.Item} minWidth={higherBreakpoint}
           name='ZERO_system'
           content="[ ZER0_system ]"

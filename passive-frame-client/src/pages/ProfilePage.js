@@ -3,7 +3,6 @@ import { useAuth } from '../context/auth'
 
 const ProfilePage = () => {
   const { currentUser } = useAuth()
-  
 
   return (
     <div className="mt-40">

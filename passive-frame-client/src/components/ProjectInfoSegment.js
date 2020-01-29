@@ -4,124 +4,124 @@ import { Link } from 'react-router-dom'
 import ActionsModal from './ActionsModal'
 
 const ProjectInfoSegment = (props) => {
-    const project = props.project
+  const project = props.project
 
-    return (
-        <div>
-            <Segment className="remove-border-radius">
-                <Grid stackable columns={3}>
-                    <Grid.Column width={4}>
-                        <Header
-                            fixed="left"
-                            as="h4"
-                            >
-                            <Header.Content as={Link}
-                            style={{ color: "black" }}
-                            to={{
-                                pathname: '/projects/' + project.id + "/",
-                                state: {
-                                    project: project
-                                }
-                            }}>
-                                {project.project_name}
-                            </Header.Content>
-                            <Header.Subheader>
-                                {project.project_number}
-                            </Header.Subheader>
-                        </Header>
+  return (
+    <div>
+      <Segment className="remove-border-radius">
+        <Grid stackable columns={3}>
+          <Grid.Column width={4}>
+            <Header
+              fixed="left"
+              as="h4"
+            >
+              <Header.Content as={Link}
+                style={{ color: 'black' }}
+                to={{
+                  pathname: '/projects/' + project.id + '/',
+                  state: {
+                    project: project
+                  }
+                }}>
+                {project.project_name}
+              </Header.Content>
+              <Header.Subheader>
+                {project.project_number}
+              </Header.Subheader>
+            </Header>
 
-                        <Menu compact secondary size="tiny">
+            <Menu compact secondary size="tiny">
 
-                            <Menu.Item>
-                                <Button
-                                    as={Link}
-                                    to={{
-                                        pathname: `/projects/${project.id}/edit/`,
-                                        state: {
-                                            project: project
-                                        }
-                                    }}
-                                    secondary
-                                    basic
-                                    icon
-                                    circular>
-                                    <Icon name="edit outline" />
+              <Menu.Item>
+                <Button
+                  as={Link}
+                  to={{
+                    pathname: `/projects/${project.id}/edit/`,
+                    state: {
+                      project: project
+                    }
+                  }}
+                  secondary
+                  basic
+                  icon
+                  circular>
+                  <Icon name="edit outline" />
 
-                                </Button>
+                </Button>
 
-                            </Menu.Item>
-                            <Menu.Item position="right">
-                                <Button secondary basic circular icon>
-                                    <Icon name="favorite" />
-                                </Button>
-                            </Menu.Item>
-                        </Menu>
-                    </Grid.Column>
+              </Menu.Item>
+              <Menu.Item position="right">
+                <Button secondary basic circular icon>
+                  <Icon name="favorite" />
+                </Button>
+              </Menu.Item>
+            </Menu>
+          </Grid.Column>
 
-                    <Grid.Column verticalAlign="middle" width={6}>
-                        <Header
-                            as="h4"
-                            content="Reports"
-                            subheader="Field: 4 | Test: 2 | Calculation: 1"
+          <Grid.Column verticalAlign="middle" width={6}>
+            <Header
+              as="h4"
+              content="Reports"
+              subheader="Field: 4 | Test: 2 | Calculation: 1"
 
-                        />
-                        <Menu compact secondary size="tiny">
-                            <Menu.Item>
-                                <Label color="black">
+            />
+            <Menu compact secondary size="tiny">
+              <Menu.Item>
+                <Label color="black">
                                     Issued
-                                    <Label.Detail>0</Label.Detail>
-                                </Label>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <Label color="black" >
+                  <Label.Detail>0</Label.Detail>
+                </Label>
+              </Menu.Item>
+              <Menu.Item>
+                <Label color="black" >
                                     Draft
-                                    <Label.Detail>0</Label.Detail>
-                                </Label>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <Button
-                                    as={Link}
-                                    to={{
-                                        pathname: `/projects/${project.id}/new_report/`,
-                                        state: {
-                                            project: project
-                                        }
-                                    }}
-                                    secondary basic circular icon size="medium">
-                                    <Icon name='plus' />
-                                </Button>
-                            </Menu.Item>
-                        </Menu>
-                    </Grid.Column>
+                  <Label.Detail>0</Label.Detail>
+                </Label>
+              </Menu.Item>
+              <Menu.Item>
+                <Button
+                  as={Link}
+                  to={{
+                    pathname: `/projects/${project.id}/new_report/`,
+                    state: {
+                      project: project
+                    }
+                  }}
+                  secondary basic circular icon size="medium">
+                  <Icon name='plus' />
+                </Button>
+              </Menu.Item>
+            </Menu>
+          </Grid.Column>
 
-                    <Grid.Column verticalAlign="middle" width={6}>
-                        <Header
-                            as="h4"
-                            content="Actions"
-                            subheader="Count: 11"
-                        />
-                        <Menu compact secondary size="tiny">
-                            <Menu.Item>
-                                <Label color="black" >
+          <Grid.Column verticalAlign="middle" width={6}>
+            <Header
+              as="h4"
+              content="Actions"
+              subheader="Count: 11"
+            />
+            <Menu compact secondary size="tiny">
+              <Menu.Item>
+                <Label color="black" >
                                     Open
-                                    <Label.Detail>0</Label.Detail>
-                                </Label>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <Label color="black" >
+                  <Label.Detail>0</Label.Detail>
+                </Label>
+              </Menu.Item>
+              <Menu.Item>
+                <Label color="black" >
                                     Overdue
-                                    <Label.Detail>0</Label.Detail>
-                                </Label>
-                            </Menu.Item>
-                            <Menu.Item position="right">
-                                <ActionsModal project={project}/>
-                            </Menu.Item>
-                        </Menu>
-                    </Grid.Column>
-                </Grid>
-            </Segment>
-        </div>
-    )
+                  <Label.Detail>0</Label.Detail>
+                </Label>
+              </Menu.Item>
+              <Menu.Item position="right">
+                <ActionsModal project={project}/>
+              </Menu.Item>
+            </Menu>
+          </Grid.Column>
+        </Grid>
+      </Segment>
+    </div>
+  )
 }
 
 export default ProjectInfoSegment

@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Form, Container } from 'semantic-ui-react'
-import { useParams, useHistory, useLocation } from "react-router-dom"
+import { useParams, useHistory, useLocation } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
-import format from "date-fns/format"
+import format from 'date-fns/format'
 import { getTime } from 'date-fns'
 
-import "react-datepicker/dist/react-datepicker.css"
+import 'react-datepicker/dist/react-datepicker.css'
 
 const selectOptions = [
-  { key: "Field", value: "field", text: "Field Report" },
-  { key: "Test", value: "test", text: "Test Report" }
+  { key: 'Field', value: 'field', text: 'Field Report' },
+  { key: 'Test', value: 'test', text: 'Test Report' }
 ]
-
 
 const ReportInfoForm = (props) => {
   // use hooks
-  let history = useHistory();
-  let location = useLocation()
+  const history = useHistory()
+  const location = useLocation()
   const [reportType, setReportType] = useState('')
   const [reportDate, setReportDate] = useState(new Date())
   const [temperature, setTemperature] = useState(0)
@@ -27,22 +26,22 @@ const ReportInfoForm = (props) => {
   // convert reportDate to millisecond time stamp (number)
   // allows user to choose present time as reportDate default value for backend
   useEffect(() => {
-    if (props.HTTPMethod == "POST") {
+    if (props.HTTPMethod == 'POST') {
       setReportDate(getTime(reportDate))
     }
-  }, [])
+  }, [props.HTTPMethod, reportDate])
 
   // retrieve current report data if form is in edit mode
   useEffect(() => {
-    if (location.state && props.HTTPMethod == "PUT") {
+    if (location.state && props.HTTPMethod == 'PUT') {
       setReportType(location.state.report.report_type)
       setReportDate(location.state.report.report_date)
       setTemperature(location.state.report.temperature)
       setDescription(location.state.report.description)
-    } else if (props.HTTPMethod == "PUT") {
+    } else if (props.HTTPMethod == 'PUT') {
       // api call to fetch data if button link not used
       fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         }
@@ -60,12 +59,12 @@ const ReportInfoForm = (props) => {
           }
         })
     }
-  }, [])
+  }, [location.state, projid, props.HTTPMethod, reportid])
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    let reportObject = {
+    const reportObject = {
       reportType: reportType,
       projectId: projid,
       reportDate: reportDate,
@@ -79,12 +78,12 @@ const ReportInfoForm = (props) => {
     // send info to API to create new project
     let urlString = null
     switch (props.HTTPMethod) {
-      case "POST":
+      case 'POST':
         urlString = 'http://127.0.0.1:5000/api/v1/reports/'
-        break;
-      case "PUT":
+        break
+      case 'PUT':
         urlString = `http://127.0.0.1:5000/api/v1/reports/${reportid}`
-        break;
+        break
     }
 
     // send info to API to create new project
@@ -99,7 +98,7 @@ const ReportInfoForm = (props) => {
       .then(result => {
         alert(result.message)
         // go back one page if new report created successfully
-        if (result.status == "Success" && props.HTTPMethod == "POST") {
+        if (result.status == 'Success' && props.HTTPMethod == 'POST') {
           history.goBack()
         }
       })
@@ -135,7 +134,7 @@ const ReportInfoForm = (props) => {
 
           <Form.Field width={6}>
             <label>Temperature: {temperature} &#8451; / {Math.round((temperature * (9 / 5)) + 32)} &#8457;</label>
-            <input disabled={disabledForm} style={{width: "100%", height: "38px" }} value={temperature} type="range" min="-40" max="40" onChange={(e) => {
+            <input disabled={disabledForm} style={{ width: '100%', height: '38px' }} value={temperature} type="range" min="-40" max="40" onChange={(e) => {
               setTemperature(e.target.value)
             }} />
           </Form.Field>
@@ -157,10 +156,10 @@ const ReportInfoForm = (props) => {
       </Form>
 
       <h1>{getTime(reportDate)}</h1>
-      <h1>{format(reportDate, "MMMM d, yyyy h:mm aa")}</h1>
+      <h1>{format(reportDate, 'MMMM d, yyyy h:mm aa')}</h1>
       <h1>{temperature}</h1>
       <h1>{description}</h1>
-      
+
     </div>
   )
 }

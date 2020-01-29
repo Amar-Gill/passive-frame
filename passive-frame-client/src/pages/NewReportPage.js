@@ -6,9 +6,9 @@ import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
 
 const NewReportPage = (props) => {
   const [currentProject, setCurrentProject] = useState(null)
-  let history = useHistory()
-  let location = useLocation()
-  let { projid } = useParams()
+  const history = useHistory()
+  const location = useLocation()
+  const { projid } = useParams()
 
   useEffect(() => {
     if (location.state) {
@@ -16,14 +16,14 @@ const NewReportPage = (props) => {
     } else {
       // use API call with params
       fetch(`http://127.0.0.1:5000/api/v1/projects/${projid}`, {
-        method: "GET"
+        method: 'GET'
       })
         .then(response => response.json())
         .then(result => {
           setCurrentProject(result)
         })
     }
-  }, [])
+  }, [location.state, projid])
 
   if (!currentProject) {
     return <h1 className="mt-40">LOADING...</h1>
@@ -45,7 +45,7 @@ const NewReportPage = (props) => {
           </Button>
           <Header
             as="h4"
-            style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
+            style={{ paddingLeft: 6, marginTop: 'auto', marginBottom: 'auto' }}
             content={currentProject.project_name}
             subheader={currentProject.project_number} />
         </Menu.Item>
