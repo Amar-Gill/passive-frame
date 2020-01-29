@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Container, Menu, Button, Icon, Header, Segment } from 'semantic-ui-react'
-import ReportItemInfoForm from '../components/ReportItemInfoForm'
+import ReportItemInfoForm from '../ui-components/ReportItemInfoForm'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
-import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import StickyHorizontalDivider from '../ui-components/StickyHorizontalDivider'
 import { format } from 'date-fns'
-import ActionsContainer from '../components/ActionsContainer'
+import ActionsContainer from '../ui-components/ActionsContainer'
 
 const EditReportItem = (props) => {
   // states

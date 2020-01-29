@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { Menu, Button, Icon, Input, Header, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
-import ReportInfoSegment from '../components/ReportInfoSegment'
+import StickyHorizontalDivider from '../ui-components/StickyHorizontalDivider'
+import ReportInfoSegment from '../ui-components/ReportInfoSegment'
 
 const ProjectPage = (props) => {
   const { projid } = useParams()

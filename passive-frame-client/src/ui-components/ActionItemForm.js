@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Form, Icon, Button } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import { getTime } from 'date-fns'

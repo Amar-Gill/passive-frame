@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Container, Menu, Button, Header, Icon } from 'semantic-ui-react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
-import ReportInfoForm from '../components/ReportInfoForm'
-import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import ReportInfoForm from '../ui-components/ReportInfoForm'
+import StickyHorizontalDivider from '../ui-components/StickyHorizontalDivider'
 
 const EditReportPage = (props) => {
   const [currentProject, setCurrentProject] = useState(null)

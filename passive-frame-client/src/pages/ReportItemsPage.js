@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { Grid, Menu, Button, Icon, Header } from 'semantic-ui-react'
-import ReportItemInfoSegment from '../components/ReportItemInfoSegment'
-import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import ReportItemInfoSegment from '../ui-components/ReportItemInfoSegment'
+import StickyHorizontalDivider from '../ui-components/StickyHorizontalDivider'
 import { format } from 'date-fns'
 
 const ReportItemsPage = (props) => {

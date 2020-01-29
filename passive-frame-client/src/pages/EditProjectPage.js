@@ -1,7 +1,7 @@
 import React from 'react'
-import ProjectInfoForm from '../components/ProjectInfoForm'
+import ProjectInfoForm from '../ui-components/ProjectInfoForm'
 import { Menu, Button, Icon, Header } from 'semantic-ui-react'
-import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import StickyHorizontalDivider from '../ui-components/StickyHorizontalDivider'
 import { useHistory } from 'react-router-dom'
 import { useAuth } from '../context/auth'
 

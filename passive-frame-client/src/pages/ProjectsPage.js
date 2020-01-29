@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Icon, Grid, Menu, Input } from 'semantic-ui-react'
-import ProjectInfoSegment from '../components/ProjectInfoSegment'
-import StickyHorizontalDivider from '../components/StickyHorizontalDivider'
+import ProjectInfoSegment from '../ui-components/ProjectInfoSegment'
+import StickyHorizontalDivider from '../ui-components/StickyHorizontalDivider'
 import { useAuth } from '../context/auth'
 
 const ProjectsPage = (props) => {

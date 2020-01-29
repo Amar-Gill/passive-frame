@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState } from 'react'
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 import { Redirect, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/auth'
