@@ -58,9 +58,9 @@ const ReportInfoSegment = (props) => {
             </Menu.Item>
 
             <Menu.Item >
-              <Button basic secondary icon className='remove-border-radius'>
+              <Button as='a' href={`/projects/${props.report.project_id}/reports/${props.report.id}/print/`} target='_blank'
+                basic secondary icon className='remove-border-radius'>
                 <Icon name="print" />
-
               </Button>
             </Menu.Item>
             <Menu.Item >

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import PrivateRoute from './utility-components/PrivateRoute'
-import NavMenu from './ui-components/NavMenu'
 import SignInPage from './pages/SignInPage'
 import ProfilePage from './pages/ProfilePage'
 import ProjectsPage from './pages/ProjectsPage'
@@ -14,6 +13,7 @@ import ReportItemsPage from './pages/ReportItemsPage'
 import EditProjectPage from './pages/EditProjectPage'
 import EditReportPage from './pages/EditReportPage'
 import EditReportItemPage from './pages/EditReportItemPage'
+import FormattedReportPage from './pages/FormattedReportPage'
 import { AuthContext } from './context/auth'
 import jwt from 'jsonwebtoken'
 import './App.css'
@@ -69,9 +69,6 @@ function App () {
     <AuthContext.Provider value={{ authTokens, currentUser, setAuthTokens: setTokens, setCurrentUser: setCurrentUser }}>
       <BrowserRouter>
         <div>
-          {
-            authTokens && <NavMenu/>
-          }
           <Switch>
             <Route exact path="/" render={(props) => <SignInPage {...props} />} />
             <PrivateRoute exact path="/zer0_system/" component={Zer0System} />
@@ -85,6 +82,7 @@ function App () {
             <PrivateRoute exact path="/projects/:projid/reports/:reportid/" component={ReportItemsPage} />
             <PrivateRoute path="/projects/:projid/reports/:reportid/new_item/" component={NewReportItemPage} />
             <PrivateRoute path="/projects/:projid/reports/:reportid/items/:itemid/edit/" component={EditReportItemPage} />
+            <Route path="/projects/:projid/reports/:reportid/print/" component={FormattedReportPage} />
           </Switch>
         </div>
       </BrowserRouter>
