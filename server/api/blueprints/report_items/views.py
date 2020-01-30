@@ -161,6 +161,8 @@ def update(id):
 
     # save to db
     if report_item.save():
+        saved_images =[]
+        new_image_state = [] # generate new images state for form as a return value for ui
         # handle images here. image interface with react State:
         # imageDict = {
         #     "key" : image.key (db field),
@@ -172,8 +174,6 @@ def update(id):
         # }
         # if images array present
         if images:
-            saved_images =[]
-            new_image_state = [] # generate new images state for form as a return value for ui
             for image in images:
                 # switch(image_is_saved) (values: True, False, or 'changed'):
                 if image["saved"]:

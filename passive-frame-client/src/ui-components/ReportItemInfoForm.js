@@ -93,7 +93,7 @@ const ReportItemInfoForm = (props) => {
         console.log(result)
         if (result.status == 'Success' && props.HTTPMethod == 'POST') {
           // push to edit page when new item created
-          history.push(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
+          history.replace(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
         } else if (result.status == 'Success') {
           // update state. use new image state is returned in response always
           const newImageState = result.reportItem.newImageState

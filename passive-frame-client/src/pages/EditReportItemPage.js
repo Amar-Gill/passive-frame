@@ -59,7 +59,7 @@ const EditReportItem = (props) => {
           <Button
             onClick={(e) => {
               e.preventDefault()
-              history.push(`/projects/${projid}/reports/${reportid}/`)
+              history.goBack()
             }}
             compact
             className="remove-border-radius"
