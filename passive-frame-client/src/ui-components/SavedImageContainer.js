@@ -1,11 +1,28 @@
 import React, { useState, useEffect } from 'react'
+import { Item } from 'semantic-ui-react'
 
 const imageStyle = {
   width: 240,
-  display: 'block'
+  maxWidth: 240,
+  // maxHeight: 240,
+  display: 'block',
+  // margin: 'auto',
+  cursor: 'pointer',
+  flexGrow: 1
 }
 
-function dataURLtoFile (dataurl, filename) {
+const containerStyle = {
+  width: '90%',
+  margin: 'auto',
+  display: 'flex',
+  flexDirection: 'row'
+}
+
+const imageInfoStyle = {
+  flexGrow: 2
+}
+
+function dataURLtoFile(dataurl, filename) {
   const arr = dataurl.split(',')
   const mime = arr[0].match(/:(.*?);/)[1]
   const bstr = atob(arr[1])
@@ -142,20 +159,31 @@ const SavedImageContainer = props => {
   }
 
   return (
-    <div>
-      <img style={imageStyle} src={file.url} />
-      <button onClick={handleButtonClick}>Change Photo</button>
-      <input
-        onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault() }}
-        type='text'
-        value={caption}
-        onChange={handleCaptionChange} />
-      <input id={`image-input-${props.image.key}`}
-        accept="image/*"
-        type='file'
-        onChange={handleImageChange}
-        style={{ display: 'none' }} />
-    </div>
+
+    <Item>
+      {/* <img onClick={handleButtonClick} style={imageStyle} src={file.url} /> */}
+      <Item.Image style={{ cursor: 'pointer' }} onClick={handleButtonClick} size='small' src={file.url} />
+      <Item.Content>
+        <Item.Header size='small'>Image Number: {props.image.key + 1}</Item.Header>
+        {/* <button onClick={handleButtonClick}>Change Photo</button> */}
+        <Item.Meta>
+          <span>{props.image.saved == true ? 'Saved' : 'Unsaved'}</span>
+        </Item.Meta>
+        <Item.Extra>
+          <label>Caption</label>
+          <input
+            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault() }}
+            type='text'
+            value={caption}
+            onChange={e => handleCaptionChange(e)} />
+          <input id={`image-input-${props.image.key}`}
+            accept="image/*"
+            type='file'
+            onChange={handleImageChange}
+            style={{ display: 'none' }} />
+        </Item.Extra>
+      </Item.Content>
+    </Item>
   )
 }
 

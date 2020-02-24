@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { Item } from 'semantic-ui-react'
 
 const dropzone = {
   height: 60,
@@ -88,14 +89,7 @@ const ImageUploadWidget = (props) => {
   })
 
   const thumbs = files.map(file => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <img
-          src={file.preview}
-          style={img}
-        />
-      </div>
-    </div>
+    <Item.Image style={{ cursor: 'pointer' }} onClick={open} src={file.preview} size='small' />
   ))
 
   useEffect(() => () => {
@@ -123,31 +117,39 @@ const ImageUploadWidget = (props) => {
   }
 
   return (
-    <div>
-      <section className="container">
-        {
-          acceptedFiles.length
-            ? <aside style={{ thumbsContainer }}>
-              <ul>{thumbs}</ul>
-              <button type='button' onClick={open}>Change Photo</button>
-              <input {...getInputProps()} />
-              <input
-                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault() }}
-                value={caption}
-                onChange={e => handleCaptionChange(e)}
-                type='text' placeholder='enter caption' />
-            </aside>
-            : <div style={dropzone} {...getRootProps({ className: 'dropzone' })}>
-              <input {...getInputProps()} />
-              <p>Drop image files to upload.</p>
-            </div>
-        }
-      </section>
+    <Item.Group divided>
+      {
+        acceptedFiles.length
+          ?
+          <Item>
+            {thumbs}
+            <Item.Content>
+              <Item.Header>Image Number: {props.imageKey + 1}</Item.Header>
+              <Item.Meta>
+                <span>Unsaved</span>
+              </Item.Meta>
+              <Item.Extra>
+                <label>Caption</label>
+                <input
+                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault() }}
+                  value={caption}
+                  onChange={e => handleCaptionChange(e)}
+                  type='text' placeholder='Enter caption' />
+                <input {...getInputProps()} />
+              </Item.Extra>
+            </Item.Content>
+          </Item>
+
+          : <Item style={dropzone} {...getRootProps({ className: 'dropzone' })}>
+            <input {...getInputProps()} />
+            <p>Drop image files to upload.</p>
+          </Item>
+      }
       {
         acceptedFiles.length &&
-                <ImageUploadWidget key={props.imageKey + 1} imageKey={props.imageKey + 1} images={props.images} setImages={props.setImages} />
+        <ImageUploadWidget key={props.imageKey + 1} imageKey={props.imageKey + 1} images={props.images} setImages={props.setImages} />
       }
-    </div>
+    </Item.Group>
   )
 }
 

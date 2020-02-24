@@ -3,6 +3,7 @@ from models.project import Project
 from models.report import Report
 from models.report_item import ReportItem
 from models.image import Image
+from models.action import Action
 import datetime
 
 reports_api_blueprint = Blueprint("reports_api",

@@ -24,6 +24,9 @@ TODOS
 27) window for semantic tags - db model for semantic tags + creating new ones. use in ReportItemInfoSegment.
 28) eventually semantic tags will be incorporated into ML model to associate key words with different report bodies
 29) Data management console / dashboard for users to monitor data usage with visual widgets and indicators - can be used for cost management by user =]
+30) Rewrite fetch effects in project(s)/reportitems pages. async and await. create helpers folder?
+31) Blockchain verified reports.
+32) Blockchain verified employee site check-ins. Equipment check and maintenance ;)
 =]
 
 

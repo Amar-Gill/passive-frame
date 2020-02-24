@@ -2,11 +2,11 @@ import React from 'react'
 import { Container, Segment, Menu, Label, Item, Button, Header } from 'semantic-ui-react'
 import format from 'date-fns/format'
 
-const FormattedReportPage = (props) => {
+const ReportWebview = (props) => {
   // use states
   const project = localStorage.project ? JSON.parse(localStorage.project) : null
   const report = localStorage.report ? JSON.parse(localStorage.report) : null
-  let reportItems = [...report.items].sort((a, b) => a.reportItemIndex - b.reportItemIndex)
+  const reportItems = [...report.items].sort((a, b) => a.reportItemIndex - b.reportItemIndex)
 
   // reportItems.forEach(item => {
   //   fetch(`http://127.0.0.1:5000/api/v1/report_items/${item.id}/actions`, {
@@ -17,6 +17,8 @@ const FormattedReportPage = (props) => {
   //       item.actions = result.actions
   //     })
   // })
+
+  // TODO - add project level actions!!
 
   return (
     <Container text>
@@ -144,4 +146,4 @@ const FormattedReportPage = (props) => {
   )
 }
 
-export default FormattedReportPage
+export default ReportWebview

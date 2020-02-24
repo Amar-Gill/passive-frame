@@ -13,7 +13,7 @@ import ReportItemsPage from './pages/ReportItemsPage'
 import EditProjectPage from './pages/EditProjectPage'
 import EditReportPage from './pages/EditReportPage'
 import EditReportItemPage from './pages/EditReportItemPage'
-import FormattedReportPage from './pages/FormattedReportPage'
+import ReportWebview from './pages/ReportWebview'
 import { AuthContext } from './context/auth'
 import jwt from 'jsonwebtoken'
 import './App.css'
@@ -82,7 +82,7 @@ function App () {
             <PrivateRoute exact path="/projects/:projid/reports/:reportid/" component={ReportItemsPage} />
             <PrivateRoute path="/projects/:projid/reports/:reportid/new_item/" component={NewReportItemPage} />
             <PrivateRoute path="/projects/:projid/reports/:reportid/items/:itemid/edit/" component={EditReportItemPage} />
-            <Route path="/projects/:projid/reports/:reportid/print/" component={FormattedReportPage} />
+            <Route path="/projects/:projid/reports/:reportid/webview/" component={ReportWebview} />
           </Switch>
         </div>
       </BrowserRouter>

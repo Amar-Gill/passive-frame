@@ -61,15 +61,16 @@ const ReportInfoSegment = (props) => {
               <Button // use render props? no.
                 // store states in local storage?
                 onClick={e => {
+                  // e.preventDefault()
                   localStorage.setItem('project', JSON.stringify(props.project))
                   localStorage.setItem('report', JSON.stringify(props.report))
                 }
                 }
                 as={Link}
-                to={`/projects/${props.report.project_id}/reports/${props.report.id}/print/`}
+                to={`/projects/${props.report.project_id}/reports/${props.report.id}/webview/`}
                 target='_blank'
                 basic secondary icon className='remove-border-radius'>
-                <Icon name="print" />
+                <Icon name='code' />
               </Button>
             </Menu.Item>
             <Menu.Item >
