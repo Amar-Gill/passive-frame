@@ -15,7 +15,7 @@ const ReportInfoSegment = (props) => {
 
           <Header
             size="small"
-            // style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
+          // style={{ paddingLeft: 6, marginTop: "auto", marginBottom: "auto" }}
           >
             <Header.Content>
               {
@@ -35,7 +35,7 @@ const ReportInfoSegment = (props) => {
           <Menu secondary compact size="tiny">
             <Menu.Item>
               <Label textAlign="center" size="small" color="black" >
-                                Status
+                Status
                 <Label.Detail>Draft</Label.Detail>
               </Label>
 
@@ -58,15 +58,25 @@ const ReportInfoSegment = (props) => {
             </Menu.Item>
 
             <Menu.Item >
-              <Button basic secondary icon className='remove-border-radius'>
-                <Icon name="print" />
-
+              <Button // use render props? no.
+                // store states in local storage?
+                onClick={e => {
+                  // e.preventDefault()
+                  localStorage.setItem('project', JSON.stringify(props.project))
+                  localStorage.setItem('report', JSON.stringify(props.report))
+                }
+                }
+                as={Link}
+                to={`/projects/${props.report.project_id}/reports/${props.report.id}/webview/`}
+                target='_blank'
+                basic secondary icon className='remove-border-radius'>
+                <Icon name='code' />
               </Button>
             </Menu.Item>
             <Menu.Item >
               <Button secondary icon className='remove-border-radius'>
                 <Icon name="paper plane" />
-                                Issue
+                Issue
               </Button>
             </Menu.Item>
 
@@ -97,7 +107,7 @@ const ReportInfoSegment = (props) => {
                 basic
                 compact>
                 <Icon name="content" />
-                                View
+                View
               </Button>
             </Menu.Item>
             <Menu.Item>
@@ -115,7 +125,7 @@ const ReportInfoSegment = (props) => {
                 secondary
                 compact>
                 <Icon name="edit outline" />
-                                New
+                New
               </Button>
             </Menu.Item>
           </Menu>
@@ -129,18 +139,18 @@ const ReportInfoSegment = (props) => {
           <Menu secondary compact size="tiny">
             <Menu.Item>
               <Label color="black" >
-                                Open
+                Open
                 <Label.Detail>5</Label.Detail>
               </Label>
             </Menu.Item>
             <Menu.Item>
               <Label color="black" >
-                                Overdue
+                Overdue
                 <Label.Detail>2</Label.Detail>
               </Label>
             </Menu.Item>
             <Menu.Item>
-              <ActionsModal project={props.project} report={props.report} items={props.report.items}/>
+              <ActionsModal project={props.project} report={props.report} items={props.report.items} />
             </Menu.Item>
           </Menu>
         </Grid.Column>

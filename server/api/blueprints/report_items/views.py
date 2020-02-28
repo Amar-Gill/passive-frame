@@ -161,6 +161,8 @@ def update(id):
 
     # save to db
     if report_item.save():
+        saved_images =[]
+        new_image_state = [] # generate new images state for form as a return value for ui
         # handle images here. image interface with react State:
         # imageDict = {
         #     "key" : image.key (db field),
@@ -172,8 +174,6 @@ def update(id):
         # }
         # if images array present
         if images:
-            saved_images =[]
-            new_image_state = [] # generate new images state for form as a return value for ui
             for image in images:
                 # switch(image_is_saved) (values: True, False, or 'changed'):
                 if image["saved"]:
@@ -446,6 +446,7 @@ def index(id):
 
     for item in report_items:
         images = Image.select().where((Image.report_item_id == item.id) & (Image.key != None))
+        actions = Action.select().where(Action.report_item_id == item.id)
         json_response.append(
             {
                 "id": item.id,
@@ -464,7 +465,19 @@ def index(id):
                         'saved': True,
                         'fromClient': False
                     }
-                for image in images]
+                for image in images],
+                "actions": [
+                    {
+                        "id": action.id,
+                        "description": action.description,
+                        "owner": action.owner,
+                        "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                        "closed": action.closed,
+                        "actionItemIndex": action.action_item_index,
+                        "reportItemId": action.report_item_id,
+                        "projectId": action.project_id
+                    }
+                for action in actions]
             }
         )
     

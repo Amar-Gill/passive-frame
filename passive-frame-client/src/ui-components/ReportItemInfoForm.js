@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, TextArea, Menu, Icon } from 'semantic-ui-react'
+import { Form, TextArea, Menu, Icon, Item } from 'semantic-ui-react'
 import { useParams, useHistory, useLocation } from 'react-router-dom'
 import ImageUploadWidget from './ImageUploadWidget'
 import SavedImageContainer from './SavedImageContainer'
@@ -19,39 +19,40 @@ const ReportItemInfoForm = (props) => {
   const location = useLocation()
 
   // effect for retrieving reportitem info if being edited
+  // *** cannot rely on location.state because upon refresh the new state is not rendered
   useEffect(() => {
-    if (props.HTTPMethod == 'PUT' && location.state) {
-      setSubject(location.state.item.subject)
-      setContent(location.state.item.content)
-      setReportItemIndex(location.state.item.reportItemIndex)
-      const imagesArray = location.state.item.images
-      imagesArray.sort((a, b) => a.key - b.key)
-      setUploadWidgetKey(imagesArray.length)
-      setImages(imagesArray)
-    } else if (props.HTTPMethod == 'PUT') {
-      // use API call if button link not used
-      fetch(`http://127.0.0.1:5000/api/v1/report_items/${itemid}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+    // if (props.HTTPMethod == 'PUT' && location.state) {
+    //   setSubject(location.state.item.subject)
+    //   setContent(location.state.item.content)
+    //   setReportItemIndex(location.state.item.reportItemIndex)
+    //   const imagesArray = location.state.item.images
+    //   imagesArray.sort((a, b) => a.key - b.key)
+    //   setUploadWidgetKey(imagesArray.length)
+    //   setImages(imagesArray)
+    // } else if (props.HTTPMethod == 'PUT') {
+    // use API call if button link not used
+    fetch(`http://127.0.0.1:5000/api/v1/report_items/${itemid}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    })
+      .then(response => response.json())
+      .then(result => {
+        // disable form if incorrect url provided
+        if (result.reportId != reportid || result.projectId != projid) {
+          setDisabledForm(true)
+        } else {
+          setSubject(result.subject)
+          setContent(result.content)
+          setReportItemIndex(result.reportItemIndex)
+          const imagesArray = result.images
+          imagesArray.sort((a, b) => a.key - b.key)
+          setUploadWidgetKey(imagesArray.length)
+          setImages(imagesArray)
         }
       })
-        .then(response => response.json())
-        .then(result => {
-          // disable form if incorrect url provided
-          if (result.reportId != reportid || result.projectId != projid) {
-            setDisabledForm(true)
-          } else {
-            setSubject(result.subject)
-            setContent(result.content)
-            setReportItemIndex(result.reportItemIndex)
-            const imagesArray = result.images
-            imagesArray.sort((a, b) => a.key - b.key)
-            setUploadWidgetKey(imagesArray.length)
-            setImages(imagesArray)
-          }
-        })
-    }
+    // }
   }, [itemid, location.state, projid, props.HTTPMethod, reportid])
 
   const handleSubmit = (e) => {
@@ -93,7 +94,7 @@ const ReportItemInfoForm = (props) => {
         console.log(result)
         if (result.status == 'Success' && props.HTTPMethod == 'POST') {
           // push to edit page when new item created
-          history.push(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
+          history.replace(`/projects/${projid}/reports/${reportid}/items/${result.reportItem.id}/edit/`)
         } else if (result.status == 'Success') {
           // update state. use new image state is returned in response always
           const newImageState = result.reportItem.newImageState
@@ -194,31 +195,29 @@ const ReportItemInfoForm = (props) => {
                         secondary
                         basic>Back</Button>
                 </Container> */}
-        {
-          (images && props.HTTPMethod == 'PUT') &&
-
-                    images.map(image => {
-                      if (image.saved && image.key != null) {
-                        return (
-                          <div>
-                            <SavedImageContainer
-                              key={image.key}
-                              image={image}
-                              images={images}
-                              setImages={setImages} />
-                          </div>
-                        )
-                      }
-                    })
-        }
+        <Item.Group divided>
+          {
+            (images && props.HTTPMethod == 'PUT') &&
+            images.map(image => {
+              if (image.saved && image.key != null) {
+                return (
+                  <SavedImageContainer
+                    key={image.key}
+                    image={image}
+                    images={images}
+                    setImages={setImages} />
+                )
+              }
+            })
+          }
+        </Item.Group>
         {
           images &&
-                    <ImageUploadWidget
-                      key={props.HTTPMethod == 'POST' ? 0 : uploadWidgetKey}
-                      imageKey={props.HTTPMethod == 'POST' ? 0 : uploadWidgetKey}
-                      images={images} setImages={setImages} />
+          <ImageUploadWidget
+            key={props.HTTPMethod == 'POST' ? 0 : uploadWidgetKey}
+            imageKey={props.HTTPMethod == 'POST' ? 0 : uploadWidgetKey}
+            images={images} setImages={setImages} />
         }
-
       </Form>
     </div>
   )

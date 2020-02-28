@@ -176,7 +176,8 @@ def index_reports(id):
                             "reportId": report_item.report_id,
                             "createdAt": datetime.datetime.timestamp(report_item.created_at)*1000,
                             "updatedAt": datetime.datetime.timestamp(report_item.updated_at)*1000,
-                            "images": None
+                            "images": None,
+                            "actions": None
                         }
 
                         for report_item in report_items]
@@ -185,7 +186,10 @@ def index_reports(id):
 
         for report in json_response:
             for item in report["items"]:
+                
                 images = Image.select().where((Image.report_item_id == item["id"]) & (Image.key != None))
+                actions = Action.select().where(Action.report_item_id == item["id"])
+                
                 item["images"] = [
                     {
                         'path': image.path,
@@ -197,6 +201,19 @@ def index_reports(id):
                         'fromClient': False
                     }
                 for image in images]
+
+                item["actions"] = [
+                    {
+                        "id": action.id,
+                        "description": action.description,
+                        "owner": action.owner,
+                        "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                        "closed": action.closed,
+                        "actionItemIndex": action.action_item_index,
+                        "reportItemId": action.report_item_id,
+                        "projectId": action.project_id
+                    }
+                for action in actions]
 
         return jsonify(
             reports=json_response

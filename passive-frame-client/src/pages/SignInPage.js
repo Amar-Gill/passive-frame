@@ -10,7 +10,7 @@ const SignInPage = (props) => {
   const [password, setPassword] = useState('')
   const { setAuthTokens, setCurrentUser } = useAuth()
   const location = useLocation()
-  const referer = location.state ? location.state.referer : '/'
+  const referer = location.state ? location.state.referer : '/zer0_system/'
 
   const handleSubmit = (e) => {
     e.preventDefault()

@@ -39,7 +39,7 @@ const ProjectPage = (props) => {
           console.log(reports)
         })
     }
-  }, [currentProject, reports])
+  }, [currentProject])
 
   if (!currentProject || !reports) {
     return (<h1 className="mt-40">LOADING</h1>)

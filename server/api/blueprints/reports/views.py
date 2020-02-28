@@ -3,6 +3,7 @@ from models.project import Project
 from models.report import Report
 from models.report_item import ReportItem
 from models.image import Image
+from models.action import Action
 import datetime
 
 reports_api_blueprint = Blueprint("reports_api",
@@ -173,6 +174,7 @@ def index_items(id):
         for item in report_items:
 
             images = Image.select().where((Image.report_item_id == item.id) & (Image.key != None))
+            actions = Action.select().where(Action.report_item_id == item.id)
 
             json_response.append(
                 {
@@ -194,7 +196,19 @@ def index_items(id):
                             'saved': True,
                             'fromClient': False
                         }
-                    for image in images]
+                    for image in images],
+                    "actions": [
+                    {
+                        "id": action.id,
+                        "description": action.description,
+                        "owner": action.owner,
+                        "dueDate": datetime.datetime.timestamp(action.due_date)*1000,
+                        "closed": action.closed,
+                        "actionItemIndex": action.action_item_index,
+                        "reportItemId": action.report_item_id,
+                        "projectId": action.project_id
+                    }
+                for action in actions]
                 }
             )
 

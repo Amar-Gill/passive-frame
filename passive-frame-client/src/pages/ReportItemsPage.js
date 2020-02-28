@@ -4,6 +4,8 @@ import { Grid, Menu, Button, Icon, Header } from 'semantic-ui-react'
 import ReportItemInfoSegment from '../ui-components/ReportItemInfoSegment'
 import StickyHorizontalDivider from '../ui-components/StickyHorizontalDivider'
 import { format } from 'date-fns'
+// import PDFDocument from 'pdfkit'
+// const PDFDocument = require('pdfkit')
 
 const ReportItemsPage = (props) => {
   // use states
@@ -51,11 +53,11 @@ const ReportItemsPage = (props) => {
 
   // set reportItems
   useEffect(() => {
-    if (props.location.state) {
-      const itemsArray = props.location.state.report.items
-      itemsArray.sort((a, b) => a.reportItemIndex - b.reportItemIndex)
-      setReportItems(itemsArray)
-    } else {
+    // if (props.location.state) {
+    //   const itemsArray = props.location.state.report.items
+    //   itemsArray.sort((a, b) => a.reportItemIndex - b.reportItemIndex)
+    //   setReportItems(itemsArray)
+    // } else {
       fetch(`http://127.0.0.1:5000/api/v1/reports/${reportid}/items`, {
         method: 'GET'
       })
@@ -65,8 +67,16 @@ const ReportItemsPage = (props) => {
           itemsArray.sort((a, b) => a.reportItemIndex - b.reportItemIndex)
           setReportItems(itemsArray)
         })
-    }
-  }, [props.location.state, reportid])
+    // }
+  }, [])
+
+  const buildPDF = e => {
+    e.preventDefault()
+    // const doc = new PDFDocument()
+    // const stream = doc.pipe(blobStream())
+    // console.log(reportItems)
+    console.log(__dirname)
+  }
 
   if (!reportItems || !currentReport || !currentProject) {
     return (
@@ -76,13 +86,15 @@ const ReportItemsPage = (props) => {
 
   return (
     <div className="mt-40">
+      {/* <script src="https://github.com/devongovett/pdfkit/releases/download/v0.10.0/pdfkit.standalone.js"></script>
+      <script src="https://github.com/devongovett/blob-stream/releases/download/v0.1.3/blob-stream.js"></script> */}
       <Menu className="fixed-submenu bg-white" secondary stackable size="small">
         <Menu.Item fitted="vertically">
           <Button
             onClick={(e) => {
               e.preventDefault()
-              // history.goBack()
-              history.push(`/projects/${projid}/`)
+              history.goBack()
+              // history.push(`/projects/${projid}/`)
             }}
             compact
             className="remove-border-radius"
@@ -100,7 +112,6 @@ const ReportItemsPage = (props) => {
             <Header.Content>
               {
                 currentReport.report_type == 'test' && `Test Report ${currentReport.project_report_index}`
-
               }
               {
 
@@ -116,9 +127,10 @@ const ReportItemsPage = (props) => {
         <Menu.Menu position="right">
           <Menu.Item>
             <Button
+              onClick={buildPDF}
               className="remove-border-radius" secondary basic icon>
               <Icon name="file pdf outline" />
-                            Download PDF
+              Download PDF
             </Button>
 
           </Menu.Item>
@@ -134,7 +146,7 @@ const ReportItemsPage = (props) => {
               }}
               className="remove-border-radius" secondary icon>
               <Icon name="plus" />
-                            New Item
+              New Item
             </Button>
 
           </Menu.Item>
